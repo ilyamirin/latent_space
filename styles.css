@@ -89,7 +89,8 @@ input {
 .topbar {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .brand {
@@ -121,6 +122,47 @@ input {
   text-shadow:
     0 0 0.55rem rgba(var(--accent-rgb), 0.94),
     0 0 1.4rem rgba(var(--accent-rgb), 0.34);
+}
+
+.music-toggle {
+  min-width: 4.9rem;
+  padding: 0.52rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: var(--text-dim);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04)),
+    rgba(9, 10, 14, 0.66);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.music-toggle:hover,
+.music-toggle:focus-visible {
+  color: var(--text-main);
+  border-color: rgba(var(--accent-rgb), 0.44);
+  box-shadow: 0 0 1rem rgba(var(--accent-rgb), 0.16);
+  transform: translateY(-0.03rem);
+}
+
+.music-toggle.is-playing {
+  color: rgb(var(--accent-rgb));
+  border-color: rgba(var(--accent-rgb), 0.56);
+  box-shadow:
+    0 0 0.85rem rgba(var(--accent-rgb), 0.18),
+    inset 0 0 0.5rem rgba(var(--accent-rgb), 0.08);
+}
+
+.music-toggle.is-pending:not(.is-playing) {
+  color: rgba(255, 241, 214, 0.92);
+  border-color: rgba(var(--accent-soft-rgb), 0.42);
+  box-shadow: 0 0 0.7rem rgba(var(--accent-soft-rgb), 0.14);
 }
 
 .stage {

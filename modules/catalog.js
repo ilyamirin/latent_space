@@ -44,11 +44,7 @@ const STOP_WORDS = new Set([
 
 
 export async function loadCatalog() {
-  const response = await fetch("./assets/galleries/manifest.json");
-  if (!response.ok) {
-    throw new Error(`manifest request failed: ${response.status}`);
-  }
-
+  const response = await fetchManifest();
   const manifest = await response.json();
   const galleries = manifest.galleries.map((gallery) => {
     const meta = GALLERY_META[gallery.slug];
@@ -67,6 +63,30 @@ export async function loadCatalog() {
     cards,
     featuredTags: ["ритуал", "тишина", "рыжая", "миф", "огонь", "звери", "космос", "город"],
   };
+}
+
+
+async function fetchManifest() {
+  const candidates = [
+    "./assets/galleries/manifest.json",
+    "/assets/galleries/manifest.json",
+  ];
+
+  const failures = [];
+
+  for (const path of candidates) {
+    try {
+      const response = await fetch(path, { cache: "no-store" });
+      if (response.ok) {
+        return response;
+      }
+      failures.push(`${path} -> ${response.status}`);
+    } catch (error) {
+      failures.push(`${path} -> ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  throw new Error(`manifest request failed: ${failures.join("; ")}`);
 }
 
 

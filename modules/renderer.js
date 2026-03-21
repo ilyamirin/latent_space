@@ -5,9 +5,9 @@ import {
 } from "./search.js";
 
 
-export function renderScreen({ elements, state, speech }) {
+export function renderScreen({ elements, state }) {
   renderStage(elements.stage, state);
-  renderInfo(elements.infoPanel, state, speech);
+  renderInfo(elements.infoPanel, state);
   renderSearchDock(elements, state);
   elements.brandHome.classList.toggle("is-home", state.screen === "home");
   elements.appShell.classList.toggle("is-search", state.screen === "search");
@@ -45,7 +45,7 @@ function renderStage(stage, state) {
               ? `
                 <div class="focus-shell">
                   <div class="focus-badge">${escapeHtml(getPositionLabel(state.selectedSpreadIndex))}</div>
-                  <div class="focus-card" data-action="speak-active-spread" role="button" tabindex="0" aria-label="Слушать активную карту">
+                  <div class="focus-card" role="img" aria-label="${escapeHtml(activeCard.title)}">
                     <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
                   </div>
                 </div>
@@ -68,7 +68,7 @@ function renderStage(stage, state) {
               ? "нажмите на колоду, чтобы вытянуть первую карту"
               : state.drawCount < 3
                 ? "нажмите на колоду, чтобы вытянуть следующую карту"
-                : "нажмите на карту, чтобы читать. нажмите на активную карту ещё раз, чтобы слушать"
+                : "нажимайте на карты в верхней линии, чтобы менять фокус"
           }
         </div>
       </div>
@@ -92,7 +92,7 @@ function renderStage(stage, state) {
           </div>
           <div class="focus-shell">
             <div class="focus-badge">результат ${state.searchIndex + 1} из ${state.searchResults.length}</div>
-            <div class="focus-card" data-action="speak-search-card" role="button" tabindex="0" aria-label="Слушать описание работы">
+            <div class="focus-card" data-action="speak-search-card" role="img" aria-label="${escapeHtml(activeCard.title)}">
               <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
             </div>
           </div>
@@ -118,7 +118,7 @@ function renderStage(stage, state) {
 }
 
 
-function renderInfo(panel, state, speech) {
+function renderInfo(panel, state) {
   if (state.screen === "home") {
     panel.innerHTML = `
       <div class="info-kicker">цифровая колода образов</div>
@@ -151,13 +151,7 @@ function renderInfo(panel, state, speech) {
           : ""
       }
       <div class="info-hint">
-        ${
-          speech.activeId === `spread-${activeCard.id}-${state.selectedSpreadIndex}`
-            ? "озвучка идёт"
-            : state.drawCount >= 3
-              ? "нажимайте на карты в верхней линии, чтобы менять фокус"
-              : "после третьей карты расклад соберётся полностью"
-        }
+        ${state.drawCount >= 3 ? "нажимайте на карты в верхней линии, чтобы менять фокус" : "после третьей карты расклад соберётся полностью"}
       </div>
     `;
     return;
@@ -171,13 +165,7 @@ function renderInfo(panel, state, speech) {
         <h2 class="info-title">${escapeHtml(activeCard.title)}</h2>
         <div class="info-subtitle">${escapeHtml(activeCard.galleryTitle)} · ${escapeHtml(activeCard.tone)}</div>
         <p class="info-text">${escapeHtml(activeCard.description)}</p>
-        <div class="info-hint">
-          ${
-            speech.activeId === `search-${activeCard.id}`
-              ? "озвучка идёт"
-              : `результат ${state.searchIndex + 1} из ${state.searchResults.length} · нажмите на карту, чтобы слушать`
-          }
-        </div>
+        <div class="info-hint">результат ${state.searchIndex + 1} из ${state.searchResults.length} · свайпайте карту, чтобы смотреть дальше</div>
       `
       : `
         <div class="info-kicker">поиск по архиву</div>
