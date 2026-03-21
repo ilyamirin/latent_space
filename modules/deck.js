@@ -1,8 +1,10 @@
 export function createAppState(catalog = { cards: [], featuredTags: [] }) {
   return {
     cards: catalog.cards,
+    galleries: catalog.galleries ?? [],
     featuredTags: catalog.featuredTags,
     screen: "home",
+    selectedGallerySlug: null,
     spreadCards: [],
     drawCount: 0,
     selectedSpreadIndex: 0,
@@ -17,6 +19,7 @@ export function enterHome(state) {
   return {
     ...state,
     screen: "home",
+    selectedGallerySlug: null,
     spreadCards: [],
     drawCount: 0,
     selectedSpreadIndex: 0,
@@ -27,10 +30,11 @@ export function enterHome(state) {
 }
 
 
-export function startSpread(state, spreadCards) {
+export function startSpread(state, gallery, spreadCards) {
   return {
     ...state,
     screen: "spread",
+    selectedGallerySlug: gallery?.slug ?? null,
     spreadCards,
     drawCount: 0,
     selectedSpreadIndex: 0,

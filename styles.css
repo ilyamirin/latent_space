@@ -115,6 +115,7 @@ input {
 .ritual-deck:focus-visible,
 .slot-card.is-filled:focus-visible,
 .focus-card:focus-visible,
+.gallery-option:focus-visible,
 .tag-chip:focus-visible,
 .search-entry:focus-visible {
   outline: 1px solid rgba(var(--accent-rgb), 0.68);
@@ -151,6 +152,7 @@ input {
 .home-hero {
   padding-top: 1rem;
   position: relative;
+  gap: 1.1rem;
 }
 
 .hero-copy {
@@ -173,6 +175,81 @@ input {
   filter: blur(2.4rem);
   opacity: 0.66;
   pointer-events: none;
+}
+
+.gallery-chooser {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.gallery-option {
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
+  padding: 0.7rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(18px);
+  cursor: pointer;
+  transition:
+    transform 180ms var(--ease-ritual),
+    border-color 180ms var(--ease-ritual),
+    box-shadow 180ms var(--ease-ritual);
+}
+
+.gallery-option.is-wide {
+  grid-column: 1 / -1;
+}
+
+.gallery-option:hover,
+.gallery-option:focus-visible {
+  transform: translateY(-0.08rem);
+  border-color: rgba(var(--accent-rgb), 0.34);
+  box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.22);
+}
+
+.gallery-option__thumb {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0.14rem;
+  border-radius: 0.96rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 8%),
+    linear-gradient(145deg, rgba(40, 38, 36, 0.96), rgba(19, 19, 18, 0.97));
+}
+
+.gallery-option__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0.82rem;
+}
+
+.gallery-option__meta {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.gallery-option__title {
+  font-size: 0.98rem;
+  line-height: 1.08;
+}
+
+.gallery-option__tone {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
 
 .ritual-deck {
@@ -518,12 +595,14 @@ input {
   line-height: 0.98;
   font-weight: 600;
   letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
 }
 
 .info-subtitle {
   color: var(--text-dim);
   font-size: 0.98rem;
   line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .info-text,
@@ -623,6 +702,14 @@ input {
   .hero-copy {
     max-width: 24rem;
   }
+
+  .gallery-chooser {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gallery-option.is-wide {
+    grid-column: auto;
+  }
 }
 
 @media (min-width: 960px) {
@@ -657,6 +744,10 @@ input {
 
   .search-dock {
     grid-column: 1 / -1;
+  }
+
+  .gallery-chooser {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 

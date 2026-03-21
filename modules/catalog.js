@@ -109,7 +109,7 @@ function enhanceCard(gallery, item, meta) {
 
 
 function buildTitle(galleryTitle, index, tokens) {
-  const readable = tokens.filter((token) => token.length > 3).slice(0, 3);
+  const readable = tokens.filter((token) => token.length > 3 && token.length <= 18).slice(0, 3);
   if (readable.length > 0) {
     return readable[0].charAt(0).toUpperCase() + readable.join(" ").slice(1);
   }

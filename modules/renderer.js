@@ -20,10 +20,10 @@ function renderStage(stage, state) {
     stage.innerHTML = `
       <div class="home-hero">
         <div class="home-orbit" aria-hidden="true"></div>
-        <div class="ritual-deck" data-action="start-spread" role="button" tabindex="0" aria-label="Начать расклад">
-          ${renderDeckStack()}
+        <div class="hero-copy">выберите одну из пяти колод и начните чтение сразу с первой карты</div>
+        <div class="gallery-chooser">
+          ${renderGalleryChoices(state.galleries)}
         </div>
-        <div class="hero-copy">нажмите на колоду, чтобы начать расклад</div>
       </div>
     `;
     return;
@@ -31,6 +31,7 @@ function renderStage(stage, state) {
 
   if (state.screen === "spread") {
     const activeCard = state.drawCount > 0 ? state.spreadCards[state.selectedSpreadIndex] : null;
+    const openingNextCard = state.drawCount > 0 && state.drawCount < 3;
     stage.innerHTML = `
       <div class="spread-screen">
         <div class="spread-meter" aria-hidden="true">
@@ -50,7 +51,7 @@ function renderStage(stage, state) {
                     data-action="cycle-spread-card"
                     role="button"
                     tabindex="0"
-                    aria-label="Перейти к следующей карте расклада"
+                    aria-label="${openingNextCard ? "Открыть следующую карту" : "Перейти к следующей карте расклада"}"
                   >
                     ${renderFocusImage(activeCard)}
                   </div>
@@ -59,22 +60,11 @@ function renderStage(stage, state) {
               : `<div class="focus-placeholder">корень<br />узел<br />вектор</div>`
           }
         </div>
-        <div
-          class="ritual-deck ${state.drawCount >= 3 ? "is-hidden" : ""}"
-          data-action="draw-next"
-          role="button"
-          tabindex="0"
-          aria-label="Вытянуть следующую карту"
-        >
-          ${renderDeckStack()}
-        </div>
         <div class="hero-copy">
           ${
-            state.drawCount === 0
-              ? "нажмите на колоду, чтобы вытянуть первую карту"
-              : state.drawCount < 3
-                ? "нажмите на колоду, чтобы вытянуть следующую карту"
-                : "нажимайте на карты в верхней линии, чтобы менять фокус"
+            state.drawCount < 3
+              ? "нажмите на открытую карту, чтобы открыть следующую"
+              : "нажимайте на большую карту, чтобы идти дальше по кругу"
           }
         </div>
       </div>
@@ -133,9 +123,9 @@ function renderStage(stage, state) {
 function renderInfo(panel, state) {
   if (state.screen === "home") {
     panel.innerHTML = `
-      <div class="info-kicker">цифровая колода образов</div>
-      <h1 class="info-title">три карты и один вопрос</h1>
-      <p class="info-text">Главный путь здесь один: колода выдаёт три образа и собирает из них чтение. Поиск по архиву остаётся запасным входом.</p>
+      <div class="info-kicker">пять входов в архив</div>
+      <h1 class="info-title">выберите колоду, с которой начнётся вопрос</h1>
+      <p class="info-text">Каждая колода держит свой тон: ритуальный сумрак, рыжий свет, мягкую тишину, бытовой миф или цифровую иронию. Выбор колоды меняет сам характер трёхкартного чтения.</p>
     `;
     return;
   }
@@ -166,7 +156,7 @@ function renderInfo(panel, state) {
         ${
           state.drawCount >= 3
             ? "нажимайте на верхние карты для точного выбора или на большую карту, чтобы перейти дальше по кругу"
-            : "после третьей карты расклад соберётся полностью"
+            : "нажимайте на большую карту: вторая и третья позиции откроются по очереди"
         }
       </div>
     `;
@@ -250,6 +240,34 @@ function renderSpreadMeter(drawCount, selectedSpreadIndex) {
         .join(" ");
 
       return `<span class="${classes}"></span>`;
+    })
+    .join("");
+}
+
+
+function renderGalleryChoices(galleries = []) {
+  return galleries
+    .map((gallery, index) => {
+      const previewCard = gallery.cards[0];
+      const wideClass = index === galleries.length - 1 ? "is-wide" : "";
+      return `
+        <div
+          class="gallery-option ${wideClass}"
+          data-action="choose-gallery"
+          data-gallery-slug="${gallery.slug}"
+          role="button"
+          tabindex="0"
+          aria-label="Выбрать колоду ${escapeHtml(gallery.title)}"
+        >
+          <div class="gallery-option__thumb">
+            <img src="${previewCard.imageSrc}" alt="${escapeHtml(gallery.title)}" />
+          </div>
+          <div class="gallery-option__meta">
+            <div class="gallery-option__title">${escapeHtml(gallery.title)}</div>
+            <div class="gallery-option__tone">${escapeHtml(gallery.tone)}</div>
+          </div>
+        </div>
+      `;
     })
     .join("");
 }

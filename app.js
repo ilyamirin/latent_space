@@ -159,14 +159,15 @@ function handleStageAction(event) {
 
   const { action } = actionNode.dataset;
 
-  if (action === "start-spread") {
-    state = revealNextCard(startSpread(state, buildSpread(catalog.cards)));
-    refresh();
-    return;
-  }
+  if (action === "choose-gallery") {
+    const slug = actionNode.dataset.gallerySlug ?? "";
+    const gallery = catalog.galleries.find((item) => item.slug === slug);
+    if (!gallery) {
+      return;
+    }
 
-  if (action === "draw-next") {
-    state = revealNextCard(state);
+    ensureBackgroundMusic();
+    state = revealNextCard(startSpread(state, gallery, buildSpread(gallery.cards)));
     refresh();
     return;
   }
@@ -175,7 +176,12 @@ function handleStageAction(event) {
     if (state.drawCount === 0) {
       return;
     }
-    state = selectSpreadCard(state, (state.selectedSpreadIndex + 1) % state.drawCount);
+
+    ensureBackgroundMusic();
+    state =
+      state.drawCount < 3
+        ? revealNextCard(state)
+        : selectSpreadCard(state, (state.selectedSpreadIndex + 1) % state.drawCount);
     refresh();
     return;
   }
