@@ -187,28 +187,6 @@ function handleStageAction(event) {
     return;
   }
 
-  if (action === "go-home-galleries") {
-    goHome();
-    return;
-  }
-
-  if (action === "restart-current-gallery") {
-    const gallery = getCurrentGallery();
-    if (!gallery) {
-      goHome();
-      return;
-    }
-
-    state = revealNextCard(startSpread(state, gallery, buildSpread(gallery.cards)));
-    refresh();
-    return;
-  }
-
-  if (action === "go-search") {
-    openSearch("");
-    return;
-  }
-
   if (action === "select-spread-card") {
     const index = Number(actionNode.dataset.cardIndex);
     if (Number.isNaN(index) || index >= state.drawCount) {
@@ -261,14 +239,6 @@ function updateSearch(query) {
 function goHome() {
   state = enterHome(state);
   refresh();
-}
-
-
-function getCurrentGallery() {
-  if (!state.selectedGallerySlug) {
-    return null;
-  }
-  return catalog.galleries.find((gallery) => gallery.slug === state.selectedGallerySlug) ?? null;
 }
 
 

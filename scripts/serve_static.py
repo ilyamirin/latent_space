@@ -10,7 +10,14 @@ from pathlib import Path
 class NoCacheStaticHandler(SimpleHTTPRequestHandler):
     def end_headers(self) -> None:
         path = self.path.split("?", 1)[0]
-        if path == "/" or path.endswith(".html") or path.endswith(".js"):
+        if (
+            path == "/"
+            or path.endswith(".html")
+            or path.endswith(".js")
+            or path.endswith(".css")
+            or path.endswith(".json")
+            or path.startswith("/assets/galleries/")
+        ):
             self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
             self.send_header("Pragma", "no-cache")
             self.send_header("Expires", "0")

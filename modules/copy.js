@@ -19,13 +19,6 @@ export const UI_COPY = {
     cycleCardAria: "Следующий знак расклада",
     hintBeforeComplete: "коснитесь карты: дальше еще знак",
     hintAfterComplete: "верхние карты дают выбор. большая ведет по кругу.",
-    doneKicker: "круг замкнулся",
-    doneTitle: "дальше",
-    doneActions: {
-      home: "другая колода",
-      restart: "новый круг",
-      search: "искать знак",
-    },
   },
   search: {
     kicker: "поиск",
