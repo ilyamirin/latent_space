@@ -312,11 +312,15 @@ function applyCurrentTheme() {
 
 
 function prewarmThemes() {
-  for (const card of state.spreadCards.slice(0, 3)) {
-    prewarmCardTheme(card);
+  if (state.screen === "spread") {
+    const nextSpreadCard = state.spreadCards[state.selectedSpreadIndex + 1];
+    prewarmCardTheme(nextSpreadCard);
+    return;
   }
-  for (const card of state.searchResults.slice(0, 4)) {
-    prewarmCardTheme(card);
+
+  if (state.screen === "search") {
+    const nextSearchCard = state.searchResults[state.searchIndex + 1];
+    prewarmCardTheme(nextSearchCard);
   }
 }
 
