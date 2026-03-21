@@ -1,8 +1,12 @@
 import {
   buildCardInterpretation,
+  buildSearchPlaceholder,
+  buildSearchResultLabel,
+  buildSpreadPlaceholder,
   buildSpreadSummary,
   getPositionLabel,
-} from "./search.js";
+  UI_COPY,
+} from "./copy.js";
 
 
 export function renderScreen({ elements, state }) {
@@ -20,7 +24,7 @@ function renderStage(stage, state) {
     stage.innerHTML = `
       <div class="home-hero">
         <div class="home-orbit" aria-hidden="true"></div>
-        <div class="hero-copy">выберите колоду по тону. Первый расклад начнётся сразу, без промежуточных экранов.</div>
+        <div class="hero-copy">${UI_COPY.home.hero}</div>
         <div class="gallery-chooser">
           ${renderGalleryChoices(state.galleries)}
         </div>
@@ -52,20 +56,20 @@ function renderStage(stage, state) {
                     data-action="cycle-spread-card"
                     role="button"
                     tabindex="0"
-                    aria-label="${openingNextCard ? "Открыть следующую карту" : "Перейти к следующей карте расклада"}"
+                    aria-label="${openingNextCard ? UI_COPY.spread.nextCardAria : UI_COPY.spread.cycleCardAria}"
                   >
                     ${renderFocusImage(activeCard)}
                   </div>
                 </div>
               `
-              : `<div class="focus-placeholder">корень<br />узел<br />вектор</div>`
+              : `<div class="focus-placeholder">${buildSpreadPlaceholder()}</div>`
           }
         </div>
         ${
           spreadComplete
             ? renderCompletionSheet()
             : `
-              <div class="hero-copy">нажмите на открытую карту, чтобы открыть следующую</div>
+              <div class="hero-copy">${UI_COPY.spread.nextCardHero}</div>
             `
         }
       </div>
@@ -88,18 +92,18 @@ function renderStage(stage, state) {
               .join("")}
           </div>
           <div class="focus-shell">
-            <div class="focus-badge">результат ${state.searchIndex + 1} из ${state.searchResults.length}</div>
+            <div class="focus-badge">${buildSearchResultLabel(state.searchIndex, state.searchResults.length)}</div>
             <div
               class="focus-card"
               data-action="cycle-search-card"
               role="button"
               tabindex="0"
-              aria-label="Перейти к следующему результату"
+              aria-label="${UI_COPY.search.nextResultAria}"
             >
               ${renderFocusImage(activeCard)}
             </div>
           </div>
-          <div class="hero-copy">нажимайте или свайпайте карту, чтобы смотреть дальше</div>
+          <div class="hero-copy">${UI_COPY.search.resultHero}</div>
         </div>
       `
       : `
@@ -113,8 +117,8 @@ function renderStage(stage, state) {
               )
               .join("")}
           </div>
-          <div class="focus-placeholder">тишина<br />ритуал<br />миф</div>
-          <div class="hero-copy">введите запрос или нажмите на тег</div>
+          <div class="focus-placeholder">${buildSearchPlaceholder()}</div>
+          <div class="hero-copy">${UI_COPY.search.emptyHero}</div>
         </div>
       `;
   }
@@ -124,9 +128,9 @@ function renderStage(stage, state) {
 function renderInfo(panel, state) {
   if (state.screen === "home") {
     panel.innerHTML = `
-      <div class="info-kicker">пять входов в архив</div>
-      <h1 class="info-title">выберите колоду, с которой начнётся вопрос</h1>
-      <p class="info-text">Каждая колода держит свой тон: ритуальный сумрак, рыжий свет, мягкую тишину, бытовой миф или цифровую иронию. Выбор колоды меняет сам характер трёхкартного чтения.</p>
+      <div class="info-kicker">${UI_COPY.home.kicker}</div>
+      <h1 class="info-title">${UI_COPY.home.title}</h1>
+      <p class="info-text">${UI_COPY.home.intro}</p>
     `;
     return;
   }
@@ -134,9 +138,9 @@ function renderInfo(panel, state) {
   if (state.screen === "spread") {
     if (state.drawCount === 0) {
       panel.innerHTML = `
-        <div class="info-kicker">расклад</div>
-        <h2 class="info-title">корень, узел, вектор</h2>
-        <p class="info-text">Колода выдаёт карты по одной. Три позиции всегда читаются одинаково: сначала источник напряжения, потом узел, потом направление движения.</p>
+        <div class="info-kicker">${UI_COPY.spread.kicker}</div>
+        <h2 class="info-title">${UI_COPY.spread.title}</h2>
+        <p class="info-text">${UI_COPY.spread.intro}</p>
       `;
       return;
     }
@@ -156,8 +160,8 @@ function renderInfo(panel, state) {
       <div class="info-hint">
         ${
           state.drawCount >= 3
-            ? "нажимайте на верхние карты для точного выбора или на большую карту, чтобы перейти дальше по кругу. Следующее действие можно выбрать в панели ниже."
-            : "нажимайте на большую карту: вторая и третья позиции откроются по очереди"
+            ? UI_COPY.spread.hintAfterComplete
+            : UI_COPY.spread.hintBeforeComplete
         }
       </div>
     `;
@@ -168,16 +172,16 @@ function renderInfo(panel, state) {
     const activeCard = state.searchResults[state.searchIndex];
     panel.innerHTML = activeCard
       ? `
-        <div class="info-kicker">поиск по архиву</div>
+        <div class="info-kicker">${UI_COPY.search.kicker}</div>
         <h2 class="info-title">${escapeHtml(activeCard.title)}</h2>
         <div class="info-subtitle">${escapeHtml(activeCard.galleryTitle)} · ${escapeHtml(activeCard.tone)}</div>
         <p class="info-text">${escapeHtml(activeCard.description)}</p>
-        <div class="info-hint">результат ${state.searchIndex + 1} из ${state.searchResults.length} · нажимайте или свайпайте карту, чтобы смотреть дальше</div>
+        <div class="info-hint">${buildSearchResultLabel(state.searchIndex, state.searchResults.length)} · ${UI_COPY.search.resultHero}</div>
       `
       : `
-        <div class="info-kicker">поиск по архиву</div>
-        <h2 class="info-title">здесь пока тишина</h2>
-        <p class="info-text">Введите образ, настроение или сюжет. Если не хочется формулировать, начните с тегов под картой.</p>
+        <div class="info-kicker">${UI_COPY.search.kicker}</div>
+        <h2 class="info-title">${UI_COPY.search.emptyTitle}</h2>
+        <p class="info-text">${UI_COPY.search.emptyText}</p>
       `;
   }
 }
@@ -187,7 +191,7 @@ function renderSearchDock(elements, state) {
   const searching = state.screen === "search";
   elements.searchEntry.classList.toggle("is-active", searching);
   elements.searchPrompt.textContent =
-    state.searchQuery || (searching ? "введите образ, настроение или тег" : "поиск по образу или состоянию");
+    state.searchQuery || (searching ? UI_COPY.searchActive : UI_COPY.searchCollapsed);
   elements.searchPrompt.hidden = searching;
   elements.searchInput.hidden = !searching;
   if (searching) {
@@ -249,6 +253,7 @@ function renderSpreadMeter(drawCount, selectedSpreadIndex) {
 function renderGalleryChoices(galleries = []) {
   return galleries
     .map((gallery, index) => {
+      const previewCard = gallery.cards[0];
       const wideClass = index === galleries.length - 1 ? "is-wide" : "";
       return `
         <div
@@ -259,6 +264,9 @@ function renderGalleryChoices(galleries = []) {
           tabindex="0"
           aria-label="Выбрать колоду ${escapeHtml(gallery.title)}"
         >
+          <div class="gallery-option__thumb">
+            <img src="${previewCard.imageSrc}" alt="" />
+          </div>
           <div class="gallery-option__meta">
             <div class="gallery-option__title">${escapeHtml(gallery.title)}</div>
             <div class="gallery-option__tone">${escapeHtml(gallery.tone)}</div>
@@ -268,17 +276,15 @@ function renderGalleryChoices(galleries = []) {
     })
     .join("");
 }
-
-
 function renderCompletionSheet() {
   return `
     <div class="completion-sheet">
-      <div class="completion-sheet__kicker">расклад завершён</div>
-      <div class="completion-sheet__title">что дальше</div>
+      <div class="completion-sheet__kicker">${UI_COPY.spread.doneKicker}</div>
+      <div class="completion-sheet__title">${UI_COPY.spread.doneTitle}</div>
       <div class="completion-actions">
-        <button type="button" class="completion-action is-primary" data-action="go-home-galleries">выбрать другую колоду</button>
-        <button type="button" class="completion-action" data-action="restart-current-gallery">собрать новый расклад</button>
-        <button type="button" class="completion-action" data-action="go-search">перейти в поиск</button>
+        <button type="button" class="completion-action is-primary" data-action="go-home-galleries">${UI_COPY.spread.doneActions.home}</button>
+        <button type="button" class="completion-action" data-action="restart-current-gallery">${UI_COPY.spread.doneActions.restart}</button>
+        <button type="button" class="completion-action" data-action="go-search">${UI_COPY.spread.doneActions.search}</button>
       </div>
     </div>
   `;

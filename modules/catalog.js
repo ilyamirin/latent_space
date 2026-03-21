@@ -1,30 +1,10 @@
-const GALLERY_META = {
-  "01-misticheskii-portretnyi-tsikl": {
-    tone: "ритуальный сумрак",
-    description:
-      "Работа о паузе между знаком и действием, где смысл уже успел сгуститься.",
-  },
-  "02-ryzhaya-geroinya": {
-    tone: "рыжий свет",
-    description:
-      "Работа о внутреннем свете, проводничестве и движении сквозь личный сюжет.",
-  },
-  "03-tikhie-miry": {
-    tone: "мягкая тишина",
-    description:
-      "Работа о снижении темпа, воде, воздухе и взгляде, который снимает шум с мира.",
-  },
-  "04-zveri-mif-i-sakralnoe": {
-    tone: "бытовой миф",
-    description:
-      "Работа о моменте, когда бытовая сцена становится знаком, притчей или мифом.",
-  },
-  "05-ai-videniya-i-plakat": {
-    tone: "цифровая ирония",
-    description:
-      "Работа о цифровом спектакле, плакатной ясности и мягкой иронии на современное чудо.",
-  },
-};
+import {
+  buildFallbackCardTitle,
+  CARD_TITLE_OVERRIDES,
+  FEATURED_TAGS,
+  GALLERY_COPY,
+  shouldUseSourceTitle,
+} from "./copy.js";
 
 const STOP_WORDS = new Set([
   "png",
@@ -47,7 +27,7 @@ export async function loadCatalog() {
   const response = await fetchManifest();
   const manifest = await response.json();
   const galleries = manifest.galleries.map((gallery) => {
-    const meta = GALLERY_META[gallery.slug];
+    const meta = GALLERY_COPY[gallery.slug];
     return {
       slug: gallery.slug,
       title: gallery.title,
@@ -61,7 +41,7 @@ export async function loadCatalog() {
   return {
     galleries,
     cards,
-    featuredTags: ["ритуал", "тишина", "рыжая", "миф", "огонь", "звери", "космос", "город"],
+    featuredTags: FEATURED_TAGS,
   };
 }
 
@@ -92,15 +72,16 @@ async function fetchManifest() {
 
 function enhanceCard(gallery, item, meta) {
   const tokens = tokenize(item.source_name);
-  const title = buildTitle(gallery.title, item.index, tokens);
+  const title = buildTitle(gallery, item.index, tokens);
   const description = meta.description;
+  const assetVersion = `${item.bytes ?? 0}-${item.width ?? 0}x${item.height ?? 0}`;
   return {
     id: `${gallery.slug}-${item.index}`,
     title,
     description,
     tone: meta.tone,
     galleryTitle: gallery.title,
-    imageSrc: `./assets/galleries/${gallery.slug}/${item.filename}`,
+    imageSrc: `./assets/galleries/${gallery.slug}/${item.filename}?v=${assetVersion}`,
     width: item.width,
     height: item.height,
     tags: unique([meta.tone, ...tokenize(gallery.title), ...tokenize(gallery.description), ...tokens]),
@@ -108,12 +89,17 @@ function enhanceCard(gallery, item, meta) {
 }
 
 
-function buildTitle(galleryTitle, index, tokens) {
-  const readable = tokens.filter((token) => token.length > 3 && token.length <= 18).slice(0, 3);
-  if (readable.length > 0) {
+function buildTitle(gallery, index, tokens) {
+  const override = CARD_TITLE_OVERRIDES[`${gallery.slug}-${index}`];
+  if (override) {
+    return override;
+  }
+
+  const readable = tokens.filter((token) => token.length > 3 && token.length <= 18).slice(0, 2);
+  if (readable.length > 0 && shouldUseSourceTitle(readable)) {
     return readable[0].charAt(0).toUpperCase() + readable.join(" ").slice(1);
   }
-  return `${galleryTitle} ${String(index).padStart(2, "0")}`;
+  return buildFallbackCardTitle(gallery.slug, index);
 }
 
 

@@ -1,3 +1,4 @@
+import { UI_COPY } from "./modules/copy.js";
 import { loadCatalog } from "./modules/catalog.js";
 import { BackgroundMusicController } from "./modules/audio.js";
 import {
@@ -40,8 +41,8 @@ const backgroundMusic = new BackgroundMusicController([
 boot().catch((error) => {
   console.error(error);
   elements.infoPanel.innerHTML = `
-    <div class="info-kicker">ошибка</div>
-    <h1 class="info-title">колода не загрузилась</h1>
+    <div class="info-kicker">${UI_COPY.error.kicker}</div>
+    <h1 class="info-title">${UI_COPY.error.title}</h1>
     <p class="info-text">${escapeHtml(error instanceof Error ? error.message : String(error))}</p>
   `;
 });
