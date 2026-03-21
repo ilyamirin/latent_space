@@ -9,7 +9,7 @@
     <title>ьё</title>
     <meta
       name="description"
-      content="ьё — мобильная галерея в формате живого архива и цифровой колоды таро."
+      content="ьё — цифровая колода образов: расклад на три карты и поиск по архиву."
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -19,149 +19,33 @@
 
     <main class="app-shell">
       <header class="topbar">
-        <div class="brand" aria-label="ьё">
+        <div class="brand" id="brandHome" role="button" tabindex="0" aria-label="На главную">
           <span class="brand-soft">ь</span><span class="brand-neon">ё</span>
-        </div>
-
-        <div class="topbar-actions">
-          <button class="ghost-button route-button" id="pathTrigger" type="button">
-            линия архива
-          </button>
-          <button class="ghost-button" id="audioToggle" type="button">звук</button>
         </div>
       </header>
 
-      <section class="stage" aria-live="polite">
-        <div class="ambient-orb ambient-orb-left" aria-hidden="true"></div>
-        <div class="ambient-orb ambient-orb-right" aria-hidden="true"></div>
+      <section class="stage" id="stage" aria-live="polite"></section>
+      <section class="info-panel" id="infoPanel"></section>
 
-        <div class="route-context">
-          <div class="route-kicker" id="routeKicker"></div>
-          <div class="route-meta" id="routeMeta"></div>
-        </div>
-
-        <div class="deck" id="deck" aria-label="Живой архив работ"></div>
-      </section>
-
-      <section class="caption-panel" aria-label="Подпись к работе">
-        <div class="caption-kicker" id="captionKicker"></div>
-        <h1 class="work-title" id="workTitle"></h1>
-        <div class="work-origin" id="workOrigin"></div>
-        <p class="curator-lead" id="curatorLead"></p>
-
-        <div class="caption-actions">
-          <button class="ghost-button action-wide" id="searchTrigger" type="button">
-            найти состояние
-          </button>
-          <button class="ghost-button" id="flowTrigger" type="button">поток</button>
-        </div>
-      </section>
-    </main>
-
-    <section class="overlay-layer is-hidden" id="linePanel" aria-hidden="true">
-      <div class="overlay-scrim" data-close-panel="line"></div>
-      <div class="overlay-sheet">
-        <div class="overlay-head">
-          <div>
-            <div class="overlay-kicker">архив</div>
-            <h2 class="overlay-title">Выбрать линию</h2>
-          </div>
-          <button class="ghost-button" type="button" data-close-panel="line">
-            закрыть
-          </button>
-        </div>
-        <div class="archive-list" id="pathList"></div>
-      </div>
-    </section>
-
-    <section class="overlay-layer is-hidden" id="searchPanel" aria-hidden="true">
-      <div class="overlay-scrim" data-close-panel="search"></div>
-      <div class="overlay-sheet">
-        <div class="overlay-head">
-          <div>
-            <div class="overlay-kicker">вход в архив</div>
-            <h2 class="overlay-title">Что вы ищете?</h2>
-          </div>
-          <button class="ghost-button" type="button" data-close-panel="search">
-            назад
-          </button>
-        </div>
-
-        <label class="search-field">
-          <span class="search-label">состояние, сюжет, образ</span>
+      <footer class="search-dock">
+        <div class="search-entry" id="searchEntry" role="button" tabindex="0">
+          <span class="search-prompt" id="searchPrompt">поиск по образу или состоянию</span>
           <input
             id="searchInput"
+            class="search-input"
             type="search"
             inputmode="search"
             autocomplete="off"
             spellcheck="false"
-            placeholder="тишина, ритуал, рыжий свет, город, миф..."
+            placeholder="тишина, ритуал, рыжий свет, миф..."
           />
-          <button
-            id="clearSearch"
-            class="search-clear"
-            type="button"
-            aria-label="Очистить поиск"
-          >
-            ×
-          </button>
-        </label>
-
-        <div class="search-summary" id="searchSummary"></div>
-
-        <div class="overlay-actions">
-          <button class="ghost-button action-wide" id="applySearch" type="button">
-            смотреть маршрут
-          </button>
-          <button class="ghost-button" id="resetSearch" type="button">
-            сбросить
-          </button>
         </div>
-      </div>
-    </section>
-
-    <template id="cardTemplate">
-      <article class="card-shell">
-        <div class="card" tabindex="0" role="button" aria-pressed="false">
-          <div class="card-face card-front">
-            <img class="card-image" alt="" loading="eager" />
-            <div class="card-glint" aria-hidden="true"></div>
-            <div class="card-caption">
-              <span class="card-gallery"></span>
-              <span class="card-title"></span>
-            </div>
-          </div>
-
-          <div class="card-face card-back">
-            <div class="card-back-inner">
-              <div class="card-back-head">
-                <span class="card-back-gallery"></span>
-                <h2 class="card-back-title"></h2>
-              </div>
-
-              <p class="card-curator"></p>
-
-              <div class="card-block">
-                <div class="card-block-label">Промпт</div>
-                <p class="card-prompt"></p>
-              </div>
-
-              <dl class="card-metadata"></dl>
-
-              <div class="card-back-actions">
-                <button class="listen-button" type="button">слушать</button>
-                <button class="tone-button" type="button">ещё в этом тоне</button>
-                <button class="series-button" type="button">вся серия</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-    </template>
+      </footer>
+    </main>
 
     <noscript>
       <div class="noscript-banner">
-        Для этой галереи нужен JavaScript: маршруты архива, свайпы, переворот карт и звук завязаны на клиентскую логику.
+        Для этой колоды нужен JavaScript: расклад, поиск и озвучка работают на клиентской логике.
       </div>
     </noscript>
 
