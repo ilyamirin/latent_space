@@ -19,6 +19,7 @@ function renderStage(stage, state) {
   if (state.screen === "home") {
     stage.innerHTML = `
       <div class="home-hero">
+        <div class="home-orbit" aria-hidden="true"></div>
         <div class="ritual-deck" data-action="start-spread" role="button" tabindex="0" aria-label="Начать расклад">
           ${renderDeckStack()}
         </div>
@@ -32,15 +33,21 @@ function renderStage(stage, state) {
     const activeCard = state.drawCount > 0 ? state.spreadCards[state.selectedSpreadIndex] : null;
     stage.innerHTML = `
       <div class="spread-screen">
+        <div class="spread-meter" aria-hidden="true">
+          ${renderSpreadMeter(state.drawCount, state.selectedSpreadIndex)}
+        </div>
         <div class="spread-strip">
-          ${renderSpreadSlots(state.spreadCards, state.drawCount)}
+          ${renderSpreadSlots(state.spreadCards, state.drawCount, state.selectedSpreadIndex)}
         </div>
         <div class="focus-zone">
           ${
             activeCard
               ? `
-                <div class="focus-card" data-action="speak-active-spread" role="button" tabindex="0" aria-label="Слушать активную карту">
-                  <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
+                <div class="focus-shell">
+                  <div class="focus-badge">${escapeHtml(getPositionLabel(state.selectedSpreadIndex))}</div>
+                  <div class="focus-card" data-action="speak-active-spread" role="button" tabindex="0" aria-label="Слушать активную карту">
+                    <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
+                  </div>
                 </div>
               `
               : `<div class="focus-placeholder">корень<br />узел<br />вектор</div>`
@@ -83,8 +90,11 @@ function renderStage(stage, state) {
               )
               .join("")}
           </div>
-          <div class="focus-card" data-action="speak-search-card" role="button" tabindex="0" aria-label="Слушать описание работы">
-            <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
+          <div class="focus-shell">
+            <div class="focus-badge">результат ${state.searchIndex + 1} из ${state.searchResults.length}</div>
+            <div class="focus-card" data-action="speak-search-card" role="button" tabindex="0" aria-label="Слушать описание работы">
+              <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
+            </div>
           </div>
           <div class="hero-copy">свайпайте карту, чтобы смотреть дальше</div>
         </div>
@@ -181,7 +191,8 @@ function renderInfo(panel, state, speech) {
 function renderSearchDock(elements, state) {
   const searching = state.screen === "search";
   elements.searchEntry.classList.toggle("is-active", searching);
-  elements.searchPrompt.textContent = state.searchQuery || "поиск по образу или состоянию";
+  elements.searchPrompt.textContent =
+    state.searchQuery || (searching ? "введите образ, настроение или тег" : "поиск по образу или состоянию");
   elements.searchPrompt.hidden = searching;
   elements.searchInput.hidden = !searching;
   if (searching) {
@@ -192,13 +203,13 @@ function renderSearchDock(elements, state) {
 }
 
 
-function renderSpreadSlots(cards, drawCount) {
+function renderSpreadSlots(cards, drawCount, selectedSpreadIndex) {
   return [0, 1, 2]
     .map((index) => {
       if (index < drawCount && cards[index]) {
         return `
           <div
-            class="slot-card is-filled"
+            class="slot-card is-filled ${index === selectedSpreadIndex ? "is-active" : ""}"
             data-action="select-spread-card"
             data-card-index="${index}"
             role="button"
@@ -216,6 +227,23 @@ function renderSpreadSlots(cards, drawCount) {
           <span class="slot-label">${escapeHtml(getPositionLabel(index))}</span>
         </div>
       `;
+    })
+    .join("");
+}
+
+
+function renderSpreadMeter(drawCount, selectedSpreadIndex) {
+  return [0, 1, 2]
+    .map((index) => {
+      const classes = [
+        "meter-dot",
+        index < drawCount ? "is-filled" : "",
+        index === selectedSpreadIndex && index < drawCount ? "is-active" : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+      return `<span class="${classes}"></span>`;
     })
     .join("");
 }

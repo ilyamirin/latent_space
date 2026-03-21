@@ -141,6 +141,7 @@ input {
 
 .home-hero {
   padding-top: 1rem;
+  position: relative;
 }
 
 .hero-copy {
@@ -149,6 +150,20 @@ input {
   color: var(--text-dim);
   font-size: 0.96rem;
   line-height: 1.5;
+}
+
+.home-orbit {
+  position: absolute;
+  top: 18%;
+  width: min(86vw, 28rem);
+  height: min(86vw, 28rem);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(var(--accent-rgb), 0.18), transparent 58%),
+    radial-gradient(circle at 62% 38%, rgba(var(--accent-soft-rgb), 0.14), transparent 42%);
+  filter: blur(2.4rem);
+  opacity: 0.66;
+  pointer-events: none;
 }
 
 .ritual-deck {
@@ -208,6 +223,37 @@ input {
   align-items: start;
 }
 
+.spread-meter {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.meter-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    transform 180ms var(--ease-ritual),
+    background-color 180ms var(--ease-ritual),
+    box-shadow 180ms var(--ease-ritual);
+}
+
+.meter-dot.is-filled {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.meter-dot.is-active {
+  transform: scale(1.18);
+  background: rgba(var(--accent-rgb), 0.9);
+  box-shadow:
+    0 0 0.5rem rgba(var(--accent-rgb), 0.45),
+    0 0 1rem rgba(var(--accent-rgb), 0.22);
+}
+
 .slot-card {
   display: grid;
   gap: 0.45rem;
@@ -245,6 +291,18 @@ input {
   border-color: rgba(var(--accent-rgb), 0.44);
 }
 
+.slot-card.is-active img {
+  transform: translateY(-0.12rem) scale(1.03);
+  border-color: rgba(var(--accent-rgb), 0.66);
+  box-shadow:
+    0 0.9rem 2.2rem rgba(0, 0, 0, 0.42),
+    0 0 1.2rem rgba(var(--accent-rgb), 0.2);
+}
+
+.slot-card.is-active .slot-label {
+  color: var(--text-main);
+}
+
 .slot-label {
   font-size: 0.68rem;
   text-transform: uppercase;
@@ -259,11 +317,28 @@ input {
   place-items: center;
 }
 
+.focus-shell {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+}
+
 .focus-placeholder,
 .focus-card {
   width: var(--focus-width);
   height: var(--focus-height);
   border-radius: 1.7rem;
+}
+
+.focus-badge {
+  padding: 0.38rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .focus-placeholder {
@@ -281,6 +356,7 @@ input {
 }
 
 .focus-card {
+  position: relative;
   overflow: hidden;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.11);
@@ -296,6 +372,16 @@ input {
 .focus-card:focus-visible {
   transform: translateY(-0.12rem);
   border-color: rgba(var(--accent-rgb), 0.44);
+}
+
+.focus-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 18%, transparent 76%, rgba(0, 0, 0, 0.1)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 35%);
+  pointer-events: none;
 }
 
 .focus-card img {
@@ -459,6 +545,10 @@ input {
   .search-screen {
     gap: 1.2rem;
   }
+
+  .hero-copy {
+    max-width: 24rem;
+  }
 }
 
 @media (min-width: 960px) {
@@ -493,5 +583,16 @@ input {
 
   .search-dock {
     grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

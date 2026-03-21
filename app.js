@@ -82,6 +82,23 @@ function bindEvents() {
       return;
     }
 
+    if (state.screen === "spread" && state.drawCount > 0 && event.key === "ArrowRight") {
+      event.preventDefault();
+      state = selectSpreadCard(state, (state.selectedSpreadIndex + 1) % state.drawCount);
+      refresh();
+      return;
+    }
+
+    if (state.screen === "spread" && state.drawCount > 0 && event.key === "ArrowLeft") {
+      event.preventDefault();
+      state = selectSpreadCard(
+        state,
+        (state.selectedSpreadIndex - 1 + state.drawCount) % state.drawCount,
+      );
+      refresh();
+      return;
+    }
+
     if (state.screen === "search" && event.key === "ArrowRight") {
       event.preventDefault();
       state = moveSearchIndex(state, 1);
