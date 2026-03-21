@@ -17,9 +17,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 14232,
+          "bytes": 11584,
           "quality": 5,
-          "ssim": 0.9926,
+          "ssim": 0.998,
           "resized": false
         },
         {
@@ -30,9 +30,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 13700,
+          "bytes": 11916,
           "quality": 5,
-          "ssim": 0.9936,
+          "ssim": 0.998,
           "resized": false
         },
         {
@@ -43,9 +43,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 9154,
+          "bytes": 8350,
           "quality": 5,
-          "ssim": 0.9944,
+          "ssim": 0.9987,
           "resized": false
         },
         {
@@ -56,9 +56,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 9266,
+          "bytes": 8622,
           "quality": 5,
-          "ssim": 0.9959,
+          "ssim": 0.9989,
           "resized": false
         },
         {
@@ -69,9 +69,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 22852,
+          "bytes": 20448,
           "quality": 5,
-          "ssim": 0.9939,
+          "ssim": 0.9979,
           "resized": false
         },
         {
@@ -82,9 +82,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 106786,
-          "quality": 23,
-          "ssim": 0.9921,
+          "bytes": 63258,
+          "quality": 5,
+          "ssim": 0.9899,
           "resized": false
         },
         {
@@ -95,9 +95,9 @@
           "format": "webp",
           "width": 728,
           "height": 1280,
-          "bytes": 29586,
+          "bytes": 26266,
           "quality": 5,
-          "ssim": 0.9926,
+          "ssim": 0.9975,
           "resized": false
         },
         {
@@ -108,9 +108,9 @@
           "format": "webp",
           "width": 728,
           "height": 1280,
-          "bytes": 30426,
+          "bytes": 27740,
           "quality": 5,
-          "ssim": 0.9936,
+          "ssim": 0.9977,
           "resized": false
         },
         {
@@ -121,9 +121,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 149122,
-          "quality": 36,
-          "ssim": 0.9921,
+          "bytes": 93608,
+          "quality": 13,
+          "ssim": 0.989,
           "resized": false
         },
         {
@@ -134,9 +134,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 134004,
-          "quality": 28,
-          "ssim": 0.9923,
+          "bytes": 84738,
+          "quality": 8,
+          "ssim": 0.9893,
           "resized": false
         },
         {
@@ -147,9 +147,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 142572,
-          "quality": 36,
-          "ssim": 0.9922,
+          "bytes": 88136,
+          "quality": 14,
+          "ssim": 0.9895,
           "resized": false
         },
         {
@@ -160,9 +160,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 74728,
-          "quality": 21,
-          "ssim": 0.9921,
+          "bytes": 36622,
+          "quality": 5,
+          "ssim": 0.9922,
           "resized": false
         },
         {
@@ -173,9 +173,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 148490,
-          "quality": 28,
-          "ssim": 0.9921,
+          "bytes": 90954,
+          "quality": 9,
+          "ssim": 0.9891,
           "resized": false
         },
         {
@@ -186,9 +186,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 203954,
-          "quality": 48,
-          "ssim": 0.9921,
+          "bytes": 150266,
+          "quality": 24,
+          "ssim": 0.9895,
           "resized": false
         },
         {
@@ -199,9 +199,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 9320,
+          "bytes": 8522,
           "quality": 5,
-          "ssim": 0.9956,
+          "ssim": 0.9987,
           "resized": false
         },
         {
@@ -212,9 +212,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 10382,
+          "bytes": 8800,
           "quality": 5,
-          "ssim": 0.9941,
+          "ssim": 0.9979,
           "resized": false
         },
         {
@@ -225,9 +225,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 8668,
+          "bytes": 7844,
           "quality": 5,
-          "ssim": 0.9947,
+          "ssim": 0.9988,
           "resized": false
         },
         {
@@ -238,9 +238,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 29858,
-          "quality": 43,
-          "ssim": 0.9921,
+          "bytes": 12030,
+          "quality": 10,
+          "ssim": 0.9891,
           "resized": false
         }
       ]
@@ -259,9 +259,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 25600,
-          "quality": 11,
-          "ssim": 0.9921,
+          "bytes": 19376,
+          "quality": 5,
+          "ssim": 0.9958,
           "resized": false
         },
         {
@@ -272,9 +272,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 21856,
+          "bytes": 19534,
           "quality": 5,
-          "ssim": 0.9922,
+          "ssim": 0.9973,
           "resized": false
         },
         {
@@ -285,9 +285,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 20306,
+          "bytes": 18454,
           "quality": 5,
-          "ssim": 0.9945,
+          "ssim": 0.9984,
           "resized": false
         },
         {
@@ -298,9 +298,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 25580,
-          "quality": 10,
-          "ssim": 0.9922,
+          "bytes": 19968,
+          "quality": 5,
+          "ssim": 0.9953,
           "resized": false
         },
         {
@@ -311,9 +311,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 23444,
-          "quality": 10,
-          "ssim": 0.9921,
+          "bytes": 19440,
+          "quality": 5,
+          "ssim": 0.996,
           "resized": false
         },
         {
@@ -324,9 +324,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 21148,
+          "bytes": 18880,
           "quality": 5,
-          "ssim": 0.9945,
+          "ssim": 0.9984,
           "resized": false
         },
         {
@@ -337,9 +337,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 47902,
-          "quality": 17,
-          "ssim": 0.9923,
+          "bytes": 28050,
+          "quality": 5,
+          "ssim": 0.9939,
           "resized": false
         },
         {
@@ -350,9 +350,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 22920,
-          "quality": 14,
-          "ssim": 0.992,
+          "bytes": 15666,
+          "quality": 5,
+          "ssim": 0.9946,
           "resized": false
         },
         {
@@ -363,9 +363,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 93070,
-          "quality": 79,
-          "ssim": 0.9923,
+          "bytes": 40684,
+          "quality": 45,
+          "ssim": 0.9894,
           "resized": false
         },
         {
@@ -376,9 +376,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 24994,
-          "quality": 9,
-          "ssim": 0.9922,
+          "bytes": 19992,
+          "quality": 5,
+          "ssim": 0.9953,
           "resized": false
         },
         {
@@ -389,9 +389,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 59310,
-          "quality": 76,
-          "ssim": 0.992,
+          "bytes": 13004,
+          "quality": 17,
+          "ssim": 0.989,
           "resized": false
         },
         {
@@ -402,9 +402,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 45848,
-          "quality": 41,
-          "ssim": 0.9921,
+          "bytes": 14350,
+          "quality": 5,
+          "ssim": 0.991,
           "resized": false
         },
         {
@@ -415,9 +415,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 25416,
+          "bytes": 22464,
           "quality": 5,
-          "ssim": 0.9939,
+          "ssim": 0.9978,
           "resized": false
         },
         {
@@ -426,11 +426,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image.png",
           "source_name": "image.png",
           "format": "webp",
-          "width": 1152,
-          "height": 2048,
-          "bytes": 49720,
-          "quality": 6,
-          "ssim": 0.9921,
+          "width": 1012,
+          "height": 1800,
+          "bytes": 34286,
+          "quality": 5,
+          "ssim": 0.994,
           "resized": true
         },
         {
@@ -441,9 +441,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 14334,
+          "bytes": 12574,
           "quality": 5,
-          "ssim": 0.9932,
+          "ssim": 0.9979,
           "resized": false
         },
         {
@@ -454,9 +454,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 20386,
+          "bytes": 18174,
           "quality": 5,
-          "ssim": 0.9948,
+          "ssim": 0.9984,
           "resized": false
         },
         {
@@ -465,11 +465,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/d74e049a-8763-4b31-9c09-7b3b42e28709.jpeg",
           "source_name": "d74e049a-8763-4b31-9c09-7b3b42e28709.jpeg",
           "format": "webp",
-          "width": 946,
-          "height": 2048,
-          "bytes": 200184,
-          "quality": 22,
-          "ssim": 0.9921,
+          "width": 831,
+          "height": 1800,
+          "bytes": 115964,
+          "quality": 11,
+          "ssim": 0.9894,
           "resized": true
         },
         {
@@ -480,9 +480,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 21360,
-          "quality": 9,
-          "ssim": 0.9923,
+          "bytes": 18290,
+          "quality": 5,
+          "ssim": 0.9967,
           "resized": false
         }
       ]
@@ -501,9 +501,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 23788,
+          "bytes": 21364,
           "quality": 5,
-          "ssim": 0.9955,
+          "ssim": 0.9985,
           "resized": false
         },
         {
@@ -514,9 +514,9 @@
           "format": "webp",
           "width": 760,
           "height": 1280,
-          "bytes": 38634,
-          "quality": 19,
-          "ssim": 0.9921,
+          "bytes": 23146,
+          "quality": 5,
+          "ssim": 0.9928,
           "resized": false
         },
         {
@@ -527,9 +527,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 18300,
+          "bytes": 16112,
           "quality": 5,
-          "ssim": 0.992,
+          "ssim": 0.9975,
           "resized": false
         },
         {
@@ -540,9 +540,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 22654,
-          "quality": 7,
-          "ssim": 0.9921,
+          "bytes": 18958,
+          "quality": 5,
+          "ssim": 0.9962,
           "resized": false
         },
         {
@@ -551,11 +551,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00017-1067285133.png",
           "source_name": "00017-1067285133.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 43662,
+          "width": 900,
+          "height": 1800,
+          "bytes": 31442,
           "quality": 5,
-          "ssim": 0.9936,
+          "ssim": 0.996,
           "resized": true
         },
         {
@@ -564,11 +564,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00021-4224879126.png",
           "source_name": "00021-4224879126.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 51394,
-          "quality": 8,
-          "ssim": 0.9921,
+          "width": 900,
+          "height": 1800,
+          "bytes": 32256,
+          "quality": 5,
+          "ssim": 0.9948,
           "resized": true
         },
         {
@@ -579,9 +579,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 21696,
+          "bytes": 19016,
           "quality": 5,
-          "ssim": 0.9929,
+          "ssim": 0.9976,
           "resized": false
         },
         {
@@ -592,9 +592,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 16694,
+          "bytes": 15122,
           "quality": 5,
-          "ssim": 0.9932,
+          "ssim": 0.9978,
           "resized": false
         },
         {
@@ -603,11 +603,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00019-2767971065.png",
           "source_name": "00019-2767971065.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 49666,
+          "width": 900,
+          "height": 1800,
+          "bytes": 34794,
           "quality": 5,
-          "ssim": 0.9931,
+          "ssim": 0.9959,
           "resized": true
         },
         {
@@ -618,9 +618,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 19904,
+          "bytes": 18150,
           "quality": 5,
-          "ssim": 0.9955,
+          "ssim": 0.9987,
           "resized": false
         },
         {
@@ -629,11 +629,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00015-2593735691.png",
           "source_name": "00015-2593735691.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 45794,
-          "quality": 6,
-          "ssim": 0.9924,
+          "width": 900,
+          "height": 1800,
+          "bytes": 31528,
+          "quality": 5,
+          "ssim": 0.995,
           "resized": true
         },
         {
@@ -642,12 +642,12 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00009-1829974236.png",
           "source_name": "00009-1829974236.png",
           "format": "webp",
-          "width": 1080,
-          "height": 1920,
-          "bytes": 45122,
+          "width": 1012,
+          "height": 1800,
+          "bytes": 34856,
           "quality": 5,
-          "ssim": 0.9948,
-          "resized": false
+          "ssim": 0.9973,
+          "resized": true
         },
         {
           "index": 13,
@@ -655,12 +655,12 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00010-3640817879.png",
           "source_name": "00010-3640817879.png",
           "format": "webp",
-          "width": 1080,
-          "height": 1920,
-          "bytes": 50744,
-          "quality": 7,
-          "ssim": 0.9921,
-          "resized": false
+          "width": 1012,
+          "height": 1800,
+          "bytes": 35960,
+          "quality": 5,
+          "ssim": 0.996,
+          "resized": true
         },
         {
           "index": 14,
@@ -668,11 +668,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00012-290870974.png",
           "source_name": "00012-290870974.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 38316,
+          "width": 900,
+          "height": 1800,
+          "bytes": 26726,
           "quality": 5,
-          "ssim": 0.9922,
+          "ssim": 0.9954,
           "resized": true
         },
         {
@@ -681,11 +681,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00013-3665710575.png",
           "source_name": "00013-3665710575.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 49366,
-          "quality": 6,
-          "ssim": 0.9921,
+          "width": 900,
+          "height": 1800,
+          "bytes": 33304,
+          "quality": 5,
+          "ssim": 0.9951,
           "resized": true
         },
         {
@@ -694,11 +694,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00014-1016361179.png",
           "source_name": "00014-1016361179.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 50414,
-          "quality": 9,
-          "ssim": 0.9922,
+          "width": 900,
+          "height": 1800,
+          "bytes": 31762,
+          "quality": 5,
+          "ssim": 0.9941,
           "resized": true
         },
         {
@@ -709,9 +709,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 18508,
+          "bytes": 17152,
           "quality": 5,
-          "ssim": 0.9948,
+          "ssim": 0.9987,
           "resized": false
         },
         {
@@ -722,9 +722,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 22910,
-          "quality": 10,
-          "ssim": 0.9921,
+          "bytes": 17884,
+          "quality": 5,
+          "ssim": 0.9958,
           "resized": false
         }
       ]
@@ -743,9 +743,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 12714,
+          "bytes": 11646,
           "quality": 5,
-          "ssim": 0.9927,
+          "ssim": 0.9976,
           "resized": false
         },
         {
@@ -756,9 +756,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 16518,
+          "bytes": 14294,
           "quality": 5,
-          "ssim": 0.9929,
+          "ssim": 0.9977,
           "resized": false
         },
         {
@@ -769,9 +769,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 15500,
+          "bytes": 13744,
           "quality": 5,
-          "ssim": 0.9927,
+          "ssim": 0.9975,
           "resized": false
         },
         {
@@ -782,9 +782,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 18960,
+          "bytes": 16754,
           "quality": 5,
-          "ssim": 0.9925,
+          "ssim": 0.9975,
           "resized": false
         },
         {
@@ -795,9 +795,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 32732,
-          "quality": 14,
-          "ssim": 0.9921,
+          "bytes": 23614,
+          "quality": 5,
+          "ssim": 0.9944,
           "resized": false
         },
         {
@@ -808,9 +808,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 17328,
-          "quality": 7,
-          "ssim": 0.992,
+          "bytes": 14602,
+          "quality": 5,
+          "ssim": 0.9966,
           "resized": false
         },
         {
@@ -821,9 +821,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 18804,
+          "bytes": 17808,
           "quality": 5,
-          "ssim": 0.9949,
+          "ssim": 0.9983,
           "resized": false
         },
         {
@@ -834,9 +834,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 16994,
+          "bytes": 15622,
           "quality": 5,
-          "ssim": 0.9959,
+          "ssim": 0.9986,
           "resized": false
         },
         {
@@ -847,9 +847,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 17108,
+          "bytes": 15508,
           "quality": 5,
-          "ssim": 0.9957,
+          "ssim": 0.9986,
           "resized": false
         },
         {
@@ -860,9 +860,9 @@
           "format": "webp",
           "width": 560,
           "height": 1280,
-          "bytes": 19782,
-          "quality": 6,
-          "ssim": 0.9921,
+          "bytes": 16802,
+          "quality": 5,
+          "ssim": 0.9978,
           "resized": false
         },
         {
@@ -873,9 +873,9 @@
           "format": "webp",
           "width": 720,
           "height": 1280,
-          "bytes": 23592,
+          "bytes": 20634,
           "quality": 5,
-          "ssim": 0.9921,
+          "ssim": 0.9978,
           "resized": false
         },
         {
@@ -886,9 +886,9 @@
           "format": "webp",
           "width": 720,
           "height": 1280,
-          "bytes": 20072,
+          "bytes": 17538,
           "quality": 5,
-          "ssim": 0.9929,
+          "ssim": 0.9983,
           "resized": false
         },
         {
@@ -899,9 +899,9 @@
           "format": "webp",
           "width": 720,
           "height": 1280,
-          "bytes": 17668,
+          "bytes": 15606,
           "quality": 5,
-          "ssim": 0.9931,
+          "ssim": 0.9982,
           "resized": false
         },
         {
@@ -912,9 +912,9 @@
           "format": "webp",
           "width": 760,
           "height": 1080,
-          "bytes": 20004,
+          "bytes": 18420,
           "quality": 5,
-          "ssim": 0.996,
+          "ssim": 0.9989,
           "resized": false
         },
         {
@@ -925,9 +925,9 @@
           "format": "webp",
           "width": 760,
           "height": 1080,
-          "bytes": 22112,
-          "quality": 6,
-          "ssim": 0.9923,
+          "bytes": 18562,
+          "quality": 5,
+          "ssim": 0.9972,
           "resized": false
         },
         {
@@ -938,9 +938,9 @@
           "format": "webp",
           "width": 720,
           "height": 1280,
-          "bytes": 17706,
-          "quality": 7,
-          "ssim": 0.992,
+          "bytes": 14382,
+          "quality": 5,
+          "ssim": 0.9967,
           "resized": false
         },
         {
@@ -951,9 +951,9 @@
           "format": "webp",
           "width": 760,
           "height": 1080,
-          "bytes": 26374,
+          "bytes": 23330,
           "quality": 5,
-          "ssim": 0.9929,
+          "ssim": 0.9976,
           "resized": false
         },
         {
@@ -964,9 +964,9 @@
           "format": "webp",
           "width": 720,
           "height": 1280,
-          "bytes": 16316,
-          "quality": 6,
-          "ssim": 0.9922,
+          "bytes": 13988,
+          "quality": 5,
+          "ssim": 0.9981,
           "resized": false
         }
       ]
@@ -983,11 +983,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/HR ангел Мы заботимся.png",
           "source_name": "HR ангел Мы заботимся.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 32300,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 23638,
           "quality": 5,
-          "ssim": 0.9954,
+          "ssim": 0.9966,
           "resized": true
         },
         {
@@ -996,11 +996,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/replicate-prediction-28jnvcywgxrmw0cvb9zrj4ttdw.png",
           "source_name": "replicate-prediction-28jnvcywgxrmw0cvb9zrj4ttdw.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 33772,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 24028,
           "quality": 5,
-          "ssim": 0.9941,
+          "ssim": 0.9965,
           "resized": true
         },
         {
@@ -1011,9 +1011,9 @@
           "format": "webp",
           "width": 848,
           "height": 1280,
-          "bytes": 27258,
+          "bytes": 24184,
           "quality": 5,
-          "ssim": 0.9945,
+          "ssim": 0.9981,
           "resized": false
         },
         {
@@ -1022,11 +1022,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/replicate-prediction-fyya7d9j5xrmy0cvb9kak4ntew.png",
           "source_name": "replicate-prediction-fyya7d9j5xrmy0cvb9kak4ntew.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 22324,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 16988,
           "quality": 5,
-          "ssim": 0.9936,
+          "ssim": 0.9952,
           "resized": true
         },
         {
@@ -1035,11 +1035,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/replicate-prediction-g1n0yndmksrmy0cvbdbb6z9p94.png",
           "source_name": "replicate-prediction-g1n0yndmksrmy0cvbdbb6z9p94.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 33944,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 25292,
           "quality": 5,
-          "ssim": 0.9952,
+          "ssim": 0.9965,
           "resized": true
         },
         {
@@ -1048,11 +1048,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/Rf0_LXX3fco92f8ph2l96kIruRG3IRTEw65x2waG4IxTfL2HPau4NRdWx5MCqdmUSS7nRMV7wFSNGRn7eWwLNv-n.jpg",
           "source_name": "Rf0_LXX3fco92f8ph2l96kIruRG3IRTEw65x2waG4IxTfL2HPau4NRdWx5MCqdmUSS7nRMV7wFSNGRn7eWwLNv-n.jpg",
           "format": "webp",
-          "width": 1634,
-          "height": 2048,
-          "bytes": 131890,
-          "quality": 9,
-          "ssim": 0.992,
+          "width": 1436,
+          "height": 1800,
+          "bytes": 88630,
+          "quality": 5,
+          "ssim": 0.9921,
           "resized": true
         },
         {
@@ -1061,11 +1061,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/replicate-prediction-ncn0ttw2nsrmw0cvba6a6kv2hc.png",
           "source_name": "replicate-prediction-ncn0ttw2nsrmw0cvba6a6kv2hc.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 30352,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 22020,
           "quality": 5,
-          "ssim": 0.9922,
+          "ssim": 0.9949,
           "resized": true
         },
         {
@@ -1074,11 +1074,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/replicate-prediction-wdy332f05nrmr0cvbdbvj8f8pm.png",
           "source_name": "replicate-prediction-wdy332f05nrmr0cvbdbvj8f8pm.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 28660,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 21850,
           "quality": 5,
-          "ssim": 0.9953,
+          "ssim": 0.9965,
           "resized": true
         },
         {
@@ -1087,11 +1087,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/Алгоритм Я не злой. Я точный.png",
           "source_name": "Алгоритм Я не злой. Я точный.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 41362,
-          "quality": 11,
-          "ssim": 0.9921,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 25396,
+          "quality": 5,
+          "ssim": 0.993,
           "resized": true
         },
         {
@@ -1102,9 +1102,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 158040,
-          "quality": 36,
-          "ssim": 0.9922,
+          "bytes": 103920,
+          "quality": 15,
+          "ssim": 0.9894,
           "resized": false
         },
         {
@@ -1113,11 +1113,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/Гуру продуктивности Ты просто можешь больше.png",
           "source_name": "Гуру продуктивности Ты просто можешь больше.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 36154,
-          "quality": 12,
-          "ssim": 0.9922,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 22850,
+          "quality": 5,
+          "ssim": 0.992,
           "resized": true
         },
         {
@@ -1128,9 +1128,9 @@
           "format": "webp",
           "width": 960,
           "height": 1280,
-          "bytes": 35104,
+          "bytes": 31020,
           "quality": 5,
-          "ssim": 0.993,
+          "ssim": 0.9976,
           "resized": false
         },
         {
@@ -1141,9 +1141,9 @@
           "format": "webp",
           "width": 768,
           "height": 1344,
-          "bytes": 136586,
-          "quality": 25,
-          "ssim": 0.9921,
+          "bytes": 92166,
+          "quality": 8,
+          "ssim": 0.99,
           "resized": false
         },
         {
@@ -1152,11 +1152,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/Даже символы выгорают 3.png",
           "source_name": "Даже символы выгорают 3.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 52670,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 39072,
           "quality": 5,
-          "ssim": 0.9952,
+          "ssim": 0.9963,
           "resized": true
         },
         {
@@ -1165,11 +1165,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2026 публикации/Даже чудеса считают калории.png",
           "source_name": "Даже чудеса считают калории.png",
           "format": "webp",
-          "width": 1143,
-          "height": 2048,
-          "bytes": 41858,
+          "width": 1005,
+          "height": 1800,
+          "bytes": 32060,
           "quality": 5,
-          "ssim": 0.9966,
+          "ssim": 0.997,
           "resized": true
         },
         {
@@ -1178,11 +1178,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00041-1635725547.png",
           "source_name": "00041-1635725547.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 38056,
+          "width": 900,
+          "height": 1800,
+          "bytes": 26312,
           "quality": 5,
-          "ssim": 0.9923,
+          "ssim": 0.9957,
           "resized": true
         },
         {
@@ -1191,11 +1191,11 @@
           "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00020-3031227991.png",
           "source_name": "00020-3031227991.png",
           "format": "webp",
-          "width": 1024,
-          "height": 2048,
-          "bytes": 42890,
+          "width": 900,
+          "height": 1800,
+          "bytes": 31316,
           "quality": 5,
-          "ssim": 0.9934,
+          "ssim": 0.996,
           "resized": true
         },
         {
@@ -1206,9 +1206,9 @@
           "format": "webp",
           "width": 584,
           "height": 1264,
-          "bytes": 17636,
+          "bytes": 15624,
           "quality": 5,
-          "ssim": 0.9942,
+          "ssim": 0.9984,
           "resized": false
         }
       ]
@@ -1216,11 +1216,11 @@
   ],
   "optimization": {
     "format": "webp",
-    "total_bytes_before": 176225706,
-    "total_bytes_after": 3829184,
-    "saved_bytes": 172396522,
-    "saved_percent": 97.83,
-    "max_long_edge": 2048,
-    "ssim_threshold": 0.992
+    "total_bytes_before": 3829184,
+    "total_bytes_after": 2657606,
+    "saved_bytes": 1171578,
+    "saved_percent": 30.6,
+    "max_long_edge": 1800,
+    "ssim_threshold": 0.989
   }
 }
