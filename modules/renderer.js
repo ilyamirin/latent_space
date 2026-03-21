@@ -1,4 +1,7 @@
 import {
+  AUTHOR_CARDS,
+  AUTHOR_CONTACTS,
+  buildAuthorSummary,
   buildCardInterpretation,
   buildSearchPlaceholder,
   buildSearchResultLabel,
@@ -17,6 +20,7 @@ export function renderScreen({ elements, state }) {
   elements.appShell.classList.toggle("is-home", state.screen === "home");
   elements.appShell.classList.toggle("is-search", state.screen === "search");
   elements.appShell.classList.toggle("is-spread", state.screen === "spread");
+  elements.appShell.classList.toggle("is-author", state.screen === "author");
   elements.infoPanel.classList.toggle("is-hidden", state.screen === "home");
 }
 
@@ -37,6 +41,16 @@ function renderStage(stage, state) {
         </div>
         <div class="home-gallery-list">
           ${renderGalleryChoices(state.galleries)}
+        </div>
+        <div
+          class="home-author-entry"
+          data-action="open-author"
+          role="button"
+          tabindex="0"
+          aria-label="${UI_COPY.home.authorLabel}"
+        >
+          <div class="home-author-entry__label">${UI_COPY.home.authorLabel}</div>
+          <div class="home-author-entry__prompt">${UI_COPY.home.authorPrompt}</div>
         </div>
       </div>
     `;
@@ -126,6 +140,36 @@ function renderStage(stage, state) {
           <div class="hero-copy">${UI_COPY.search.emptyHero}</div>
         </div>
       `;
+    return;
+  }
+
+  if (state.screen === "author") {
+    const activeCard = AUTHOR_CARDS[state.selectedAuthorIndex] ?? AUTHOR_CARDS[0];
+    stage.innerHTML = `
+      <div class="spread-screen author-screen">
+        <div class="spread-meter" aria-hidden="true">
+          ${renderSpreadMeter(3, state.selectedAuthorIndex)}
+        </div>
+        <div class="spread-strip">
+          ${renderAuthorSlots(state.selectedAuthorIndex)}
+        </div>
+        <div class="focus-zone">
+          <div class="focus-shell">
+            <div class="focus-badge">${escapeHtml(activeCard.position)}</div>
+            <div
+              class="focus-card focus-card--author"
+              data-action="cycle-author-card"
+              role="button"
+              tabindex="0"
+              aria-label="${UI_COPY.author.nextCardAria}"
+            >
+              ${renderAuthorFocusCard(activeCard)}
+            </div>
+          </div>
+        </div>
+        <div class="hero-copy">${UI_COPY.author.hero}</div>
+      </div>
+    `;
   }
 }
 
@@ -184,6 +228,31 @@ function renderInfo(panel, state) {
         <h2 class="info-title">${UI_COPY.search.emptyTitle}</h2>
         <p class="info-text">${UI_COPY.search.emptyText}</p>
       `;
+    return;
+  }
+
+  if (state.screen === "author") {
+    const activeCard = AUTHOR_CARDS[state.selectedAuthorIndex] ?? AUTHOR_CARDS[0];
+    panel.innerHTML = `
+      <div class="info-kicker">${escapeHtml(activeCard.position)}</div>
+      <h2 class="info-title">${escapeHtml(activeCard.title)}</h2>
+      <div class="info-subtitle">${escapeHtml(activeCard.subtitle)}</div>
+      <p class="info-text">${escapeHtml(activeCard.lead)}</p>
+      ${activeCard.paragraphs.map((paragraph) => `<p class="info-text">${escapeHtml(paragraph)}</p>`).join("")}
+      ${renderAuthorItems(activeCard.items)}
+      ${
+        activeCard.id === "author-collaboration"
+          ? `
+            <div class="author-contacts">
+              <div class="author-contacts__title">${UI_COPY.author.collaborationTitle}</div>
+              ${renderAuthorContacts()}
+            </div>
+          `
+          : ""
+      }
+      <p class="info-summary">${buildAuthorSummary()}</p>
+      <div class="info-hint">${UI_COPY.author.hero}</div>
+    `;
   }
 }
 
@@ -251,6 +320,29 @@ function renderSpreadMeter(drawCount, selectedSpreadIndex) {
 }
 
 
+function renderAuthorSlots(selectedAuthorIndex) {
+  return AUTHOR_CARDS.map((card, index) => {
+    const isActive = index === selectedAuthorIndex;
+    return `
+      <div
+        class="slot-card is-filled author-slot ${isActive ? "is-active" : ""}"
+        data-action="select-author-card"
+        data-card-index="${index}"
+        role="button"
+        tabindex="0"
+        aria-label="${escapeHtml(card.position)}"
+      >
+        <div class="slot-card-media slot-card-media--author">
+          <span class="author-slot__eyebrow">${escapeHtml(card.shortTitle)}</span>
+          <span class="author-slot__index">0${index + 1}</span>
+        </div>
+        <span class="slot-label">${escapeHtml(card.position)}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+
 function renderGalleryChoices(galleries = []) {
   return galleries
     .map((gallery) => {
@@ -294,6 +386,43 @@ function renderFocusImage(card) {
       <img src="${card.imageSrc}" alt="${escapeHtml(card.title)}" />
     </div>
   `;
+}
+
+
+function renderAuthorFocusCard(card) {
+  return `
+    <div class="focus-card__mat focus-card__mat--author">
+      <div class="author-focus-card">
+        <div class="author-focus-card__orbit" aria-hidden="true"></div>
+        <div class="author-focus-card__kicker">${escapeHtml(card.shortTitle)}</div>
+        <div class="author-focus-card__title ${escapeHtml(card.focusTitleClass ?? "")}">${escapeHtml(card.title)}</div>
+        <div class="author-focus-card__lead">${escapeHtml(card.lead)}</div>
+      </div>
+    </div>
+  `;
+}
+
+
+function renderAuthorItems(items = []) {
+  if (!items.length) {
+    return "";
+  }
+
+  return `
+    <div class="author-points">
+      ${items.map((item) => `<div class="author-point">${escapeHtml(item)}</div>`).join("")}
+    </div>
+  `;
+}
+
+
+function renderAuthorContacts() {
+  return AUTHOR_CONTACTS.map((contact) => `
+    <a class="author-contact" href="${escapeHtml(contact.href)}" target="_blank" rel="noreferrer noopener">
+      <span class="author-contact__label">${escapeHtml(contact.label)}</span>
+      <span class="author-contact__value">${escapeHtml(contact.value)}</span>
+    </a>
+  `).join("");
 }
 
 

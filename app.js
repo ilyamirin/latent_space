@@ -2,13 +2,16 @@ import { UI_COPY } from "./modules/copy.js";
 import { loadCatalog } from "./modules/catalog.js";
 import { BackgroundMusicController } from "./modules/audio.js";
 import {
+  cycleAuthorCard,
   createAppState,
+  enterAuthor,
   enterHome,
   enterSearch,
   getActiveSearchCard,
   getActiveSpreadCard,
   moveSearchIndex,
   revealNextCard,
+  selectAuthorCard,
   selectSpreadCard,
   setSearchResults,
   startSpread,
@@ -122,9 +125,23 @@ function bindEvents() {
       return;
     }
 
+    if (state.screen === "author" && event.key === "ArrowRight") {
+      event.preventDefault();
+      state = cycleAuthorCard(state, 1);
+      refresh();
+      return;
+    }
+
     if (state.screen === "search" && event.key === "ArrowLeft") {
       event.preventDefault();
       state = moveSearchIndex(state, -1);
+      refresh();
+      return;
+    }
+
+    if (state.screen === "author" && event.key === "ArrowLeft") {
+      event.preventDefault();
+      state = cycleAuthorCard(state, -1);
       refresh();
       return;
     }
@@ -173,6 +190,13 @@ function handleStageAction(event) {
     return;
   }
 
+  if (action === "open-author") {
+    ensureBackgroundMusic();
+    state = enterAuthor(state);
+    refresh();
+    return;
+  }
+
   if (action === "cycle-spread-card") {
     if (state.drawCount === 0) {
       return;
@@ -183,6 +207,12 @@ function handleStageAction(event) {
       state.drawCount < 3
         ? revealNextCard(state)
         : selectSpreadCard(state, (state.selectedSpreadIndex + 1) % state.drawCount);
+    refresh();
+    return;
+  }
+
+  if (action === "cycle-author-card") {
+    state = cycleAuthorCard(state, 1);
     refresh();
     return;
   }
@@ -198,6 +228,17 @@ function handleStageAction(event) {
     }
 
     state = selectSpreadCard(state, index);
+    refresh();
+    return;
+  }
+
+  if (action === "select-author-card") {
+    const index = Number(actionNode.dataset.cardIndex);
+    if (Number.isNaN(index)) {
+      return;
+    }
+
+    state = selectAuthorCard(state, index);
     refresh();
     return;
   }
@@ -245,20 +286,35 @@ function goHome() {
 function attachDynamicInteractions() {
   detachSearchGesture();
   const focusCard = elements.stage.querySelector(".search-screen .focus-card");
-  if (!focusCard) {
+  if (focusCard) {
+    detachSearchGesture = attachDeckGestures(focusCard, {
+      onTap() {
+        if (state.searchResults.length === 0) {
+          return;
+        }
+        state = moveSearchIndex(state, 1);
+        refresh();
+      },
+      onSwipe(direction) {
+        state = moveSearchIndex(state, direction > 0 ? -1 : 1);
+        refresh();
+      },
+    });
     return;
   }
 
-  detachSearchGesture = attachDeckGestures(focusCard, {
+  const authorFocusCard = elements.stage.querySelector(".author-screen .focus-card");
+  if (!authorFocusCard) {
+    return;
+  }
+
+  detachSearchGesture = attachDeckGestures(authorFocusCard, {
     onTap() {
-      if (state.searchResults.length === 0) {
-        return;
-      }
-      state = moveSearchIndex(state, 1);
+      state = cycleAuthorCard(state, 1);
       refresh();
     },
     onSwipe(direction) {
-      state = moveSearchIndex(state, direction > 0 ? -1 : 1);
+      state = cycleAuthorCard(state, direction > 0 ? -1 : 1);
       refresh();
     },
   });

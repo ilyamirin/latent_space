@@ -11,6 +11,7 @@ export function createAppState(catalog = { cards: [], featuredTags: [] }) {
     searchQuery: "",
     searchResults: [],
     searchIndex: 0,
+    selectedAuthorIndex: 0,
   };
 }
 
@@ -26,6 +27,7 @@ export function enterHome(state) {
     searchQuery: "",
     searchResults: [],
     searchIndex: 0,
+    selectedAuthorIndex: 0,
   };
 }
 
@@ -41,6 +43,23 @@ export function startSpread(state, gallery, spreadCards) {
     searchQuery: "",
     searchResults: [],
     searchIndex: 0,
+    selectedAuthorIndex: 0,
+  };
+}
+
+
+export function enterAuthor(state) {
+  return {
+    ...state,
+    screen: "author",
+    selectedGallerySlug: null,
+    spreadCards: [],
+    drawCount: 0,
+    selectedSpreadIndex: 0,
+    searchQuery: "",
+    searchResults: [],
+    searchIndex: 0,
+    selectedAuthorIndex: 0,
   };
 }
 
@@ -97,6 +116,26 @@ export function moveSearchIndex(state, direction) {
     searchIndex:
       (state.searchIndex + direction + state.searchResults.length) %
       state.searchResults.length,
+  };
+}
+
+
+export function selectAuthorCard(state, index, total = 3) {
+  if (index < 0 || index >= total) {
+    return state;
+  }
+
+  return {
+    ...state,
+    selectedAuthorIndex: index,
+  };
+}
+
+
+export function cycleAuthorCard(state, direction = 1, total = 3) {
+  return {
+    ...state,
+    selectedAuthorIndex: (state.selectedAuthorIndex + direction + total) % total,
   };
 }
 

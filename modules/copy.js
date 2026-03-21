@@ -8,6 +8,8 @@ export const UI_COPY = {
     kicker: "пять входов",
     title: "откуда войдёт вопрос",
     intro: "У каждой колоды свой нерв: ритуал, рыжий жар, тишина, миф, цифровой жар.",
+    authorLabel: "об авторе",
+    authorPrompt: "три карты о человеке, который собрал эту колоду",
   },
   spread: {
     kicker: "три знака",
@@ -29,11 +31,87 @@ export const UI_COPY = {
     placeholderLines: ["тишина", "ритуал", "миф"],
     nextResultAria: "Следующий знак",
   },
+  author: {
+    kicker: "три карты автора",
+    hero: "верхние карты дают выбор. большая ведет по кругу.",
+    nextCardAria: "Следующая карта автора",
+    collaborationTitle: "по вопросам сотрудничества",
+  },
   error: {
     kicker: "сбой",
     title: "колода не открылась",
   },
 };
+
+export const AUTHOR_CONTACTS = [
+  {
+    label: "почта",
+    href: "mailto:ilya.mirin@gmail.com",
+    value: "ilya.mirin@gmail.com",
+  },
+  {
+    label: "linkedin",
+    href: "https://www.linkedin.com/in/ilyamirin",
+    value: "linkedin.com/in/ilyamirin",
+  },
+  {
+    label: "telegram",
+    href: "https://t.me/healthyit",
+    value: "t.me/healthyit",
+  },
+];
+
+export const AUTHOR_CARDS = [
+  {
+    id: "author-origin",
+    position: "исток",
+    shortTitle: "автор",
+    title: "Илья Мирин",
+    subtitle: "Staff AI Systems Engineer · LLM Platforms · AI Infrastructure",
+    lead: "Инженер, который строит AI-native системы и превращает естественный язык в работающий софт.",
+    paragraphs: [
+      "Проект делает Илья Мирин — Staff-level инженер, работающий на пересечении LLM-платформ, AI-инфраструктуры и внутренних AI-продуктов.",
+      "Его практика начинается не с декоративного слоя вокруг технологии, а с системной сборки: как из намерения, текста и слабой идеи получить рабочий, понятный и пригодный к развитию инструмент.",
+    ],
+  },
+  {
+    id: "author-practice",
+    position: "узел",
+    shortTitle: "практика",
+    title: "AI-native практика",
+    subtitle: "OpenAI-compatible backends · orchestration · internal AI products",
+    lead: "Autocode workflows, retrieval layers, assistant backends и инженерные привычки, которые помогают собирать системы через AI, а не только добавлять AI в системы.",
+    paragraphs: [
+      "В центре этой практики — LLM products, orchestration layers, OpenAI-compatible services и generative pipelines, которые проходят путь от идеи и эксперимента до надежной эксплуатации.",
+      "Такой подход собирает воедино продукт и инженерную дисциплину: скорость без имитации, observability без бюрократии, maintainability без потери темпа.",
+    ],
+    items: [
+      "LLM products и assistant backends для внутренних процессов",
+      "AI infrastructure, retrieval и orchestration layers",
+      "GenAI pipelines для визуального, текстового и интерактивного контента",
+      "AI-assisted engineering habits, review и delivery workflows",
+    ],
+  },
+  {
+    id: "author-collaboration",
+    position: "след",
+    shortTitle: "связь",
+    title: "Сотрудничество",
+    focusTitleClass: "is-long",
+    subtitle: "LLM products · AI infrastructure · generative systems",
+    lead: "Сюда можно приходить с идеей, сырым внутренним процессом или сложной AI-задачей: дальше это превращается в систему, а не в демо.",
+    paragraphs: [
+      "Подход особенно уместен там, где нужно собрать AI-native продукт, внутренний инструмент, инфраструктурный слой для моделей или production-ready генеративный пайплайн.",
+      "Форматы могут быть разными: проектная работа, архитектурная сборка, консультации по LLM-системам и настройка инженерной практики вокруг AI.",
+    ],
+    items: [
+      "внутренние AI-инструменты и ассистенты",
+      "LLM-интеграции и OpenAI-compatible API",
+      "AI infrastructure и platform engineering",
+      "generative pipelines и AI-native delivery practice",
+    ],
+  },
+];
 
 export const FEATURED_TAGS = [
   "ритуал",
@@ -142,6 +220,10 @@ export function buildSpreadSummary(spreadCards) {
 
   const tones = spreadCards.map((card) => card.tone).join(", ");
   return `Три знака сошлись: ${tones}. Исток назван. Узел слышен. Дальше только след.`;
+}
+
+export function buildAuthorSummary() {
+  return "Три карты сошлись: инженерная практика, продуктовая сборка и ясный канал для сотрудничества.";
 }
 
 export function shouldUseSourceTitle(tokens) {
