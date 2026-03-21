@@ -1,23 +1,38 @@
-const GALLERY_KEYWORDS = {
+const GALLERY_META = {
   "01-misticheskii-portretnyi-tsikl": {
-    mood: ["ритуал", "таро", "архетип", "пыль", "поле", "символ", "сумрак", "аркан", "киборг"],
-    voice: "Мягкий кураторский тон о ритуале, архетипах и затишье перед смыслом.",
+    mood: ["ритуал", "таро", "архетип", "аркан", "сумрак", "поле", "символ", "порог"],
+    tone: "ритуальный сумрак",
+    lineText: "Таро, архетипы, выжженные поля и тихая цифровая притча.",
+    curator: ({ title }) =>
+      `${title} держится на паузе между знаком и действием. Это работа о моменте, когда фигура ещё не двинулась, но смысл уже сгустился в воздухе.`,
   },
   "02-ryzhaya-geroinya": {
-    mood: ["рыжая", "героиня", "космос", "ожидание", "сигнал", "огонь", "жест", "окно", "компьютер"],
-    voice: "Мягкий голос о рыжей проводнице, движении и внутреннем свете.",
+    mood: ["рыжая", "героиня", "огонь", "космос", "ожидание", "сигнал", "свет", "внутренний путь"],
+    tone: "рыжий свет",
+    lineText: "Сквозной персонаж проходит через жест, космос, окно и внутренний огонь.",
+    curator: ({ title }) =>
+      `${title} ведёт себя как эпизод большого личного романа. Рыжая фигура здесь не модель, а проводница: она удерживает направление, свет и внутреннюю решимость.`,
   },
   "03-tikhie-miry": {
-    mood: ["тишина", "вода", "пейзаж", "лодка", "зима", "тихо", "медитация", "воздух", "свет"],
-    voice: "Тихое созерцательное описание, медленный ритм и водяная акварель.",
+    mood: ["тишина", "вода", "зима", "медитация", "лодка", "пейзаж", "воздух", "пауза"],
+    tone: "мягкая тишина",
+    lineText: "Вода, зима, окна и медленный взгляд, который снимает шум с мира.",
+    curator: ({ title }) =>
+      `${title} работает через снижение темпа. Эта сцена не требует решения: она приглашает задержаться в воздухе, воде или снеговой паузе чуть дольше обычного.`,
   },
   "04-zveri-mif-i-sakralnoe": {
-    mood: ["кошка", "собака", "зверь", "мечеть", "миф", "сакральное", "улица", "бабочка", "змея"],
-    voice: "Наблюдение за тем, как бытовой мир постепенно становится мифом.",
+    mood: ["кошка", "собака", "зверь", "мечеть", "миф", "сакральное", "улица", "знак"],
+    tone: "бытовой миф",
+    lineText: "Животные, улицы и архитектура постепенно превращаются в знаки и притчи.",
+    curator: ({ title }) =>
+      `${title} выглядит как бытовая сцена, которая слишком долго смотрела на себя и стала мифом. Здесь животное уже не просто герой кадра, а носитель знака.`,
   },
   "05-ai-videniya-i-plakat": {
-    mood: ["плакат", "ирония", "алгоритм", "корпоративный", "сатира", "реклама", "чудо", "цифровой", "мем"],
-    voice: "Спокойная ирония о цифровом спектакле, продуктивности и чуде под давлением.",
+    mood: ["алгоритм", "плакат", "сатира", "ирония", "корпоративный", "чудо", "спектакль", "цифровой"],
+    tone: "цифровая ирония",
+    lineText: "Плакатная графика, корпоративный сон и мягкая сатира на современное чудо.",
+    curator: ({ title }) =>
+      `${title} собирает архив в плакат и заставляет его говорить громче. Здесь ирония не отменяет серьёзности, а только подчёркивает странность цифрового спектакля.`,
   },
 };
 
@@ -33,7 +48,9 @@ const STOP_WORDS = new Set([
   "photo",
   "temp",
   "tmp",
-  "без",
+  "card",
+  "image",
+  "without",
 ]);
 
 
@@ -46,18 +63,23 @@ export async function loadCatalog() {
   const manifest = await response.json();
   const galleries = manifest.galleries.map((gallery) => enhanceGallery(gallery));
   const cards = galleries.flatMap((gallery) => gallery.cards);
-  return { galleries, cards };
+  const flowCards = buildFlowCards(galleries);
+
+  return { galleries, cards, flowCards };
 }
 
 
 function enhanceGallery(gallery) {
-  const meta = GALLERY_KEYWORDS[gallery.slug];
+  const meta = GALLERY_META[gallery.slug];
   const cards = gallery.items.map((item) => enhanceCard(gallery, item, meta));
   return {
     slug: gallery.slug,
     title: gallery.title,
     description: gallery.description,
+    tone: meta.tone,
+    lineText: meta.lineText,
     keywords: meta.mood,
+    count: gallery.count,
     cards,
   };
 }
@@ -66,20 +88,16 @@ function enhanceGallery(gallery) {
 function enhanceCard(gallery, item, meta) {
   const sourceTokens = tokenize(item.source_name);
   const title = buildTitle(gallery.title, item.index, sourceTokens);
-  const subtitle = buildSubtitle(gallery.title, item.index);
-  const prompt = buildPrompt(gallery.description, title, meta, sourceTokens);
+  const curatorText = meta.curator({ title, tokens: sourceTokens, gallery });
+  const leadText = curatorText.split(". ")[0] + ".";
+  const prompt = buildPrompt(gallery, title, sourceTokens);
   const tags = unique([
     ...meta.mood,
-    ...sourceTokens,
+    meta.tone,
     ...tokenize(gallery.title),
     ...tokenize(gallery.description),
+    ...sourceTokens,
   ]);
-  const audioText = [
-    `${gallery.title}.`,
-    `${title}.`,
-    prompt,
-    meta.voice,
-  ].join(" ");
 
   return {
     id: `${gallery.slug}-${item.index}`,
@@ -87,7 +105,11 @@ function enhanceCard(gallery, item, meta) {
     galleryTitle: gallery.title,
     galleryDescription: gallery.description,
     title,
-    subtitle,
+    subtitle: `${gallery.title} · карта ${String(item.index).padStart(2, "0")}`,
+    tone: meta.tone,
+    curatorText,
+    leadText,
+    prompt,
     imageSrc: `./assets/galleries/${gallery.slug}/${item.filename}`,
     width: item.width,
     height: item.height,
@@ -95,17 +117,33 @@ function enhanceCard(gallery, item, meta) {
     format: item.format,
     quality: item.quality,
     ssim: item.ssim,
-    prompt,
-    audioText,
     tags,
+    audioText: `${gallery.title}. ${title}. ${curatorText} ${prompt}`,
     meta: [
-      ["галерея", gallery.title],
+      ["линия", gallery.title],
       ["карта", `${item.index} / ${gallery.count}`],
+      ["тон", meta.tone],
       ["размер", `${item.width} × ${item.height}`],
       ["формат", `${item.format} · ${Math.round(item.bytes / 1024)} кб`],
-      ["качество", `q${item.quality} · ssim ${item.ssim}`],
     ],
   };
+}
+
+
+function buildFlowCards(galleries) {
+  const queues = galleries.map((gallery) => [...gallery.cards]);
+  const result = [];
+
+  while (queues.some((queue) => queue.length > 0)) {
+    for (const queue of queues) {
+      const card = queue.shift();
+      if (card) {
+        result.push(card);
+      }
+    }
+  }
+
+  return result;
 }
 
 
@@ -118,15 +156,10 @@ function buildTitle(galleryTitle, index, tokens) {
 }
 
 
-function buildSubtitle(galleryTitle, index) {
-  return `${galleryTitle} · карта ${String(index).padStart(2, "0")}`;
-}
-
-
-function buildPrompt(galleryDescription, title, meta, tokens) {
+function buildPrompt(gallery, title, tokens) {
   const accents = tokens.slice(0, 3).join(", ");
-  const accentText = accents ? ` Вокруг звучат мотивы: ${accents}.` : "";
-  return `${title} раскрывается как ${galleryDescription.toLowerCase()}${accentText} ${meta.voice}`;
+  const accentText = accents ? ` Внутри слышны мотивы: ${accents}.` : "";
+  return `${title} включена в линию «${gallery.title}». ${gallery.description}${accentText}`;
 }
 
 
@@ -138,20 +171,8 @@ function tokenize(value) {
       .replaceAll("-", " ")
       .split(/[^a-zа-яё0-9]+/i)
       .map((part) => part.trim())
-      .filter((part) => part && !part.match(/^\d+$/) && !STOP_WORDS.has(part))
-      .map((part) => normalizeToken(part)),
+      .filter((part) => part && !part.match(/^\d+$/) && !STOP_WORDS.has(part)),
   );
-}
-
-
-function normalizeToken(token) {
-  if (token.endsWith("ии")) {
-    return token.slice(0, -2) + "ия";
-  }
-  if (token.endsWith("ые")) {
-    return token.slice(0, -2) + "ый";
-  }
-  return token;
 }
 
 

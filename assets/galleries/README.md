@@ -4,9 +4,9 @@
 - Уникальных работ: **90**
 - Повторных слотов: **0**
 - Формат веб-ассетов: **webp**
-- Размер до оптимизации: **217522394** байт
-- Размер после оптимизации: **3451940** байт
-- Экономия: **214070454** байт (98.41%)
+- Размер до оптимизации: **209269196** байт
+- Размер после оптимизации: **3115804** байт
+- Экономия: **206153392** байт (98.51%)
 - Максимальная длина стороны: **2048 px**
 - Целевой порог качества: **SSIM >= 0.992**
 
@@ -16,7 +16,7 @@
 
 Работ: **18**
 
-- `01-misticheskii-portretnyi-tsikl/01.webp` (1344×768, 57008 байт, q=26, ssim=0.992) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/карты Таро/20251101_230238_two_male_cyborgs_one_tall_and_one_short_staying_at_1.jpeg`
+- `01-misticheskii-portretnyi-tsikl/01.webp` (768×1344, 14232 байт, q=5, ssim=0.9926) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/16_башня_обновление.jpeg`
 - `01-misticheskii-portretnyi-tsikl/02.webp` (768×1344, 141608 байт, q=70, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/карты Таро/20251101_230323_two_male_cyborgs_one_tall_and_one_short_staying_at_1.jpeg`
 - `01-misticheskii-portretnyi-tsikl/03.webp` (768×1344, 28954 байт, q=26, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/карты Таро/20251101_235544_______.__-______________________-______________-.__1.jpeg`
 - `01-misticheskii-portretnyi-tsikl/04.webp` (768×1344, 55446 байт, q=47, ssim=0.992) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/карты Таро/20251101_235607_______.__-______________________-______________-.__1.jpeg`
@@ -53,12 +53,12 @@
 - `02-ryzhaya-geroinya/10.webp` (584×1264, 3420 байт, q=5, ssim=0.997) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00014-1712379931.png`
 - `02-ryzhaya-geroinya/11.webp` (584×1264, 59310 байт, q=76, ssim=0.992) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00015-115594058.png`
 - `02-ryzhaya-geroinya/12.webp` (584×1264, 45848 байт, q=41, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00017-4167027847.png`
-- `02-ryzhaya-geroinya/13.webp` (2048×1152, 149908 байт, q=61, ssim=0.992) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2024 рыжая девушка за компом/00000-241889493.png`
-- `02-ryzhaya-geroinya/14.webp` (2048×1152, 119556 байт, q=52, ssim=0.992) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2024 рыжая девушка за компом/00001-992504662.png`
-- `02-ryzhaya-geroinya/15.webp` (2048×1152, 90006 байт, q=36, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2024 рыжая девушка за компом/00002-992504663.png`
-- `02-ryzhaya-geroinya/16.webp` (2048×1152, 104370 байт, q=44, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2024 рыжая девушка за компом/00003-992504664.png`
-- `02-ryzhaya-geroinya/17.webp` (2048×1152, 104652 байт, q=52, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2024 рыжая девушка за компом/00004-992504665.png`
-- `02-ryzhaya-geroinya/18.webp` (2048×1152, 142714 байт, q=68, ssim=0.9922) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2024 рыжая девушка за компом/00005-992504666.png`
+- `02-ryzhaya-geroinya/13.webp` (584×1264, 25416 байт, q=5, ssim=0.9939) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/00045-1794339302.png`
+- `02-ryzhaya-geroinya/14.webp` (1152×2048, 49720 байт, q=6, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image.png`
+- `02-ryzhaya-geroinya/15.webp` (584×1264, 14334 байт, q=5, ssim=0.9932) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image (5).png`
+- `02-ryzhaya-geroinya/16.webp` (584×1264, 20386 байт, q=5, ssim=0.9948) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/005cf022-dbc9-4eff-8ff4-cb629c430799.png`
+- `02-ryzhaya-geroinya/17.webp` (946×2048, 200184 байт, q=22, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/d74e049a-8763-4b31-9c09-7b3b42e28709.jpeg`
+- `02-ryzhaya-geroinya/18.webp` (584×1264, 21360 байт, q=9, ssim=0.9923) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00033-1034922259.png`
 
 ## Тихие миры
 
@@ -66,13 +66,13 @@
 
 Работ: **18**
 
-- `03-tikhie-miry/01.webp` (512×512, 6962 байт, q=12, ssim=0.9922) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00000-2949235211.png`
-- `03-tikhie-miry/02.webp` (1024×600, 18166 байт, q=9, ssim=0.9922) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00000-3411233221.png`
+- `03-tikhie-miry/01.webp` (584×1264, 23788 байт, q=5, ssim=0.9955) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00013-3298262996.png`
+- `03-tikhie-miry/02.webp` (760×1280, 38634 байт, q=19, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00031-1527523948.png`
 - `03-tikhie-miry/03.webp` (584×1264, 18300 байт, q=5, ssim=0.992) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00001-3877806212.png`
-- `03-tikhie-miry/04.webp` (1024×1024, 16770 байт, q=6, ssim=0.9922) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00002-1814083585.png`
-- `03-tikhie-miry/05.webp` (1616×1080, 48840 байт, q=5, ssim=0.9945) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00003-1404950705.png`
-- `03-tikhie-miry/06.webp` (1200×896, 10772 байт, q=5, ssim=0.994) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00003-1487955224.png`
-- `03-tikhie-miry/07.webp` (1024×600, 20876 байт, q=23, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00004-1627124748.png`
+- `03-tikhie-miry/04.webp` (584×1264, 22654 байт, q=7, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00007-711015873.png`
+- `03-tikhie-miry/05.webp` (1024×2048, 43662 байт, q=5, ssim=0.9936) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00017-1067285133.png`
+- `03-tikhie-miry/06.webp` (1024×2048, 51394 байт, q=8, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00021-4224879126.png`
+- `03-tikhie-miry/07.webp` (584×1264, 21696 байт, q=5, ssim=0.9929) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00010-4157353540.png`
 - `03-tikhie-miry/08.webp` (584×1264, 16694 байт, q=5, ssim=0.9932) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/успокаивающие изображения TONYA AI/00004-3561926520.png`
 - `03-tikhie-miry/09.webp` (1080×1920, 57586 байт, q=12, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00005-2069051691.png`
 - `03-tikhie-miry/10.webp` (1080×1920, 67680 байт, q=20, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/2025 дети каяки и киты/00006-871580320.png`
@@ -104,10 +104,10 @@
 - `04-zveri-mif-i-sakralnoe/11.webp` (720×1280, 23592 байт, q=5, ssim=0.9921) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00001-1638776128.png`
 - `04-zveri-mif-i-sakralnoe/12.webp` (720×1280, 20072 байт, q=5, ssim=0.9929) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00002-1444157343.png`
 - `04-zveri-mif-i-sakralnoe/13.webp` (720×1280, 17668 байт, q=5, ssim=0.9931) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00003-2873566962.png`
-- `04-zveri-mif-i-sakralnoe/14.webp` (1024×1024, 21344 байт, q=5, ssim=0.994) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00004-204499573.png`
+- `04-zveri-mif-i-sakralnoe/14.webp` (760×1080, 20004 байт, q=5, ssim=0.996) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00038-3251925361.png`
 - `04-zveri-mif-i-sakralnoe/15.webp` (760×1080, 22112 байт, q=6, ssim=0.9923) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00004-2371671811.png`
 - `04-zveri-mif-i-sakralnoe/16.webp` (720×1280, 17706 байт, q=7, ssim=0.992) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00004-2897098174.png`
-- `04-zveri-mif-i-sakralnoe/17.webp` (1024×1024, 18030 байт, q=5, ssim=0.9938) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00005-204499574.png`
+- `04-zveri-mif-i-sakralnoe/17.webp` (760×1080, 26374 байт, q=5, ssim=0.9929) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00021-3561121249.png`
 - `04-zveri-mif-i-sakralnoe/18.webp` (720×1280, 16316 байт, q=6, ssim=0.9922) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Ленаре собаки и кошки и проч/00005-2897098175.png`
 
 ## AI-видения и плакат
