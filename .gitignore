@@ -6,6 +6,7 @@
 
 # Temporary local review artifacts
 .tmp_contacts/
+tmp_contact_sheets/
 
 # Python
 __pycache__/
