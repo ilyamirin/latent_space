@@ -5,12 +5,13 @@ import {
 } from "./search.js";
 
 
-export function renderScreen({ elements, state, activeThemeCard }) {
+export function renderScreen({ elements, state, speech }) {
   renderStage(elements.stage, state);
-  renderInfo(elements.infoPanel, state);
+  renderInfo(elements.infoPanel, state, speech);
   renderSearchDock(elements, state);
   elements.brandHome.classList.toggle("is-home", state.screen === "home");
-  elements.appShell?.classList?.toggle?.("is-search", state.screen === "search");
+  elements.appShell.classList.toggle("is-search", state.screen === "search");
+  elements.appShell.classList.toggle("is-spread", state.screen === "spread");
 }
 
 
@@ -18,7 +19,7 @@ function renderStage(stage, state) {
   if (state.screen === "home") {
     stage.innerHTML = `
       <div class="home-hero">
-        <div class="ritual-deck" data-action="enter-question">
+        <div class="ritual-deck" data-action="start-spread" role="button" tabindex="0" aria-label="Начать расклад">
           ${renderDeckStack()}
         </div>
         <div class="hero-copy">нажмите на колоду, чтобы начать расклад</div>
@@ -27,65 +28,41 @@ function renderStage(stage, state) {
     return;
   }
 
-  if (state.screen === "question") {
+  if (state.screen === "spread") {
+    const activeCard = state.drawCount > 0 ? state.spreadCards[state.selectedSpreadIndex] : null;
     stage.innerHTML = `
-      <div class="question-screen">
-        <div class="question-copy">о чём ваш вопрос?</div>
-        <textarea
-          id="questionInput"
-          class="question-input"
-          placeholder="отношения, работа, переход, тревога, пустота..."
-        >${escapeHtml(state.questionDraft)}</textarea>
-        <div class="ritual-deck" data-action="begin-draw">
-          ${renderDeckStack()}
-        </div>
-        <div class="hero-copy">вопрос можно не писать — просто нажмите на колоду</div>
-      </div>
-    `;
-    return;
-  }
-
-  if (state.screen === "draw") {
-    stage.innerHTML = `
-      <div class="draw-screen">
-        <div class="spread-slots">
+      <div class="spread-screen">
+        <div class="spread-strip">
           ${renderSpreadSlots(state.spreadCards, state.drawCount)}
         </div>
-        <div class="ritual-deck ${state.drawCount >= 3 ? "is-hidden" : ""}" data-action="draw-next">
+        <div class="focus-zone">
+          ${
+            activeCard
+              ? `
+                <div class="focus-card" data-action="speak-active-spread" role="button" tabindex="0" aria-label="Слушать активную карту">
+                  <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
+                </div>
+              `
+              : `<div class="focus-placeholder">корень<br />узел<br />вектор</div>`
+          }
+        </div>
+        <div
+          class="ritual-deck ${state.drawCount >= 3 ? "is-hidden" : ""}"
+          data-action="draw-next"
+          role="button"
+          tabindex="0"
+          aria-label="Вытянуть следующую карту"
+        >
           ${renderDeckStack()}
         </div>
         <div class="hero-copy">
           ${
-            state.drawCount >= 3
-              ? "нажмите на любую карту"
-              : "нажмите на колоду, чтобы вытянуть следующую карту"
+            state.drawCount === 0
+              ? "нажмите на колоду, чтобы вытянуть первую карту"
+              : state.drawCount < 3
+                ? "нажмите на колоду, чтобы вытянуть следующую карту"
+                : "нажмите на карту, чтобы читать. нажмите на активную карту ещё раз, чтобы слушать"
           }
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  if (state.screen === "reading") {
-    stage.innerHTML = `
-      <div class="reading-screen">
-        <div class="spread-strip">
-          ${state.spreadCards
-            .map(
-              (card, index) => `
-                <div
-                  class="mini-card ${index === state.selectedSpreadIndex ? "is-active" : ""}"
-                  data-action="select-spread-card"
-                  data-card-index="${index}"
-                >
-                  <img src="${card.imageSrc}" alt="${escapeHtml(card.title)}" />
-                </div>
-              `,
-            )
-            .join("")}
-        </div>
-        <div class="focus-card" data-action="speak-active-spread">
-          <img src="${state.spreadCards[state.selectedSpreadIndex].imageSrc}" alt="${escapeHtml(state.spreadCards[state.selectedSpreadIndex].title)}" />
         </div>
       </div>
     `;
@@ -101,73 +78,77 @@ function renderStage(stage, state) {
             ${state.featuredTags
               .map(
                 (tag) => `
-                  <span class="tag-chip" data-action="search-tag" data-tag="${tag}">${tag}</span>
+                  <span class="tag-chip" data-action="search-tag" data-tag="${tag}" role="button" tabindex="0">${tag}</span>
                 `,
               )
               .join("")}
           </div>
-          <div class="focus-card" data-action="speak-search-card">
+          <div class="focus-card" data-action="speak-search-card" role="button" tabindex="0" aria-label="Слушать описание работы">
             <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
           </div>
           <div class="hero-copy">свайпайте карту, чтобы смотреть дальше</div>
         </div>
       `
       : `
-        <div class="search-screen search-empty">
+        <div class="search-screen">
           <div class="tag-row">
             ${state.featuredTags
               .map(
                 (tag) => `
-                  <span class="tag-chip" data-action="search-tag" data-tag="${tag}">${tag}</span>
+                  <span class="tag-chip" data-action="search-tag" data-tag="${tag}" role="button" tabindex="0">${tag}</span>
                 `,
               )
               .join("")}
           </div>
-          <div class="hero-copy">архив пока не нашёл совпадения</div>
+          <div class="focus-placeholder">тишина<br />ритуал<br />миф</div>
+          <div class="hero-copy">введите запрос или нажмите на тег</div>
         </div>
       `;
   }
 }
 
 
-function renderInfo(panel, state) {
+function renderInfo(panel, state, speech) {
   if (state.screen === "home") {
     panel.innerHTML = `
       <div class="info-kicker">цифровая колода образов</div>
       <h1 class="info-title">три карты и один вопрос</h1>
-      <p class="info-text">Основной сценарий — расклад на три карты. Запасной — поиск по состоянию, образу или тегу.</p>
+      <p class="info-text">Главный путь здесь один: колода выдаёт три образа и собирает из них чтение. Поиск по архиву остаётся запасным входом.</p>
     `;
     return;
   }
 
-  if (state.screen === "question") {
-    panel.innerHTML = `
-      <div class="info-kicker">подготовка</div>
-      <h2 class="info-title">сформулируйте вопрос или просто удерживайте его в уме</h2>
-      <p class="info-text">После нажатия на колоду появятся три карты: корень вопроса, узел напряжения и направление.</p>
-    `;
-    return;
-  }
+  if (state.screen === "spread") {
+    if (state.drawCount === 0) {
+      panel.innerHTML = `
+        <div class="info-kicker">расклад</div>
+        <h2 class="info-title">корень, узел, вектор</h2>
+        <p class="info-text">Колода выдаёт карты по одной. Три позиции всегда читаются одинаково: сначала источник напряжения, потом узел, потом направление движения.</p>
+      `;
+      return;
+    }
 
-  if (state.screen === "draw") {
-    panel.innerHTML = `
-      <div class="info-kicker">расклад</div>
-      <h2 class="info-title">корень, узел, вектор</h2>
-      <p class="info-text">Колода выдаёт карты по одной. После третьей карты можно нажимать на любую из них, чтобы читать расклад.</p>
-    `;
-    return;
-  }
-
-  if (state.screen === "reading") {
     const activeCard = state.spreadCards[state.selectedSpreadIndex];
     panel.innerHTML = `
       <div class="info-kicker">${getPositionLabel(state.selectedSpreadIndex)}</div>
       <h2 class="info-title">${escapeHtml(activeCard.title)}</h2>
       <div class="info-subtitle">${escapeHtml(activeCard.galleryTitle)} · ${escapeHtml(activeCard.tone)}</div>
       <p class="info-text">${escapeHtml(activeCard.description)}</p>
-      <p class="info-text">${escapeHtml(buildCardInterpretation(activeCard, state.selectedSpreadIndex, state.questionDraft))}</p>
-      <p class="info-summary">${escapeHtml(buildSpreadSummary(state.spreadCards, state.questionDraft))}</p>
-      <div class="info-hint">нажмите на другую карту, чтобы сменить фокус. нажмите на активную карту ещё раз, чтобы слушать.</div>
+      <p class="info-text">${escapeHtml(buildCardInterpretation(activeCard, state.selectedSpreadIndex))}</p>
+      ${
+        state.drawCount >= 3
+          ? `<p class="info-summary">${escapeHtml(buildSpreadSummary(state.spreadCards))}</p>`
+          : ""
+      }
+      <div class="info-hint">
+        ${
+          speech.activeId === `spread-${activeCard.id}-${state.selectedSpreadIndex}`
+            ? "озвучка идёт"
+            : state.drawCount >= 3
+              ? "нажимайте на карты в верхней линии, чтобы менять фокус"
+              : "после третьей карты расклад соберётся полностью"
+        }
+      </div>
     `;
     return;
   }
@@ -180,12 +161,18 @@ function renderInfo(panel, state) {
         <h2 class="info-title">${escapeHtml(activeCard.title)}</h2>
         <div class="info-subtitle">${escapeHtml(activeCard.galleryTitle)} · ${escapeHtml(activeCard.tone)}</div>
         <p class="info-text">${escapeHtml(activeCard.description)}</p>
-        <div class="info-hint">нажмите на карту, чтобы слушать описание</div>
+        <div class="info-hint">
+          ${
+            speech.activeId === `search-${activeCard.id}`
+              ? "озвучка идёт"
+              : `результат ${state.searchIndex + 1} из ${state.searchResults.length} · нажмите на карту, чтобы слушать`
+          }
+        </div>
       `
       : `
         <div class="info-kicker">поиск по архиву</div>
-        <h2 class="info-title">ничего не найдено</h2>
-        <p class="info-text">Попробуйте мягче: тишина, ритуал, миф, огонь, звери, космос.</p>
+        <h2 class="info-title">здесь пока тишина</h2>
+        <p class="info-text">Введите образ, настроение или сюжет. Если не хочется формулировать, начните с тегов под картой.</p>
       `;
   }
 }
@@ -210,12 +197,25 @@ function renderSpreadSlots(cards, drawCount) {
     .map((index) => {
       if (index < drawCount && cards[index]) {
         return `
-          <div class="slot-card is-filled">
+          <div
+            class="slot-card is-filled"
+            data-action="select-spread-card"
+            data-card-index="${index}"
+            role="button"
+            tabindex="0"
+            aria-label="${escapeHtml(getPositionLabel(index))}"
+          >
             <img src="${cards[index].imageSrc}" alt="${escapeHtml(cards[index].title)}" />
+            <span class="slot-label">${escapeHtml(getPositionLabel(index))}</span>
           </div>
         `;
       }
-      return `<div class="slot-card is-empty">${index + 1}</div>`;
+      return `
+        <div class="slot-card is-empty" aria-hidden="true">
+          <span>${index + 1}</span>
+          <span class="slot-label">${escapeHtml(getPositionLabel(index))}</span>
+        </div>
+      `;
     })
     .join("");
 }
@@ -231,7 +231,7 @@ function renderDeckStack() {
 
 
 function escapeHtml(value) {
-  return value
+  return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")

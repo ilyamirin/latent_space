@@ -1,355 +1,301 @@
 import { loadCatalog } from "./modules/catalog.js";
 import {
-  clearSearch,
-  createDeckState,
-  getActiveCard,
-  getDisplayCards,
-  getPathDescriptor,
-  getVisibleDeckCards,
-  moveToNextCard,
-  moveToPreviousCard,
-  setActiveGallery,
-  setFlowMode,
+  createAppState,
+  enterHome,
+  enterSearch,
+  getActiveSearchCard,
+  getActiveSpreadCard,
+  moveSearchIndex,
+  revealNextCard,
+  selectSpreadCard,
   setSearchResults,
-  setSwipeOut,
-  setToneResults,
-  showGalleryForCard,
-  toggleCardFlip,
-  updateDragState,
+  startSpread,
 } from "./modules/deck.js";
-import { resetFlipState } from "./modules/flip.js";
 import { attachDeckGestures } from "./modules/gestures.js";
 import { SpeechController } from "./modules/audio.js";
-import { renderApp } from "./modules/renderer.js";
-import { findSimilarTone, scoreCards } from "./modules/search.js";
+import { renderScreen } from "./modules/renderer.js";
+import { buildCardInterpretation, buildSpread, buildSpreadSummary, scoreCards } from "./modules/search.js";
 import { applyThemeFromCard, prewarmCardTheme } from "./modules/theme.js";
 
 
 const elements = {
-  deck: document.querySelector("#deck"),
-  pathTrigger: document.querySelector("#pathTrigger"),
-  routeKicker: document.querySelector("#routeKicker"),
-  routeMeta: document.querySelector("#routeMeta"),
-  captionKicker: document.querySelector("#captionKicker"),
-  workTitle: document.querySelector("#workTitle"),
-  workOrigin: document.querySelector("#workOrigin"),
-  curatorLead: document.querySelector("#curatorLead"),
-  searchTrigger: document.querySelector("#searchTrigger"),
-  flowTrigger: document.querySelector("#flowTrigger"),
-  audioToggle: document.querySelector("#audioToggle"),
-  linePanel: document.querySelector("#linePanel"),
-  pathList: document.querySelector("#pathList"),
-  searchPanel: document.querySelector("#searchPanel"),
+  appShell: document.querySelector(".app-shell"),
+  brandHome: document.querySelector("#brandHome"),
+  stage: document.querySelector("#stage"),
+  infoPanel: document.querySelector("#infoPanel"),
+  searchEntry: document.querySelector("#searchEntry"),
+  searchPrompt: document.querySelector("#searchPrompt"),
   searchInput: document.querySelector("#searchInput"),
-  clearSearch: document.querySelector("#clearSearch"),
-  resetSearch: document.querySelector("#resetSearch"),
-  applySearch: document.querySelector("#applySearch"),
-  searchSummary: document.querySelector("#searchSummary"),
-  cardTemplate: document.querySelector("#cardTemplate"),
 };
 
 const speech = new SpeechController();
-let state = createDeckState();
 let catalog = null;
-let detachGestures = () => {};
-let activePanel = null;
+let state = createAppState();
+let detachSearchGesture = () => {};
 
 
 boot().catch((error) => {
   console.error(error);
-  elements.routeKicker.textContent = "ошибка загрузки";
-  elements.routeMeta.textContent = "проверьте локальный сервер и manifest.json";
+  elements.infoPanel.innerHTML = `
+    <div class="info-kicker">ошибка</div>
+    <h1 class="info-title">колода не загрузилась</h1>
+    <p class="info-text">Проверьте локальный сервер и доступность ./assets/galleries/manifest.json.</p>
+  `;
 });
 
 
 async function boot() {
   catalog = await loadCatalog();
-  state = createDeckState(catalog);
-  speech.setListener(() => refresh());
-
-  bindGlobalEvents();
+  state = createAppState(catalog);
+  speech.setListener(refresh);
+  bindEvents();
   refresh();
-  warmUpcomingThemes();
 }
 
 
-function bindGlobalEvents() {
-  elements.pathTrigger.addEventListener("click", () => togglePanel("line"));
-  elements.searchTrigger.addEventListener("click", () => openSearchPanel());
-  elements.flowTrigger.addEventListener("click", () => {
-    closePanels();
-    speech.stop();
-    state = setFlowMode(state);
-    refresh();
-    warmUpcomingThemes();
-  });
-  elements.audioToggle.addEventListener("click", handleAudioToggle);
+function bindEvents() {
+  elements.brandHome.addEventListener("click", goHome);
+  elements.brandHome.addEventListener("keydown", handleActionKeydown);
 
-  elements.linePanel.addEventListener("click", handlePanelClick);
-  elements.searchPanel.addEventListener("click", handlePanelClick);
+  elements.searchEntry.addEventListener("click", (event) => {
+    if (event.target === elements.searchInput) {
+      return;
+    }
+    openSearch(elements.searchInput.value.trim());
+  });
+  elements.searchEntry.addEventListener("keydown", handleActionKeydown);
 
-  elements.searchInput.addEventListener("input", handleSearchInput);
-  elements.clearSearch.addEventListener("click", () => {
-    elements.searchInput.value = "";
-    state = clearSearch(state);
-    refresh();
+  elements.searchInput.addEventListener("focus", () => openSearch(elements.searchInput.value.trim()));
+  elements.searchInput.addEventListener("input", (event) => updateSearch(event.currentTarget.value.trim()));
+  elements.searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      goHome();
+    }
   });
-  elements.resetSearch.addEventListener("click", () => {
-    elements.searchInput.value = "";
-    closePanels();
-    state = clearSearch(state);
-    refresh();
-  });
-  elements.applySearch.addEventListener("click", () => closePanels());
+
+  elements.stage.addEventListener("click", handleStageAction);
+  elements.stage.addEventListener("keydown", handleActionKeydown);
 
   window.addEventListener("keydown", (event) => {
-    if (!catalog) {
+    if (document.activeElement === elements.searchInput) {
       return;
     }
 
-    if (event.key === "ArrowRight") {
+    if (state.screen === "search" && event.key === "ArrowRight") {
       event.preventDefault();
-      commitSwipe(1);
-      return;
-    }
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      commitSwipe(-1);
-      return;
-    }
-    if (event.key === "Enter" || event.key === " ") {
-      if (document.activeElement === elements.searchInput) {
-        closePanels();
-        return;
-      }
-      event.preventDefault();
-      state = toggleCardFlip(state);
+      state = moveSearchIndex(state, 1);
       refresh();
       return;
     }
+
+    if (state.screen === "search" && event.key === "ArrowLeft") {
+      event.preventDefault();
+      state = moveSearchIndex(state, -1);
+      refresh();
+      return;
+    }
+
     if (event.key === "Escape") {
-      if (activePanel) {
-        closePanels();
-        return;
-      }
-      if (state.isFlipped) {
-        state = resetFlipState(state);
-        refresh();
-        return;
-      }
-      if (state.mode === "search") {
-        elements.searchInput.value = "";
-        state = clearSearch(state);
-        refresh();
-      }
+      event.preventDefault();
+      goHome();
     }
   });
 }
 
 
-function handlePanelClick(event) {
-  const closeTarget = event.target.closest("[data-close-panel]");
-  if (closeTarget) {
-    closePanels();
+function handleActionKeydown(event) {
+  if (event.key !== "Enter" && event.key !== " ") {
     return;
   }
 
-  const routeButton = event.target.closest("[data-route-mode]");
-  if (routeButton) {
-    const routeMode = routeButton.dataset.routeMode;
-    if (routeMode === "flow") {
-      state = setFlowMode(state);
-    } else if (routeMode === "gallery" && routeButton.dataset.gallerySlug) {
-      state = setActiveGallery(state, routeButton.dataset.gallerySlug);
-    }
+  const target = event.target.closest("[data-action], #brandHome, #searchEntry");
+  if (!target) {
+    return;
+  }
+
+  event.preventDefault();
+  target.click();
+}
+
+
+function handleStageAction(event) {
+  const actionNode = event.target.closest("[data-action]");
+  if (!actionNode) {
+    return;
+  }
+
+  const { action } = actionNode.dataset;
+
+  if (action === "start-spread") {
     speech.stop();
-    closePanels();
+    state = revealNextCard(startSpread(state, buildSpread(catalog.cards)));
     refresh();
-    warmUpcomingThemes();
+    return;
+  }
+
+  if (action === "draw-next") {
+    speech.stop();
+    state = revealNextCard(state);
+    refresh();
+    return;
+  }
+
+  if (action === "select-spread-card") {
+    const index = Number(actionNode.dataset.cardIndex);
+    if (Number.isNaN(index) || index >= state.drawCount) {
+      return;
+    }
+
+    if (index === state.selectedSpreadIndex) {
+      speakActiveSpreadCard();
+      return;
+    }
+
+    speech.stop();
+    state = selectSpreadCard(state, index);
+    refresh();
+    return;
+  }
+
+  if (action === "speak-active-spread") {
+    speakActiveSpreadCard();
+    return;
+  }
+
+  if (action === "search-tag") {
+    const query = actionNode.dataset.tag ?? "";
+    elements.searchInput.value = query;
+    updateSearch(query);
+    window.setTimeout(() => elements.searchInput.focus(), 30);
+    return;
+  }
+
+  if (action === "speak-search-card") {
+    speakSearchCard();
   }
 }
 
 
-function openSearchPanel() {
-  activePanel = "search";
+function openSearch(query = "") {
+  const normalized = query.trim();
+  const results = normalized ? scoreCards(normalized, catalog.cards) : [];
+  state = enterSearch(state, normalized, results);
   refresh();
   window.setTimeout(() => elements.searchInput.focus(), 30);
 }
 
 
-function togglePanel(panelName) {
-  activePanel = activePanel === panelName ? null : panelName;
+function updateSearch(query) {
+  state = setSearchResults(state, query, query ? scoreCards(query, catalog.cards) : []);
   refresh();
 }
 
 
-function closePanels() {
-  activePanel = null;
+function goHome() {
+  speech.stop();
+  state = enterHome(state);
   refresh();
 }
 
 
-function handleSearchInput(event) {
-  const query = event.currentTarget.value.trim();
-  if (!query) {
-    state = clearSearch(state);
-    refresh();
-    return;
-  }
-
-  const matches = scoreCards(query, catalog.cards, state.activeGallerySlug);
-  state = setSearchResults(state, query, matches);
-  refresh();
-  warmUpcomingThemes();
-}
-
-
-function handleAudioToggle() {
-  if (speech.isPlaying) {
-    speech.stop();
-    refresh();
-    return;
-  }
-
-  const activeCard = getActiveCard(state);
+function speakActiveSpreadCard() {
+  const activeCard = getActiveSpreadCard(state);
   if (!activeCard) {
     return;
   }
 
-  speech.speak(activeCard.audioText, activeCard.id);
+  const speechId = `spread-${activeCard.id}-${state.selectedSpreadIndex}`;
+  if (speech.activeId === speechId && speech.isPlaying) {
+    speech.stop();
+    return;
+  }
+
+  const fragments = [
+    getPositionLabelText(state.selectedSpreadIndex),
+    activeCard.title,
+    activeCard.description,
+    buildCardInterpretation(activeCard, state.selectedSpreadIndex),
+  ];
+
+  if (state.drawCount >= 3) {
+    fragments.push(buildSpreadSummary(state.spreadCards));
+  }
+
+  speech.speak(fragments.filter(Boolean).join(". "), speechId);
   refresh();
 }
 
 
-function attachInteractions() {
-  detachGestures();
-  const activeCardNode = elements.deck.querySelector(".card-shell.is-active .card");
-
-  if (!activeCardNode) {
+function speakSearchCard() {
+  const activeCard = getActiveSearchCard(state);
+  if (!activeCard) {
     return;
   }
 
-  detachGestures = attachDeckGestures(activeCardNode, {
+  const speechId = `search-${activeCard.id}`;
+  if (speech.activeId === speechId && speech.isPlaying) {
+    speech.stop();
+    return;
+  }
+
+  speech.speak(activeCard.audioText, speechId);
+  refresh();
+}
+
+
+function attachDynamicInteractions() {
+  detachSearchGesture();
+  const focusCard = elements.stage.querySelector(".search-screen .focus-card");
+  if (!focusCard) {
+    return;
+  }
+
+  detachSearchGesture = attachDeckGestures(focusCard, {
     onTap() {
-      state = toggleCardFlip(state);
-      refresh();
-    },
-    onDrag({ deltaX, progress }) {
-      if (state.isFlipped || state.isSwipeAnimating || activePanel) {
-        return;
-      }
-      state = updateDragState(state, deltaX, progress);
-      refresh();
-    },
-    onCancel() {
-      state = updateDragState(state, 0, 0);
-      refresh();
+      speakSearchCard();
     },
     onSwipe(direction) {
-      commitSwipe(direction);
+      state = moveSearchIndex(state, direction > 0 ? -1 : 1);
+      refresh();
     },
   });
-
-  activeCardNode.addEventListener("click", handleDeckClick);
-}
-
-
-function handleDeckClick(event) {
-  const activeCard = getActiveCard(state);
-  if (!activeCard) {
-    return;
-  }
-
-  const listenButton = event.target.closest(".listen-button");
-  if (listenButton) {
-    event.stopPropagation();
-    if (speech.isPlaying && speech.activeId === activeCard.id) {
-      speech.stop();
-    } else {
-      speech.speak(activeCard.audioText, activeCard.id);
-    }
-    refresh();
-    return;
-  }
-
-  const toneButton = event.target.closest(".tone-button");
-  if (toneButton) {
-    event.stopPropagation();
-    speech.stop();
-    state = setToneResults(state, activeCard.id, findSimilarTone(activeCard, catalog.cards));
-    closePanels();
-    refresh();
-    warmUpcomingThemes();
-    return;
-  }
-
-  const seriesButton = event.target.closest(".series-button");
-  if (seriesButton) {
-    event.stopPropagation();
-    speech.stop();
-    state = showGalleryForCard(state, activeCard.id);
-    closePanels();
-    refresh();
-    warmUpcomingThemes();
-  }
-}
-
-
-function commitSwipe(direction) {
-  if (!catalog || state.isSwipeAnimating || activePanel) {
-    return;
-  }
-
-  if (state.isFlipped) {
-    state = resetFlipState(state);
-  }
-
-  speech.stop();
-  state = setSwipeOut(state, direction);
-  refresh();
-
-  window.setTimeout(() => {
-    state =
-      direction > 0
-        ? moveToNextCard(state)
-        : moveToPreviousCard(state);
-    refresh();
-    warmUpcomingThemes();
-  }, 320);
 }
 
 
 function refresh() {
-  if (!catalog) {
-    return;
-  }
-
-  const activeCard = getActiveCard(state);
-  const displayCards = getDisplayCards(state);
-  const visibleCards = getVisibleDeckCards(state);
-  const pathDescriptor = getPathDescriptor(state);
-  applyThemeFromCard(activeCard);
-
-  renderApp({
-    elements,
-    state,
-    galleries: catalog.galleries,
-    displayCards,
-    visibleCards,
-    activeCard,
-    pathDescriptor,
-    speech,
-    activePanel,
-  });
-
-  elements.audioToggle.textContent = speech.isPlaying ? "стоп" : "звук";
-  elements.flowTrigger.classList.toggle("is-active", state.mode === "flow");
-  attachInteractions();
+  renderScreen({ elements, state, speech });
+  attachDynamicInteractions();
+  applyCurrentTheme();
+  prewarmThemes();
 }
 
 
-function warmUpcomingThemes() {
-  for (const card of getVisibleDeckCards(state).slice(0, 3)) {
+function applyCurrentTheme() {
+  const themeCard =
+    state.screen === "search"
+      ? getActiveSearchCard(state)
+      : getActiveSpreadCard(state) ?? state.spreadCards[0] ?? catalog.cards[0];
+  applyThemeFromCard(themeCard);
+}
+
+
+function prewarmThemes() {
+  for (const card of state.spreadCards.slice(0, 3)) {
     prewarmCardTheme(card);
   }
+  for (const card of state.searchResults.slice(0, 4)) {
+    prewarmCardTheme(card);
+  }
+}
+
+
+function getPositionLabelText(index) {
+  if (index === 0) {
+    return "Корень вопроса";
+  }
+  if (index === 1) {
+    return "Узел напряжения";
+  }
+  return "Вектор";
 }

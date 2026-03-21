@@ -3,7 +3,6 @@ export function createAppState(catalog = { cards: [], featuredTags: [] }) {
     cards: catalog.cards,
     featuredTags: catalog.featuredTags,
     screen: "home",
-    questionDraft: "",
     spreadCards: [],
     drawCount: 0,
     selectedSpreadIndex: 0,
@@ -18,7 +17,6 @@ export function enterHome(state) {
   return {
     ...state,
     screen: "home",
-    questionDraft: "",
     spreadCards: [],
     drawCount: 0,
     selectedSpreadIndex: 0,
@@ -29,63 +27,42 @@ export function enterHome(state) {
 }
 
 
-export function enterQuestion(state) {
-  return {
-    ...state,
-    screen: "question",
-    spreadCards: [],
-    drawCount: 0,
-    selectedSpreadIndex: 0,
-  };
-}
-
-
-export function setQuestionDraft(state, value) {
-  return {
-    ...state,
-    questionDraft: value,
-  };
-}
-
-
 export function startSpread(state, spreadCards) {
   return {
     ...state,
-    screen: "draw",
+    screen: "spread",
     spreadCards,
-    drawCount: 1,
+    drawCount: 0,
     selectedSpreadIndex: 0,
+    searchQuery: "",
+    searchResults: [],
+    searchIndex: 0,
   };
 }
 
 
 export function revealNextCard(state) {
   const nextCount = Math.min(3, state.drawCount + 1);
-  if (nextCount >= 3) {
-    return {
-      ...state,
-      screen: "reading",
-      drawCount: 3,
-      selectedSpreadIndex: 2,
-    };
-  }
   return {
     ...state,
     drawCount: nextCount,
+    selectedSpreadIndex: Math.max(0, nextCount - 1),
   };
 }
 
 
 export function selectSpreadCard(state, index) {
+  if (index < 0 || index >= state.drawCount) {
+    return state;
+  }
   return {
     ...state,
-    screen: "reading",
     selectedSpreadIndex: index,
   };
 }
 
 
-export function enterSearch(state, query, results) {
+export function enterSearch(state, query = "", results = []) {
   return {
     ...state,
     screen: "search",
@@ -121,10 +98,10 @@ export function moveSearchIndex(state, direction) {
 
 
 export function getActiveSpreadCard(state) {
-  if (state.spreadCards.length === 0) {
+  if (state.drawCount === 0) {
     return null;
   }
-  return state.spreadCards[state.selectedSpreadIndex] ?? state.spreadCards[0];
+  return state.spreadCards[Math.min(state.selectedSpreadIndex, state.drawCount - 1)] ?? null;
 }
 
 
@@ -132,5 +109,5 @@ export function getActiveSearchCard(state) {
   if (state.searchResults.length === 0) {
     return null;
   }
-  return state.searchResults[state.searchIndex] ?? state.searchResults[0];
+  return state.searchResults[state.searchIndex] ?? null;
 }

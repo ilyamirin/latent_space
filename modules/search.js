@@ -7,7 +7,7 @@ const SYNONYM_GROUPS = [
   ["космос", "луна", "звезда", "орбита", "астрал"],
 ];
 
-const POSITION_KEYS = ["корень вопроса", "узел напряжения", "направление"];
+const POSITION_KEYS = ["корень вопроса", "узел напряжения", "вектор"];
 
 
 export function scoreCards(query, cards) {
@@ -47,10 +47,8 @@ export function scoreCards(query, cards) {
 }
 
 
-export function buildSpread(cards, question = "") {
-  const scored = question.trim() ? scoreCards(question, cards) : [];
-  const basePool = scored.length >= 9 ? shuffle([...scored.slice(0, 18)]) : shuffle([...cards]);
-  return basePool.slice(0, 3);
+export function buildSpread(cards) {
+  return shuffle([...cards]).slice(0, 3);
 }
 
 
@@ -59,36 +57,27 @@ export function getPositionLabel(index) {
 }
 
 
-export function buildCardInterpretation(card, index, question) {
-  const position = getPositionLabel(index);
-  const questionText = question.trim()
-    ? `В контексте вопроса «${question.trim()}» `
-    : "";
-
+export function buildCardInterpretation(card, index) {
   if (index === 0) {
-    return `${questionText}эта карта показывает, где сейчас сгущается главный смысл и откуда растёт внутреннее движение.`;
+    return `${card.title} показывает, где сейчас уже собралась энергия сюжета. Здесь вопрос перестаёт быть абстрактным и получает плотность.`;
   }
   if (index === 1) {
-    return `${questionText}эта карта указывает на трение, сопротивление или ту силу, которая не даёт сюжету остаться простым.`;
+    return `${card.title} обозначает трение: то, что усложняет движение и не даёт истории остаться ровной. Именно здесь слышен главный внутренний узел.`;
   }
-  return `${questionText}эта карта предлагает направление: не готовый ответ, а тон следующего шага.`;
+  return `${card.title} не обещает готовый ответ, но показывает тон следующего шага. Это скорее направление внимания, чем инструкция.`;
 }
 
 
-export function buildSpreadSummary(spreadCards, question) {
+export function buildSpreadSummary(spreadCards) {
   if (spreadCards.length < 3) {
     return "";
   }
 
   const tones = spreadCards.map((card) => card.tone).join(", ");
-  const questionPart = question.trim()
-    ? `Ваш вопрос звучит как «${question.trim()}». `
-    : "";
-
   return (
-    `${questionPart}Расклад собирается из трёх состояний: ${tones}. ` +
-    `Первая карта формулирует ядро темы, вторая усиливает напряжение, третья переводит всё это в возможный вектор. ` +
-    `Это не предсказание, а образная схема того, как сейчас устроен ваш внутренний сюжет.`
+    `Вместе три карты складываются в связку из состояний: ${tones}. ` +
+    `Сначала колода показывает ядро, затем место напряжения, а потом уводит взгляд в сторону возможного движения. ` +
+    `Это чтение не про предсказание, а про форму вашего текущего внутреннего сюжета.`
   );
 }
 
