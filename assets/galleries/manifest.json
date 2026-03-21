@@ -90,14 +90,14 @@
         {
           "index": 7,
           "filename": "07.webp",
-          "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/abcd7969-e092-44ad-8740-13d11ff528b7.jpeg",
-          "source_name": "abcd7969-e092-44ad-8740-13d11ff528b7.jpeg",
+          "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00041-1589641043.png",
+          "source_name": "00041-1589641043.png",
           "format": "webp",
-          "width": 728,
-          "height": 1280,
-          "bytes": 26266,
-          "quality": 5,
-          "ssim": 0.9975,
+          "width": 584,
+          "height": 1264,
+          "bytes": 28616,
+          "quality": 55,
+          "ssim": 0.989,
           "resized": false
         },
         {
@@ -423,15 +423,15 @@
         {
           "index": 14,
           "filename": "14.webp",
-          "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image.png",
-          "source_name": "image.png",
+          "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image (1).png",
+          "source_name": "image (1).png",
           "format": "webp",
-          "width": 1012,
-          "height": 1800,
-          "bytes": 34286,
-          "quality": 5,
-          "ssim": 0.994,
-          "resized": true
+          "width": 584,
+          "height": 1264,
+          "bytes": 24102,
+          "quality": 16,
+          "ssim": 0.9891,
+          "resized": false
         },
         {
           "index": 15,
@@ -1217,9 +1217,9 @@
   "optimization": {
     "format": "webp",
     "total_bytes_before": 3829184,
-    "total_bytes_after": 2560898,
-    "saved_bytes": 1268286,
-    "saved_percent": 33.12,
+    "total_bytes_after": 2553064,
+    "saved_bytes": 1276120,
+    "saved_percent": 33.33,
     "max_long_edge": 1800,
     "ssim_threshold": 0.989
   }

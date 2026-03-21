@@ -5,8 +5,8 @@
 - Повторных слотов: **0**
 - Формат веб-ассетов: **webp**
 - Размер до оптимизации: **3829184** байт
-- Размер после оптимизации: **2560898** байт
-- Экономия: **1268286** байт (33.12%)
+- Размер после оптимизации: **2553064** байт
+- Экономия: **1276120** байт (33.33%)
 - Максимальная длина стороны: **1800 px**
 - Целевой порог качества: **SSIM >= 0.989**
 
@@ -22,7 +22,7 @@
 - `01-misticheskii-portretnyi-tsikl/04.webp` (584×1264, 8622 байт, q=5, ssim=0.9989) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00029-1710528807.png`
 - `01-misticheskii-portretnyi-tsikl/05.webp` (584×1264, 20448 байт, q=5, ssim=0.9979) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/31bb9b4f-8771-40be-a99c-307e5263a5d2.png`
 - `01-misticheskii-portretnyi-tsikl/06.webp` (768×1344, 63258 байт, q=5, ssim=0.9899) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/99ed7c1223ab478cfea474759cc1a13ee623cec72b3848df57b0d35b.jpg`
-- `01-misticheskii-portretnyi-tsikl/07.webp` (728×1280, 26266 байт, q=5, ssim=0.9975) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/abcd7969-e092-44ad-8740-13d11ff528b7.jpeg`
+- `01-misticheskii-portretnyi-tsikl/07.webp` (584×1264, 28616 байт, q=55, ssim=0.989) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00041-1589641043.png`
 - `01-misticheskii-portretnyi-tsikl/08.webp` (728×1280, 27740 байт, q=5, ssim=0.9977) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/11c98132-e34a-40ce-958c-b43fc7679acc.jpeg`
 - `01-misticheskii-portretnyi-tsikl/09.webp` (768×1344, 93608 байт, q=13, ssim=0.989) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/replicate-prediction-csbam8jhr1rm80ctanjbsy9724.jpeg`
 - `01-misticheskii-portretnyi-tsikl/10.webp` (768×1344, 84738 байт, q=8, ssim=0.9893) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/Air3/replicate-prediction-dk624fv389rmc0ctankrnj1pjg.jpeg`
@@ -54,7 +54,7 @@
 - `02-ryzhaya-geroinya/11.webp` (584×1264, 13004 байт, q=17, ssim=0.989) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00015-115594058.png`
 - `02-ryzhaya-geroinya/12.webp` (584×1264, 14350 байт, q=5, ssim=0.991) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00017-4167027847.png`
 - `02-ryzhaya-geroinya/13.webp` (584×1264, 22464 байт, q=5, ssim=0.9978) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/00045-1794339302.png`
-- `02-ryzhaya-geroinya/14.webp` (1012×1800, 34286 байт, q=5, ssim=0.994) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image.png`
+- `02-ryzhaya-geroinya/14.webp` (584×1264, 24102 байт, q=16, ssim=0.9891) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image (1).png`
 - `02-ryzhaya-geroinya/15.webp` (584×1264, 12574 байт, q=5, ssim=0.9979) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image (5).png`
 - `02-ryzhaya-geroinya/16.webp` (584×1264, 18174 байт, q=5, ssim=0.9984) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/005cf022-dbc9-4eff-8ff4-cb629c430799.png`
 - `02-ryzhaya-geroinya/17.webp` (584×1264, 19256 байт, q=5, ssim=0.9932) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/00046-1794339303.png`
