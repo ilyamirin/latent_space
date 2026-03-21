@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Local environment / secrets
+.env
+
 # Temporary local review artifacts
 .tmp_contacts/
 
