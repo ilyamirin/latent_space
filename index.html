@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>ьё</title>
+    <meta
+      name="description"
+      content="ьё — мобильная галерея в формате цифровой колоды таро."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-noise" aria-hidden="true"></div>
+    <div class="page-vignette" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="ьё">
+          <span class="brand-soft">ь</span><span class="brand-neon">ё</span>
+        </div>
+        <button class="ghost-button" id="audioToggle" type="button">
+          звук
+        </button>
+      </header>
+
+      <section class="control-layer" aria-label="Управление колодой">
+        <label class="search-field">
+          <span class="search-label">поиск по состоянию</span>
+          <input
+            id="searchInput"
+            type="search"
+            inputmode="search"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="тишина, ритуал, рыжая героиня, город, миф..."
+          />
+          <button id="clearSearch" class="search-clear" type="button" aria-label="Очистить поиск">
+            ×
+          </button>
+        </label>
+
+        <div class="gallery-rail" id="galleryRail" aria-label="Выбор галереи"></div>
+      </section>
+
+      <section class="stage" aria-live="polite">
+        <div class="ambient-orb ambient-orb-left" aria-hidden="true"></div>
+        <div class="ambient-orb ambient-orb-right" aria-hidden="true"></div>
+
+        <div class="deck-status" id="deckStatus"></div>
+        <div class="deck" id="deck" aria-label="Колода работ"></div>
+      </section>
+
+      <footer class="statusbar">
+        <div class="status-copy" id="statusCopy">
+          свайп влево или вправо, тап — переворот
+        </div>
+        <div class="status-meta" id="statusMeta"></div>
+      </footer>
+    </main>
+
+    <template id="cardTemplate">
+      <article class="card-shell">
+        <div class="card" tabindex="0" role="button" aria-pressed="false">
+          <div class="card-face card-front">
+            <img class="card-image" alt="" loading="eager" />
+            <div class="card-glint" aria-hidden="true"></div>
+            <div class="card-caption">
+              <span class="card-gallery"></span>
+              <span class="card-title"></span>
+            </div>
+          </div>
+
+          <div class="card-face card-back">
+            <div class="card-back-inner">
+              <div class="card-back-head">
+                <span class="card-back-gallery"></span>
+                <h2 class="card-back-title"></h2>
+              </div>
+              <p class="card-prompt"></p>
+              <dl class="card-metadata"></dl>
+              <div class="card-back-actions">
+                <button class="listen-button" type="button">слушать</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <noscript>
+      <div class="noscript-banner">
+        Для этой галереи нужен JavaScript: свайпы, переворот карт и звук завязаны на клиентскую логику.
+      </div>
+    </noscript>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
