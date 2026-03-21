@@ -42,7 +42,7 @@ export class BackgroundMusicController {
     this.wantsPlayback = restored.enabled;
     this.currentIndex = restored.index;
     this.resumeTime = restored.time;
-    this.setTrack(this.currentIndex, this.resumeTime);
+    this.setTrack(this.currentIndex, this.resumeTime, false);
 
     window.addEventListener("beforeunload", () => this.persistState());
   }
@@ -57,12 +57,17 @@ export class BackgroundMusicController {
       this.persistState();
     }
 
-    try {
-      await this.playIndex(this.currentIndex);
-    } catch {
-      this.armResumeOnInteraction();
-      this.onChange();
+    if (navigator.userActivation?.hasBeenActive) {
+      try {
+        await this.playIndex(this.currentIndex);
+        return;
+      } catch {
+        // If autoplay is blocked, defer to the first real interaction.
+      }
     }
+
+    this.armResumeOnInteraction();
+    this.onChange();
   }
 
   async playIndex(index) {
@@ -71,7 +76,7 @@ export class BackgroundMusicController {
     }
 
     this.currentIndex = ((index % this.tracks.length) + this.tracks.length) % this.tracks.length;
-    this.setTrack(this.currentIndex, this.resumeTime);
+    this.setTrack(this.currentIndex, this.resumeTime, true);
 
     this.disarmResumeOnInteraction();
     this.audio.volume = 0;
@@ -94,7 +99,7 @@ export class BackgroundMusicController {
     return this.wantsPlayback && !this.isPlaying;
   }
 
-  setTrack(index, resumeTime = 0) {
+  setTrack(index, resumeTime = 0, shouldLoad = true) {
     if (!this.audio || !this.tracks.length) {
       return;
     }
@@ -103,7 +108,9 @@ export class BackgroundMusicController {
     if (this.audio.dataset.track !== track) {
       this.audio.src = track;
       this.audio.dataset.track = track;
-      this.audio.load();
+      if (shouldLoad) {
+        this.audio.load();
+      }
     }
 
     if (resumeTime > 0) {

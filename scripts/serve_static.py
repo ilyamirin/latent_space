@@ -9,10 +9,21 @@ from pathlib import Path
 
 class NoCacheStaticHandler(SimpleHTTPRequestHandler):
     def end_headers(self) -> None:
-        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
-        self.send_header("Pragma", "no-cache")
-        self.send_header("Expires", "0")
+        path = self.path.split("?", 1)[0]
+        if path == "/" or path.endswith(".html") or path.endswith(".js"):
+            self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+        else:
+            self.send_header("Cache-Control", "public, max-age=604800, immutable")
         super().end_headers()
+
+    def guess_type(self, path: str) -> str:
+        if path.endswith(".webp"):
+            return "image/webp"
+        if path.endswith(".mp3"):
+            return "audio/mpeg"
+        return super().guess_type(path)
 
 
 def main() -> None:

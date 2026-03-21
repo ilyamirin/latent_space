@@ -66,7 +66,6 @@ function bindEvents() {
   elements.brandHome.addEventListener("keydown", handleActionKeydown);
 
   elements.searchEntry.addEventListener("click", (event) => {
-    ensureBackgroundMusic();
     if (event.target === elements.searchInput) {
       return;
     }
@@ -75,7 +74,6 @@ function bindEvents() {
   elements.searchEntry.addEventListener("keydown", handleActionKeydown);
 
   elements.searchInput.addEventListener("focus", () => {
-    ensureBackgroundMusic();
     openSearch(elements.searchInput.value.trim());
   });
   elements.searchInput.addEventListener("input", (event) => updateSearch(event.currentTarget.value.trim()));
@@ -154,7 +152,6 @@ function handleActionKeydown(event) {
 
 
 function handleStageAction(event) {
-  ensureBackgroundMusic();
   const actionNode = event.target.closest("[data-action]");
   if (!actionNode) {
     return;
@@ -218,7 +215,6 @@ function handleStageAction(event) {
 
 
 function openSearch(query = "") {
-  ensureBackgroundMusic();
   const normalized = query.trim();
   const results = normalized ? scoreCards(normalized, catalog.cards) : [];
   state = enterSearch(state, normalized, results);
@@ -228,7 +224,6 @@ function openSearch(query = "") {
 
 
 function updateSearch(query) {
-  ensureBackgroundMusic();
   state = setSearchResults(state, query, query ? scoreCards(query, catalog.cards) : []);
   refresh();
 }
