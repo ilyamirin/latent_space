@@ -23,7 +23,6 @@ const elements = {
   brandHome: document.querySelector("#brandHome"),
   stage: document.querySelector("#stage"),
   infoPanel: document.querySelector("#infoPanel"),
-  musicToggle: document.querySelector("#musicToggle"),
   searchEntry: document.querySelector("#searchEntry"),
   searchPrompt: document.querySelector("#searchPrompt"),
   searchInput: document.querySelector("#searchInput"),
@@ -51,24 +50,23 @@ boot().catch((error) => {
 async function boot() {
   catalog = await loadCatalog();
   state = createAppState(catalog);
-  backgroundMusic.setListener(refreshMusicToggle);
+  backgroundMusic.startByDefault().catch((error) => {
+    console.error("Background music failed to initialize:", error);
+  });
   bindEvents();
   refresh();
 }
 
 
 function bindEvents() {
-  elements.brandHome.addEventListener("click", goHome);
-  elements.brandHome.addEventListener("keydown", handleActionKeydown);
-  elements.musicToggle.addEventListener("click", async () => {
-    try {
-      await backgroundMusic.toggle();
-    } catch (error) {
-      console.error("Unable to start background music:", error);
-    }
+  elements.brandHome.addEventListener("click", () => {
+    ensureBackgroundMusic();
+    goHome();
   });
+  elements.brandHome.addEventListener("keydown", handleActionKeydown);
 
   elements.searchEntry.addEventListener("click", (event) => {
+    ensureBackgroundMusic();
     if (event.target === elements.searchInput) {
       return;
     }
@@ -76,7 +74,10 @@ function bindEvents() {
   });
   elements.searchEntry.addEventListener("keydown", handleActionKeydown);
 
-  elements.searchInput.addEventListener("focus", () => openSearch(elements.searchInput.value.trim()));
+  elements.searchInput.addEventListener("focus", () => {
+    ensureBackgroundMusic();
+    openSearch(elements.searchInput.value.trim());
+  });
   elements.searchInput.addEventListener("input", (event) => updateSearch(event.currentTarget.value.trim()));
   elements.searchInput.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
@@ -87,6 +88,11 @@ function bindEvents() {
 
   elements.stage.addEventListener("click", handleStageAction);
   elements.stage.addEventListener("keydown", handleActionKeydown);
+
+  const wakeMusic = () => ensureBackgroundMusic();
+  window.addEventListener("pointerdown", wakeMusic, { passive: true });
+  window.addEventListener("touchstart", wakeMusic, { passive: true });
+  window.addEventListener("keydown", wakeMusic);
 
   window.addEventListener("keydown", (event) => {
     if (document.activeElement === elements.searchInput) {
@@ -148,6 +154,7 @@ function handleActionKeydown(event) {
 
 
 function handleStageAction(event) {
+  ensureBackgroundMusic();
   const actionNode = event.target.closest("[data-action]");
   if (!actionNode) {
     return;
@@ -163,6 +170,15 @@ function handleStageAction(event) {
 
   if (action === "draw-next") {
     state = revealNextCard(state);
+    refresh();
+    return;
+  }
+
+  if (action === "cycle-spread-card") {
+    if (state.drawCount === 0) {
+      return;
+    }
+    state = selectSpreadCard(state, (state.selectedSpreadIndex + 1) % state.drawCount);
     refresh();
     return;
   }
@@ -190,13 +206,19 @@ function handleStageAction(event) {
     return;
   }
 
-  if (action === "speak-search-card") {
+  if (action === "cycle-search-card") {
+    if (state.searchResults.length === 0) {
+      return;
+    }
+    state = moveSearchIndex(state, 1);
+    refresh();
     return;
   }
 }
 
 
 function openSearch(query = "") {
+  ensureBackgroundMusic();
   const normalized = query.trim();
   const results = normalized ? scoreCards(normalized, catalog.cards) : [];
   state = enterSearch(state, normalized, results);
@@ -206,6 +228,7 @@ function openSearch(query = "") {
 
 
 function updateSearch(query) {
+  ensureBackgroundMusic();
   state = setSearchResults(state, query, query ? scoreCards(query, catalog.cards) : []);
   refresh();
 }
@@ -225,7 +248,13 @@ function attachDynamicInteractions() {
   }
 
   detachSearchGesture = attachDeckGestures(focusCard, {
-    onTap() {},
+    onTap() {
+      if (state.searchResults.length === 0) {
+        return;
+      }
+      state = moveSearchIndex(state, 1);
+      refresh();
+    },
     onSwipe(direction) {
       state = moveSearchIndex(state, direction > 0 ? -1 : 1);
       refresh();
@@ -239,7 +268,6 @@ function refresh() {
   attachDynamicInteractions();
   applyCurrentTheme();
   prewarmThemes();
-  refreshMusicToggle();
 }
 
 
@@ -271,23 +299,6 @@ function escapeHtml(value) {
 }
 
 
-function refreshMusicToggle() {
-  if (!elements.musicToggle) {
-    return;
-  }
-
-  const isPlaying = backgroundMusic.isPlaying;
-  const isPending = backgroundMusic.isPending();
-  elements.musicToggle.textContent = isPlaying ? "пауза" : isPending ? "продолжить" : "звук";
-  elements.musicToggle.setAttribute("aria-pressed", String(isPlaying || isPending));
-  elements.musicToggle.setAttribute(
-    "aria-label",
-    isPlaying
-      ? "Поставить фоновую музыку на паузу"
-      : isPending
-        ? "Продолжить фоновую музыку"
-        : "Включить фоновую музыку",
-  );
-  elements.musicToggle.classList.toggle("is-playing", isPlaying);
-  elements.musicToggle.classList.toggle("is-pending", isPending);
+function ensureBackgroundMusic() {
+  backgroundMusic.startByDefault().catch(() => {});
 }

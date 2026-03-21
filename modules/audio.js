@@ -1,12 +1,3 @@
-function findSoftRussianVoice(voices) {
-  return (
-    voices.find((voice) => voice.lang.toLowerCase().startsWith("ru") && /female|milena|yana|alena|anna/i.test(voice.name)) ||
-    voices.find((voice) => voice.lang.toLowerCase().startsWith("ru")) ||
-    voices.find((voice) => voice.lang.toLowerCase().startsWith("en"))
-  );
-}
-
-
 export class BackgroundMusicController {
   constructor(tracks = []) {
     this.tracks = tracks;
@@ -14,7 +5,7 @@ export class BackgroundMusicController {
     this.isPlaying = false;
     this.wantsPlayback = false;
     this.onChange = () => {};
-    this.baseVolume = 0.18;
+    this.baseVolume = 0.28;
     this.fadeDurationMs = 700;
     this.fadeToken = 0;
     this.resumeTime = 0;
@@ -28,6 +19,7 @@ export class BackgroundMusicController {
 
     this.audio.preload = "none";
     this.audio.loop = false;
+    this.audio.playsInline = true;
     this.audio.volume = this.baseVolume;
 
     this.audio.addEventListener("play", () => {
@@ -52,52 +44,25 @@ export class BackgroundMusicController {
     this.resumeTime = restored.time;
     this.setTrack(this.currentIndex, this.resumeTime);
 
-    if (this.wantsPlayback) {
-      this.armResumeOnInteraction();
-    }
-
     window.addEventListener("beforeunload", () => this.persistState());
   }
 
-  setListener(listener) {
-    this.onChange = listener;
-  }
-
-  async toggle() {
+  async startByDefault() {
     if (!this.audio) {
       return;
     }
 
-    if (this.wantsPlayback) {
-      await this.pause();
-      return;
+    if (!this.wantsPlayback) {
+      this.wantsPlayback = true;
+      this.persistState();
     }
 
-    await this.play();
-  }
-
-  async play() {
-    this.wantsPlayback = true;
-    this.persistState();
-    this.onChange();
-    await this.playIndex(this.currentIndex);
-  }
-
-  async pause() {
-    if (!this.audio) {
-      return;
+    try {
+      await this.playIndex(this.currentIndex);
+    } catch {
+      this.armResumeOnInteraction();
+      this.onChange();
     }
-
-    this.wantsPlayback = false;
-    this.disarmResumeOnInteraction();
-    this.persistState();
-
-    if (this.isPlaying) {
-      await this.fadeTo(0, this.fadeDurationMs);
-    }
-    this.audio.pause();
-    this.audio.volume = this.baseVolume;
-    this.onChange();
   }
 
   async playIndex(index) {
@@ -156,13 +121,13 @@ export class BackgroundMusicController {
 
   readPersistedState() {
     if (!("localStorage" in window)) {
-      return { enabled: false, index: 0, time: 0 };
+      return { enabled: true, index: 0, time: 0 };
     }
 
     try {
       const raw = window.localStorage.getItem(this.storageKey);
       if (!raw) {
-        return { enabled: false, index: 0, time: 0 };
+        return { enabled: true, index: 0, time: 0 };
       }
       const parsed = JSON.parse(raw);
       const safeIndex = Number.isInteger(parsed.index) ? parsed.index : 0;
@@ -173,7 +138,7 @@ export class BackgroundMusicController {
         time: safeTime,
       };
     } catch {
-      return { enabled: false, index: 0, time: 0 };
+      return { enabled: true, index: 0, time: 0 };
     }
   }
 
@@ -276,75 +241,5 @@ export class BackgroundMusicController {
 
       requestAnimationFrame(step);
     });
-  }
-}
-
-
-export class SpeechController {
-  constructor() {
-    this.supported = "speechSynthesis" in window;
-    this.isPlaying = false;
-    this.activeId = null;
-    this.voices = [];
-    this.onChange = () => {};
-
-    if (this.supported) {
-      this.voices = window.speechSynthesis.getVoices();
-      window.speechSynthesis.addEventListener("voiceschanged", () => {
-        this.voices = window.speechSynthesis.getVoices();
-      });
-    }
-  }
-
-  setListener(listener) {
-    this.onChange = listener;
-  }
-
-  speak(text, activeId = "global") {
-    if (!this.supported || !text) {
-      return;
-    }
-
-    this.stop();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voice = findSoftRussianVoice(this.voices);
-
-    utterance.rate = 0.92;
-    utterance.pitch = 0.92;
-    utterance.volume = 0.95;
-    if (voice) {
-      utterance.voice = voice;
-      utterance.lang = voice.lang;
-    } else {
-      utterance.lang = "ru-RU";
-    }
-
-    utterance.onstart = () => {
-      this.isPlaying = true;
-      this.activeId = activeId;
-      this.onChange();
-    };
-    utterance.onend = () => {
-      this.isPlaying = false;
-      this.activeId = null;
-      this.onChange();
-    };
-    utterance.onerror = () => {
-      this.isPlaying = false;
-      this.activeId = null;
-      this.onChange();
-    };
-
-    window.speechSynthesis.speak(utterance);
-  }
-
-  stop() {
-    if (!this.supported) {
-      return;
-    }
-    window.speechSynthesis.cancel();
-    this.isPlaying = false;
-    this.activeId = null;
-    this.onChange();
   }
 }

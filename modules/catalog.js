@@ -104,7 +104,6 @@ function enhanceCard(gallery, item, meta) {
     width: item.width,
     height: item.height,
     tags: unique([meta.tone, ...tokenize(gallery.title), ...tokenize(gallery.description), ...tokens]),
-    audioText: `${title}. ${description}`,
   };
 }
 

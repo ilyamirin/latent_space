@@ -45,7 +45,13 @@ function renderStage(stage, state) {
               ? `
                 <div class="focus-shell">
                   <div class="focus-badge">${escapeHtml(getPositionLabel(state.selectedSpreadIndex))}</div>
-                  <div class="focus-card" role="img" aria-label="${escapeHtml(activeCard.title)}">
+                  <div
+                    class="focus-card"
+                    data-action="cycle-spread-card"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Перейти к следующей карте расклада"
+                  >
                     <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
                   </div>
                 </div>
@@ -92,11 +98,17 @@ function renderStage(stage, state) {
           </div>
           <div class="focus-shell">
             <div class="focus-badge">результат ${state.searchIndex + 1} из ${state.searchResults.length}</div>
-            <div class="focus-card" data-action="speak-search-card" role="img" aria-label="${escapeHtml(activeCard.title)}">
+            <div
+              class="focus-card"
+              data-action="cycle-search-card"
+              role="button"
+              tabindex="0"
+              aria-label="Перейти к следующему результату"
+            >
               <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
             </div>
           </div>
-          <div class="hero-copy">свайпайте карту, чтобы смотреть дальше</div>
+          <div class="hero-copy">нажимайте или свайпайте карту, чтобы смотреть дальше</div>
         </div>
       `
       : `
@@ -151,7 +163,11 @@ function renderInfo(panel, state) {
           : ""
       }
       <div class="info-hint">
-        ${state.drawCount >= 3 ? "нажимайте на карты в верхней линии, чтобы менять фокус" : "после третьей карты расклад соберётся полностью"}
+        ${
+          state.drawCount >= 3
+            ? "нажимайте на верхние карты для точного выбора или на большую карту, чтобы перейти дальше по кругу"
+            : "после третьей карты расклад соберётся полностью"
+        }
       </div>
     `;
     return;
@@ -165,7 +181,7 @@ function renderInfo(panel, state) {
         <h2 class="info-title">${escapeHtml(activeCard.title)}</h2>
         <div class="info-subtitle">${escapeHtml(activeCard.galleryTitle)} · ${escapeHtml(activeCard.tone)}</div>
         <p class="info-text">${escapeHtml(activeCard.description)}</p>
-        <div class="info-hint">результат ${state.searchIndex + 1} из ${state.searchResults.length} · свайпайте карту, чтобы смотреть дальше</div>
+        <div class="info-hint">результат ${state.searchIndex + 1} из ${state.searchResults.length} · нажимайте или свайпайте карту, чтобы смотреть дальше</div>
       `
       : `
         <div class="info-kicker">поиск по архиву</div>
