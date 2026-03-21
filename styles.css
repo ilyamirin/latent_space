@@ -13,13 +13,15 @@
   --accent-soft-rgb: 255, 176, 120;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --card-ratio: 0.67;
-  --focus-width: min(72vw, 24rem);
-  --focus-height: calc(var(--focus-width) / var(--card-ratio));
-  --mini-width: min(26vw, 6.4rem);
-  --mini-height: calc(var(--mini-width) / var(--card-ratio));
+  --focus-ratio: 0.5625;
+  --mini-ratio: 0.5625;
+  --deck-ratio: 0.67;
+  --focus-width: min(64vw, 19.5rem);
+  --focus-height: calc(var(--focus-width) / var(--focus-ratio));
+  --mini-width: min(22vw, 5.4rem);
+  --mini-height: calc(var(--mini-width) / var(--mini-ratio));
   --deck-width: min(46vw, 12rem);
-  --deck-height: calc(var(--deck-width) / var(--card-ratio));
+  --deck-height: calc(var(--deck-width) / var(--deck-ratio));
   --shadow-card: 0 1.4rem 3rem rgba(0, 0, 0, 0.5);
   --shadow-deep: 0 2.8rem 5rem rgba(0, 0, 0, 0.62);
   --ease-ritual: cubic-bezier(0.18, 0.76, 0.16, 1);
@@ -280,25 +282,44 @@ input {
 }
 
 .slot-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  filter: saturate(0.98) contrast(1.02);
+}
+
+.slot-card-media {
   width: var(--mini-width);
   height: var(--mini-height);
-  object-fit: cover;
-  display: block;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0.12rem;
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 1rem 2.2rem rgba(0, 0, 0, 0.42);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 10%),
+    linear-gradient(145deg, rgba(44, 41, 39, 0.94), rgba(24, 23, 22, 0.96));
   transition:
     transform 180ms var(--ease-ritual),
-    border-color 180ms var(--ease-ritual);
+    border-color 180ms var(--ease-ritual),
+    box-shadow 180ms var(--ease-ritual);
 }
 
-.slot-card.is-filled:hover img,
-.slot-card.is-filled:focus-visible img {
+.slot-card-media img {
+  border-radius: 0.88rem;
+}
+
+.slot-card.is-filled:hover .slot-card-media,
+.slot-card.is-filled:focus-visible .slot-card-media {
   transform: translateY(-0.08rem);
   border-color: rgba(var(--accent-rgb), 0.44);
 }
 
-.slot-card.is-active img {
+.slot-card.is-active .slot-card-media {
   transform: translateY(-0.12rem) scale(1.03);
   border-color: rgba(var(--accent-rgb), 0.66);
   box-shadow:
@@ -370,11 +391,17 @@ input {
 
 .focus-card {
   position: relative;
+  display: grid;
+  place-items: center;
   overflow: hidden;
+  padding: 0.34rem;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.11);
   box-shadow: var(--shadow-card), var(--shadow-deep);
-  background: rgba(255, 255, 255, 0.04);
+  background:
+    radial-gradient(circle at 16% 12%, rgba(var(--accent-rgb), 0.08), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.03);
   transition:
     transform 220ms var(--ease-ritual),
     border-color 220ms var(--ease-ritual);
@@ -391,17 +418,39 @@ input {
   content: "";
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 18%, transparent 76%, rgba(0, 0, 0, 0.1)),
     linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 35%);
   pointer-events: none;
 }
 
+.focus-card__mat {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0.16rem;
+  border-radius: 1.34rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 8%),
+    linear-gradient(145deg, rgba(40, 38, 36, 0.96), rgba(19, 19, 18, 0.97));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0.08rem 0.24rem rgba(255, 255, 255, 0.04),
+    0 0.4rem 0.9rem rgba(0, 0, 0, 0.14);
+}
+
 .focus-card img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
+  border-radius: 1.16rem;
+  filter: saturate(0.98) contrast(1.02);
 }
 
 .tag-row {
@@ -578,14 +627,14 @@ input {
 
 @media (min-width: 960px) {
   :root {
-    --focus-width: min(34vw, 25rem);
-    --mini-width: min(11vw, 7rem);
+    --focus-width: min(29vw, 19rem);
+    --mini-width: min(10vw, 5.9rem);
     --deck-width: min(20vw, 12rem);
   }
 
   .app-shell {
     grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 28rem);
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto auto;
     align-items: start;
     column-gap: 2rem;
   }

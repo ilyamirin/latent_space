@@ -52,7 +52,7 @@ function renderStage(stage, state) {
                     tabindex="0"
                     aria-label="Перейти к следующей карте расклада"
                   >
-                    <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
+                    ${renderFocusImage(activeCard)}
                   </div>
                 </div>
               `
@@ -105,7 +105,7 @@ function renderStage(stage, state) {
               tabindex="0"
               aria-label="Перейти к следующему результату"
             >
-              <img src="${activeCard.imageSrc}" alt="${escapeHtml(activeCard.title)}" />
+              ${renderFocusImage(activeCard)}
             </div>
           </div>
           <div class="hero-copy">нажимайте или свайпайте карту, чтобы смотреть дальше</div>
@@ -220,7 +220,9 @@ function renderSpreadSlots(cards, drawCount, selectedSpreadIndex) {
             tabindex="0"
             aria-label="${escapeHtml(getPositionLabel(index))}"
           >
-            <img src="${cards[index].imageSrc}" alt="${escapeHtml(cards[index].title)}" />
+            <div class="slot-card-media">
+              <img src="${cards[index].imageSrc}" alt="${escapeHtml(cards[index].title)}" />
+            </div>
             <span class="slot-label">${escapeHtml(getPositionLabel(index))}</span>
           </div>
         `;
@@ -258,6 +260,15 @@ function renderDeckStack() {
     <div class="stack-layer stack-layer-3"></div>
     <div class="stack-layer stack-layer-2"></div>
     <div class="stack-layer stack-layer-1"></div>
+  `;
+}
+
+
+function renderFocusImage(card) {
+  return `
+    <div class="focus-card__mat">
+      <img src="${card.imageSrc}" alt="${escapeHtml(card.title)}" />
+    </div>
   `;
 }
 
