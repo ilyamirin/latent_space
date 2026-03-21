@@ -58,7 +58,7 @@ GALLERIES = [
             "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image.png",
             "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image (5).png",
             "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/005cf022-dbc9-4eff-8ff4-cb629c430799.png",
-            "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/d74e049a-8763-4b31-9c09-7b3b42e28709.jpeg",
+            "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/00046-1794339303.png",
             "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00033-1034922259.png",
         ],
     },

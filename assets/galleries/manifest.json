@@ -462,15 +462,15 @@
         {
           "index": 17,
           "filename": "17.webp",
-          "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/d74e049a-8763-4b31-9c09-7b3b42e28709.jpeg",
-          "source_name": "d74e049a-8763-4b31-9c09-7b3b42e28709.jpeg",
+          "source": "/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/00046-1794339303.png",
+          "source_name": "00046-1794339303.png",
           "format": "webp",
-          "width": 831,
-          "height": 1800,
-          "bytes": 115964,
-          "quality": 11,
-          "ssim": 0.9894,
-          "resized": true
+          "width": 584,
+          "height": 1264,
+          "bytes": 19256,
+          "quality": 5,
+          "ssim": 0.9932,
+          "resized": false
         },
         {
           "index": 18,
@@ -1217,9 +1217,9 @@
   "optimization": {
     "format": "webp",
     "total_bytes_before": 3829184,
-    "total_bytes_after": 2657606,
-    "saved_bytes": 1171578,
-    "saved_percent": 30.6,
+    "total_bytes_after": 2560898,
+    "saved_bytes": 1268286,
+    "saved_percent": 33.12,
     "max_long_edge": 1800,
     "ssim_threshold": 0.989
   }

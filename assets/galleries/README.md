@@ -5,8 +5,8 @@
 - Повторных слотов: **0**
 - Формат веб-ассетов: **webp**
 - Размер до оптимизации: **3829184** байт
-- Размер после оптимизации: **2657606** байт
-- Экономия: **1171578** байт (30.6%)
+- Размер после оптимизации: **2560898** байт
+- Экономия: **1268286** байт (33.12%)
 - Максимальная длина стороны: **1800 px**
 - Целевой порог качества: **SSIM >= 0.989**
 
@@ -57,7 +57,7 @@
 - `02-ryzhaya-geroinya/14.webp` (1012×1800, 34286 байт, q=5, ssim=0.994) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image.png`
 - `02-ryzhaya-geroinya/15.webp` (584×1264, 12574 байт, q=5, ssim=0.9979) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/image (5).png`
 - `02-ryzhaya-geroinya/16.webp` (584×1264, 18174 байт, q=5, ssim=0.9984) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/005cf022-dbc9-4eff-8ff4-cb629c430799.png`
-- `02-ryzhaya-geroinya/17.webp` (831×1800, 115964 байт, q=11, ssim=0.9894) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/d74e049a-8763-4b31-9c09-7b3b42e28709.jpeg`
+- `02-ryzhaya-geroinya/17.webp` (584×1264, 19256 байт, q=5, ssim=0.9932) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка в космосе/00046-1794339303.png`
 - `02-ryzhaya-geroinya/18.webp` (584×1264, 18290 байт, q=5, ssim=0.9967) ← `/Users/ilyagmirin/Yandex.Disk.localized/Изображения/рыжая девочка поднимает руку/00033-1034922259.png`
 
 ## Тихие миры
