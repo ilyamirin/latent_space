@@ -32,6 +32,7 @@ function renderStage(stage, state) {
   if (state.screen === "spread") {
     const activeCard = state.drawCount > 0 ? state.spreadCards[state.selectedSpreadIndex] : null;
     const openingNextCard = state.drawCount > 0 && state.drawCount < 3;
+    const spreadComplete = state.drawCount >= 3;
     stage.innerHTML = `
       <div class="spread-screen">
         <div class="spread-meter" aria-hidden="true">
@@ -60,13 +61,13 @@ function renderStage(stage, state) {
               : `<div class="focus-placeholder">корень<br />узел<br />вектор</div>`
           }
         </div>
-        <div class="hero-copy">
-          ${
-            state.drawCount < 3
-              ? "нажмите на открытую карту, чтобы открыть следующую"
-              : "нажимайте на большую карту, чтобы идти дальше по кругу"
-          }
-        </div>
+        ${
+          spreadComplete
+            ? renderCompletionSheet()
+            : `
+              <div class="hero-copy">нажмите на открытую карту, чтобы открыть следующую</div>
+            `
+        }
       </div>
     `;
     return;
@@ -155,7 +156,7 @@ function renderInfo(panel, state) {
       <div class="info-hint">
         ${
           state.drawCount >= 3
-            ? "нажимайте на верхние карты для точного выбора или на большую карту, чтобы перейти дальше по кругу"
+            ? "нажимайте на верхние карты для точного выбора или на большую карту, чтобы перейти дальше по кругу. Следующее действие можно выбрать в панели ниже."
             : "нажимайте на большую карту: вторая и третья позиции откроются по очереди"
         }
       </div>
@@ -270,6 +271,21 @@ function renderGalleryChoices(galleries = []) {
       `;
     })
     .join("");
+}
+
+
+function renderCompletionSheet() {
+  return `
+    <div class="completion-sheet">
+      <div class="completion-sheet__kicker">расклад завершён</div>
+      <div class="completion-sheet__title">что дальше</div>
+      <div class="completion-actions">
+        <button type="button" class="completion-action is-primary" data-action="go-home-galleries">выбрать другую колоду</button>
+        <button type="button" class="completion-action" data-action="restart-current-gallery">собрать новый расклад</button>
+        <button type="button" class="completion-action" data-action="go-search">перейти в поиск</button>
+      </div>
+    </div>
+  `;
 }
 
 
