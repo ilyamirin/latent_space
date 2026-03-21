@@ -3,7 +3,10 @@ export class BackgroundMusicController {
     this.tracks = tracks;
     this.currentIndex = 0;
     this.isPlaying = false;
+    this.isTrackReady = false;
+    this.isTrackPrimed = false;
     this.wantsPlayback = false;
+    this.userActivatedPlayback = Boolean(navigator.userActivation?.hasBeenActive);
     this.onChange = () => {};
     this.baseVolume = 0.28;
     this.fadeDurationMs = 700;
@@ -17,7 +20,7 @@ export class BackgroundMusicController {
       return;
     }
 
-    this.audio.preload = "none";
+    this.audio.preload = "metadata";
     this.audio.loop = false;
     this.audio.playsInline = true;
     this.audio.volume = this.baseVolume;
@@ -30,6 +33,10 @@ export class BackgroundMusicController {
       this.isPlaying = false;
       this.onChange();
     });
+    this.audio.addEventListener("canplay", () => this.handleTrackReady());
+    this.audio.addEventListener("canplaythrough", () => this.handleTrackReady());
+    this.audio.addEventListener("waiting", () => this.handleTrackWaiting());
+    this.audio.addEventListener("stalled", () => this.handleTrackWaiting());
     this.audio.addEventListener("timeupdate", () => this.persistStateIfNeeded());
     this.audio.addEventListener("ended", () => {
       this.resumeTime = 0;
@@ -57,17 +64,16 @@ export class BackgroundMusicController {
       this.persistState();
     }
 
-    if (navigator.userActivation?.hasBeenActive) {
-      try {
-        await this.playIndex(this.currentIndex);
-        return;
-      } catch {
-        // If autoplay is blocked, defer to the first real interaction.
-      }
+    this.userActivatedPlayback ||= Boolean(navigator.userActivation?.hasBeenActive);
+    this.primeCurrentTrack();
+
+    if (!this.userActivatedPlayback) {
+      this.armResumeOnInteraction();
+      this.onChange();
+      return;
     }
 
-    this.armResumeOnInteraction();
-    this.onChange();
+    await this.maybeStartPlayback();
   }
 
   async playIndex(index) {
@@ -77,6 +83,14 @@ export class BackgroundMusicController {
 
     this.currentIndex = ((index % this.tracks.length) + this.tracks.length) % this.tracks.length;
     this.setTrack(this.currentIndex, this.resumeTime, true);
+
+    if (!this.isReadyToPlay()) {
+      if (!this.userActivatedPlayback) {
+        this.armResumeOnInteraction();
+      }
+      this.onChange();
+      return;
+    }
 
     this.disarmResumeOnInteraction();
     this.audio.volume = 0;
@@ -105,12 +119,18 @@ export class BackgroundMusicController {
     }
 
     const track = this.tracks[index];
-    if (this.audio.dataset.track !== track) {
+    const trackChanged = this.audio.dataset.track !== track;
+    if (trackChanged) {
       this.audio.src = track;
       this.audio.dataset.track = track;
-      if (shouldLoad) {
-        this.audio.load();
-      }
+      this.isTrackReady = false;
+      this.isTrackPrimed = false;
+    }
+
+    if (shouldLoad && (!this.isTrackPrimed || trackChanged)) {
+      this.audio.preload = "auto";
+      this.audio.load();
+      this.isTrackPrimed = true;
     }
 
     if (resumeTime > 0) {
@@ -186,11 +206,12 @@ export class BackgroundMusicController {
 
     this.resumeListenersAttached = true;
     const resume = async () => {
+      this.userActivatedPlayback = true;
       if (!this.wantsPlayback || this.isPlaying) {
         return;
       }
       try {
-        await this.playIndex(this.currentIndex);
+        await this.maybeStartPlayback();
       } catch {
         this.armResumeOnInteraction();
       }
@@ -248,5 +269,63 @@ export class BackgroundMusicController {
 
       requestAnimationFrame(step);
     });
+  }
+
+  primeCurrentTrack() {
+    if (!this.audio || !this.tracks.length) {
+      return;
+    }
+
+    this.setTrack(this.currentIndex, this.resumeTime, true);
+  }
+
+  handleTrackReady() {
+    if (!this.audio) {
+      return;
+    }
+
+    this.isTrackReady = this.audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA;
+    this.onChange();
+    if (this.isTrackReady && this.wantsPlayback) {
+      this.maybeStartPlayback().catch((error) => {
+        console.error("Background music failed to start after loading:", error);
+      });
+    }
+  }
+
+  handleTrackWaiting() {
+    this.isTrackReady = false;
+    this.onChange();
+  }
+
+  isReadyToPlay() {
+    return Boolean(
+      this.audio &&
+        this.wantsPlayback &&
+        this.isTrackReady &&
+        this.userActivatedPlayback &&
+        !this.isPlaying,
+    );
+  }
+
+  async maybeStartPlayback() {
+    if (!this.audio || !this.wantsPlayback || this.isPlaying) {
+      return;
+    }
+
+    if (!this.isTrackReady) {
+      this.primeCurrentTrack();
+      this.onChange();
+      return;
+    }
+
+    if (!this.userActivatedPlayback) {
+      this.armResumeOnInteraction();
+      this.onChange();
+      return;
+    }
+
+    await this.playIndex(this.currentIndex);
+    this.onChange();
   }
 }
