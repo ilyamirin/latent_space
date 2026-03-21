@@ -1,0 +1,63 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  fill="none"
+>
+  <defs>
+    <linearGradient id="bgGradient" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B0C10" />
+      <stop offset="1" stop-color="#030304" />
+    </linearGradient>
+    <radialGradient id="orbGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(24 20) rotate(39.5) scale(28.5 24.8)">
+      <stop stop-color="#64F2FF" stop-opacity="0.34" />
+      <stop offset="1" stop-color="#64F2FF" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="warmGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(47 49) rotate(180) scale(18 14)">
+      <stop stop-color="#FFB078" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#FFB078" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="glyphStroke" x1="18" y1="18" x2="46" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BFFAFF" />
+      <stop offset="0.55" stop-color="#64F2FF" />
+      <stop offset="1" stop-color="#7CEFFF" />
+    </linearGradient>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="2.8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#bgGradient)" />
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" stroke="#FFFFFF" stroke-opacity="0.08" />
+  <circle cx="24" cy="20" r="22" fill="url(#orbGlow)" />
+  <circle cx="47" cy="49" r="16" fill="url(#warmGlow)" />
+
+  <g filter="url(#softGlow)">
+    <circle cx="25" cy="16.5" r="2.8" fill="#8BF5FF" />
+    <circle cx="38.5" cy="16.5" r="2.8" fill="#8BF5FF" />
+
+    <path
+      d="M21 33.5C21 24.94 26.72 20 34.58 20C39.43 20 43.39 21.83 46.34 25.52"
+      stroke="url(#glyphStroke)"
+      stroke-width="4.4"
+      stroke-linecap="round"
+    />
+    <path
+      d="M19 34C19 43.07 25.58 48 34.36 48C39.94 48 44.02 45.72 46.86 41.64"
+      stroke="url(#glyphStroke)"
+      stroke-width="4.4"
+      stroke-linecap="round"
+    />
+    <path
+      d="M19.5 34H43.8"
+      stroke="url(#glyphStroke)"
+      stroke-width="4.4"
+      stroke-linecap="round"
+    />
+  </g>
+</svg>
