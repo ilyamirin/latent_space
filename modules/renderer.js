@@ -20,7 +20,7 @@ function renderStage(stage, state) {
     stage.innerHTML = `
       <div class="home-hero">
         <div class="home-orbit" aria-hidden="true"></div>
-        <div class="hero-copy">выберите одну из пяти колод и начните чтение сразу с первой карты</div>
+        <div class="hero-copy">выберите колоду по тону. Первый расклад начнётся сразу, без промежуточных экранов.</div>
         <div class="gallery-chooser">
           ${renderGalleryChoices(state.galleries)}
         </div>
@@ -249,7 +249,6 @@ function renderSpreadMeter(drawCount, selectedSpreadIndex) {
 function renderGalleryChoices(galleries = []) {
   return galleries
     .map((gallery, index) => {
-      const previewCard = gallery.cards[0];
       const wideClass = index === galleries.length - 1 ? "is-wide" : "";
       return `
         <div
@@ -260,9 +259,6 @@ function renderGalleryChoices(galleries = []) {
           tabindex="0"
           aria-label="Выбрать колоду ${escapeHtml(gallery.title)}"
         >
-          <div class="gallery-option__thumb">
-            <img src="${previewCard.imageSrc}" alt="${escapeHtml(gallery.title)}" />
-          </div>
           <div class="gallery-option__meta">
             <div class="gallery-option__title">${escapeHtml(gallery.title)}</div>
             <div class="gallery-option__tone">${escapeHtml(gallery.tone)}</div>
