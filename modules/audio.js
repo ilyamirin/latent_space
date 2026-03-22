@@ -23,7 +23,7 @@ export class BackgroundMusicController {
     this.audio.preload = "metadata";
     this.audio.loop = false;
     this.audio.playsInline = true;
-    this.audio.volume = this.baseVolume;
+    this.audio.volume = clampVolume(this.baseVolume);
 
     this.audio.addEventListener("play", () => {
       this.isPlaying = true;
@@ -98,7 +98,7 @@ export class BackgroundMusicController {
     try {
       await this.audio.play();
     } catch (error) {
-      this.audio.volume = this.baseVolume;
+      this.audio.volume = clampVolume(this.baseVolume);
       if (this.wantsPlayback) {
         this.armResumeOnInteraction();
       }
@@ -245,7 +245,8 @@ export class BackgroundMusicController {
       return Promise.resolve();
     }
 
-    const startVolume = this.audio.volume;
+    const startVolume = clampVolume(this.audio.volume);
+    const safeTargetVolume = clampVolume(targetVolume);
     const startedAt = performance.now();
     const fadeToken = ++this.fadeToken;
 
@@ -257,7 +258,9 @@ export class BackgroundMusicController {
         }
 
         const progress = Math.min(1, (now - startedAt) / durationMs);
-        this.audio.volume = startVolume + (targetVolume - startVolume) * progress;
+        this.audio.volume = clampVolume(
+          startVolume + (safeTargetVolume - startVolume) * progress,
+        );
 
         if (progress >= 1) {
           resolve();
@@ -328,4 +331,9 @@ export class BackgroundMusicController {
     await this.playIndex(this.currentIndex);
     this.onChange();
   }
+}
+
+
+function clampVolume(value) {
+  return Math.max(0, Math.min(1, Number.isFinite(value) ? value : 0));
 }

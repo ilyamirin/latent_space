@@ -27,6 +27,10 @@ import { applyThemeFromCard, prewarmCardTheme } from "./modules/theme.js";
 const elements = {
   appShell: document.querySelector(".app-shell"),
   brandHome: document.querySelector("#brandHome"),
+  bootLog: document.querySelector("#bootLog"),
+  bootLines: document.querySelector("#bootLines"),
+  bootMeterFill: document.querySelector("#bootMeterFill"),
+  bootStatus: document.querySelector("#bootStatus"),
   stage: document.querySelector("#stage"),
   infoPanel: document.querySelector("#infoPanel"),
   searchEntry: document.querySelector("#searchEntry"),
@@ -38,6 +42,7 @@ let catalog = null;
 let state = createAppState();
 let searchIndex = null;
 let detachSearchGesture = () => {};
+const startupLog = createStartupLog(elements);
 const backgroundMusic = new BackgroundMusicController([
   "./assets/audio/temnyi-interfeis.mp3",
   "./assets/audio/temnyi-interfeis-alt.mp3",
@@ -46,6 +51,7 @@ const backgroundMusic = new BackgroundMusicController([
 
 boot().catch((error) => {
   console.error(error);
+  startupLog.fail(error instanceof Error ? error.message : String(error));
   elements.infoPanel.innerHTML = `
     <div class="info-kicker">${UI_COPY.error.kicker}</div>
     <h1 class="info-title">${UI_COPY.error.title}</h1>
@@ -55,14 +61,23 @@ boot().catch((error) => {
 
 
 async function boot() {
+  startupLog.step("загружаем колоду", 0.12);
   catalog = await loadCatalog();
+  startupLog.step("manifest собран", 0.28, `найдено ${catalog.cards.length} карт`);
   searchIndex = buildSearchIndex(catalog.cards);
+  startupLog.step("готовим поиск", 0.38);
   state = createAppState(catalog);
+  bindEvents();
+  const themeRequest = refresh();
+  startupLog.step("рисуем первый экран", 0.52);
+  await waitForStageMedia();
+  startupLog.step("видимые карты готовы", 0.88);
+  await themeRequest;
+  startupLog.step("фон синхронизирован", 0.96);
+  await startupLog.finish();
   backgroundMusic.startByDefault().catch((error) => {
     console.error("Background music failed to initialize:", error);
   });
-  bindEvents();
-  refresh();
 }
 
 
@@ -341,8 +356,9 @@ function attachDynamicInteractions() {
 function refresh() {
   renderScreen({ elements, state });
   attachDynamicInteractions();
-  applyCurrentTheme();
+  const themeRequest = applyCurrentTheme();
   prewarmThemes();
+  return themeRequest;
 }
 
 
@@ -351,7 +367,7 @@ function applyCurrentTheme() {
     state.screen === "search"
       ? getActiveSearchCard(state)
       : getActiveSpreadCard(state) ?? state.spreadCards[0] ?? catalog.cards[0];
-  applyThemeFromCard(themeCard);
+  return applyThemeFromCard(themeCard);
 }
 
 
@@ -404,4 +420,110 @@ function shouldAdvanceRepeatedSearch(query) {
   }
 
   return normalizeText(state.searchQuery) === normalizedQuery;
+}
+
+
+async function waitForStageMedia() {
+  const images = Array.from(elements.stage.querySelectorAll("img"));
+  if (!images.length) {
+    startupLog.note("видимых картинок нет");
+    return;
+  }
+
+  let readyCount = 0;
+  const totalCount = images.length;
+  const updateProgress = () => {
+    const ratio = readyCount / totalCount;
+    startupLog.setStatus(`готовим видимые карты ${readyCount}/${totalCount}`);
+    startupLog.setProgress(0.56 + ratio * 0.26);
+  };
+
+  updateProgress();
+
+  await Promise.all(
+    images.map(
+      (image) =>
+        new Promise((resolve) => {
+          const markReady = () => {
+            readyCount += 1;
+            updateProgress();
+            resolve();
+          };
+
+          if (image.complete) {
+            markReady();
+            return;
+          }
+
+          image.addEventListener("load", markReady, { once: true });
+          image.addEventListener("error", markReady, { once: true });
+        }),
+    ),
+  );
+}
+
+
+function createStartupLog({ bootLog, bootLines, bootMeterFill, bootStatus }) {
+  const entries = [];
+  let progress = 0;
+
+  const render = () => {
+    bootStatus.textContent = entries.at(-1)?.status ?? "поднимаем колоду";
+    bootMeterFill.style.transform = `scaleX(${progress})`;
+    bootLines.innerHTML = entries
+      .slice(-5)
+      .map(
+        (entry) => `
+          <div class="boot-log__line ${entry.kind === "error" ? "is-error" : ""}">
+            <span class="boot-log__dot" aria-hidden="true"></span>
+            <span>${escapeHtml(entry.text)}</span>
+          </div>
+        `,
+      )
+      .join("");
+  };
+
+  const push = (text, kind = "info", status = text) => {
+    entries.push({ text, kind, status });
+    render();
+  };
+
+  push("поднимаем колоду");
+
+  return {
+    note(text) {
+      push(text, "info", bootStatus.textContent);
+    },
+    setProgress(value) {
+      progress = Math.max(progress, Math.min(1, value));
+      render();
+    },
+    setStatus(text) {
+      if (entries.length) {
+        entries[entries.length - 1].status = text;
+      } else {
+        entries.push({ text, kind: "info", status: text });
+      }
+      render();
+    },
+    step(status, nextProgress, line = status) {
+      progress = Math.max(progress, Math.min(1, nextProgress));
+      push(line, "info", status);
+    },
+    fail(text) {
+      progress = 1;
+      bootLog.classList.add("is-failed");
+      push(text, "error", "ошибка загрузки");
+    },
+    async finish() {
+      progress = 1;
+      push("экран готов", "info", "экран готов");
+      bootLog.classList.add("is-ready");
+      render();
+      await new Promise((resolve) => {
+        window.setTimeout(resolve, 520);
+      });
+      bootLog.classList.add("is-hidden");
+    },
+  };
 }

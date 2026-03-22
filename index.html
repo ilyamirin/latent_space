@@ -23,6 +23,16 @@
   <body>
     <div class="page-noise" aria-hidden="true"></div>
     <div class="page-vignette" aria-hidden="true"></div>
+    <div class="boot-log" id="bootLog" aria-live="polite">
+      <div class="boot-log__panel">
+        <div class="boot-log__eyebrow">ьё / сборка экрана</div>
+        <div class="boot-log__status" id="bootStatus">поднимаем колоду</div>
+        <div class="boot-log__meter" aria-hidden="true">
+          <span class="boot-log__meter-fill" id="bootMeterFill"></span>
+        </div>
+        <div class="boot-log__lines" id="bootLines"></div>
+      </div>
+    </div>
 
     <main class="app-shell">
       <header class="topbar">

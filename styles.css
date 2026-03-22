@@ -77,6 +77,126 @@ input {
     radial-gradient(circle at center, transparent 34%, rgba(0, 0, 0, 0.22) 72%, rgba(0, 0, 0, 0.78) 100%);
 }
 
+.boot-log {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  display: grid;
+  place-items: center;
+  padding:
+    calc(1.4rem + var(--safe-top))
+    1rem
+    calc(1.4rem + var(--safe-bottom));
+  background:
+    linear-gradient(180deg, rgba(6, 6, 7, 0.72), rgba(6, 6, 7, 0.5)),
+    radial-gradient(circle at 50% 18%, rgba(var(--accent-rgb), 0.1), transparent 28rem);
+  backdrop-filter: blur(12px);
+  transition:
+    opacity 260ms ease,
+    visibility 260ms ease;
+}
+
+.boot-log.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.boot-log__panel {
+  width: min(100%, 27rem);
+  display: grid;
+  gap: 0.72rem;
+  padding: 1rem 1rem 0.95rem;
+  border-radius: 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025)),
+    rgba(8, 8, 10, 0.8);
+  box-shadow:
+    0 1.4rem 3rem rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+}
+
+.boot-log__eyebrow,
+.boot-log__status,
+.boot-log__line {
+  font-family:
+    ui-monospace,
+    "SFMono-Regular",
+    "SF Mono",
+    "IBM Plex Mono",
+    "Menlo",
+    monospace;
+}
+
+.boot-log__eyebrow {
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.boot-log__status {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--text-main);
+}
+
+.boot-log__meter {
+  position: relative;
+  width: 100%;
+  height: 0.28rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.boot-log__meter-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, rgba(var(--accent-rgb), 0.86), rgba(var(--accent-soft-rgb), 0.82));
+  box-shadow: 0 0 1rem rgba(var(--accent-rgb), 0.25);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 220ms var(--ease-ritual);
+}
+
+.boot-log__lines {
+  display: grid;
+  gap: 0.42rem;
+  min-height: 6.2rem;
+}
+
+.boot-log__line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.boot-log__line.is-error {
+  color: rgb(var(--accent-soft-rgb));
+}
+
+.boot-log__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-top: 0.35rem;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.82);
+  box-shadow: 0 0 0.7rem rgba(var(--accent-rgb), 0.32);
+}
+
+.boot-log__line.is-error .boot-log__dot {
+  background: rgba(var(--accent-soft-rgb), 0.88);
+  box-shadow: 0 0 0.7rem rgba(var(--accent-soft-rgb), 0.28);
+}
+
 .app-shell {
   position: relative;
   z-index: 1;
@@ -982,6 +1102,23 @@ input {
 }
 
 @media (min-width: 720px) {
+  .boot-log {
+    padding-inline: 1.5rem;
+  }
+
+  .boot-log__panel {
+    width: min(100%, 29rem);
+    padding: 1.08rem 1.12rem 1rem;
+  }
+
+  .boot-log__status {
+    font-size: 0.96rem;
+  }
+
+  .boot-log__line {
+    font-size: 0.84rem;
+  }
+
   .app-shell {
     padding-inline: 1.5rem;
   }
@@ -1032,6 +1169,30 @@ input {
     --focus-width: min(42vw, 26rem);
     --mini-width: min(13vw, 7rem);
     --deck-width: min(24vw, 14rem);
+  }
+
+  .boot-log {
+    place-items: start center;
+    padding-top: calc(5rem + var(--safe-top));
+  }
+
+  .boot-log__panel {
+    width: min(100%, 33rem);
+    padding: 1.12rem 1.18rem 1.08rem;
+    border-radius: 1.25rem;
+  }
+
+  .boot-log__eyebrow {
+    font-size: 0.78rem;
+  }
+
+  .boot-log__status {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .boot-log__line {
+    font-size: 0.86rem;
   }
 
   .app-shell {
@@ -1206,6 +1367,10 @@ input {
     --mini-width: min(11vw, 7.6rem);
   }
 
+  .boot-log__panel {
+    width: min(100%, 35rem);
+  }
+
   .app-shell {
     width: min(100%, 96rem);
     padding-inline: 2.4rem;
@@ -1244,5 +1409,9 @@ input {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .boot-log__meter-fill {
+    transition: none !important;
   }
 }

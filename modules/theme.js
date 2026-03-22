@@ -1,44 +1,69 @@
 const paletteCache = new Map();
+const paletteRequests = new Map();
 let activeThemeCardId = null;
 
 
 export function applyThemeFromCard(card) {
   if (!card) {
-    return;
+    return Promise.resolve(null);
   }
 
   activeThemeCardId = card.id;
-  const cached = paletteCache.get(card.id);
-  if (cached) {
-    updateCssVariables(cached);
-    return;
-  }
-
-  const image = new Image();
-  image.crossOrigin = "anonymous";
-  image.decoding = "async";
-  image.src = card.imageSrc;
-  image.addEventListener("load", () => {
-    const palette = extractPalette(image);
-    paletteCache.set(card.id, palette);
+  return loadPalette(card).then((palette) => {
     if (activeThemeCardId === card.id) {
       updateCssVariables(palette);
     }
+    return palette;
   });
 }
 
 
 export function prewarmCardTheme(card) {
   if (!card || paletteCache.has(card.id)) {
-    return;
+    return Promise.resolve(null);
+  }
+
+  return loadPalette(card);
+}
+
+
+function loadPalette(card) {
+  const cached = paletteCache.get(card.id);
+  if (cached) {
+    return Promise.resolve(cached);
+  }
+
+  const pending = paletteRequests.get(card.id);
+  if (pending) {
+    return pending;
   }
 
   const image = new Image();
+  image.crossOrigin = "anonymous";
   image.decoding = "async";
-  image.src = card.imageSrc;
-  image.addEventListener("load", () => {
-    paletteCache.set(card.id, extractPalette(image));
+  const request = new Promise((resolve) => {
+    const finalize = (palette) => {
+      paletteCache.set(card.id, palette);
+      paletteRequests.delete(card.id);
+      resolve(palette);
+    };
+
+    image.addEventListener("load", () => {
+      finalize(extractPalette(image));
+    });
+
+    image.addEventListener("error", () => {
+      finalize({
+        accent: [100, 242, 255],
+        accentSoft: [255, 180, 122],
+      });
+    });
+
+    image.src = card.imageSrc;
   });
+
+  paletteRequests.set(card.id, request);
+  return request;
 }
 
 
