@@ -108,7 +108,7 @@
           "format": "webp",
           "width": 1536,
           "height": 2752,
-          "bytes": 623756,
+          "bytes": 304598,
           "quality": 5,
           "ssim": 0.9977,
           "resized": false
@@ -1011,7 +1011,7 @@
           "format": "webp",
           "width": 1536,
           "height": 2752,
-          "bytes": 926400,
+          "bytes": 359892,
           "quality": 5,
           "ssim": 0.9981,
           "resized": false
@@ -1128,7 +1128,7 @@
           "format": "webp",
           "width": 1536,
           "height": 2752,
-          "bytes": 857984,
+          "bytes": 406322,
           "quality": 5,
           "ssim": 0.9976,
           "resized": false
