@@ -172,7 +172,7 @@ input {
 
 .home-kicker {
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
@@ -189,23 +189,23 @@ input {
 .home-lead {
   margin: 0;
   color: var(--text-main);
-  font-size: 1rem;
-  line-height: 1.35;
+  font-size: 1.08rem;
+  line-height: 1.45;
 }
 
 .home-text {
   margin: 0;
   color: var(--text-dim);
-  font-size: 0.92rem;
-  line-height: 1.45;
+  font-size: 0.98rem;
+  line-height: 1.58;
 }
 
 .hero-copy {
   max-width: 18rem;
   text-align: center;
   color: var(--text-dim);
-  font-size: 0.95rem;
-  line-height: 1.45;
+  font-size: 1rem;
+  line-height: 1.56;
 }
 
 .home-orbit {
@@ -350,13 +350,13 @@ input {
 }
 
 .gallery-option__title {
-  font-size: 0.96rem;
-  line-height: 1.02;
+  font-size: 1.02rem;
+  line-height: 1.08;
 }
 
 .gallery-option__tone {
   font-family: var(--font-ui);
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-faint);
@@ -364,8 +364,9 @@ input {
 
 .gallery-option__prompt {
   font-family: var(--font-ui);
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   color: var(--text-dim);
+  line-height: 1.42;
 }
 
 .ritual-deck {
@@ -591,7 +592,7 @@ input {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-dim);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -805,7 +806,7 @@ input {
 
 .info-kicker {
   font-family: var(--font-ui);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -815,8 +816,8 @@ input {
 .info-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.72rem, 5vw, 2.35rem);
-  line-height: 0.98;
+  font-size: clamp(1.9rem, 5.4vw, 2.5rem);
+  line-height: 1;
   font-weight: 600;
   letter-spacing: 0.01em;
   overflow-wrap: anywhere;
@@ -824,8 +825,8 @@ input {
 
 .info-subtitle {
   color: var(--text-dim);
-  font-size: 0.98rem;
-  line-height: 1.55;
+  font-size: 1.04rem;
+  line-height: 1.62;
   overflow-wrap: anywhere;
 }
 
@@ -833,12 +834,13 @@ input {
 .info-summary,
 .info-hint {
   margin: 0;
-  line-height: 1.55;
+  line-height: 1.66;
 }
 
 .info-text,
 .info-summary {
   color: var(--text-dim);
+  font-size: 1rem;
 }
 
 .info-summary {
@@ -847,7 +849,7 @@ input {
 
 .info-hint {
   color: var(--text-faint);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
 }
 
 .author-points,
@@ -939,14 +941,14 @@ input {
 
 .search-prompt {
   color: var(--text-dim);
-  font-size: 0.96rem;
+  font-size: 1rem;
   letter-spacing: 0.01em;
 }
 
 .search-input {
   width: 100%;
   font-family: var(--font-ui);
-  font-size: 0.98rem;
+  font-size: 1rem;
   border: 0;
   outline: none;
   background: transparent;
@@ -1007,16 +1009,16 @@ input {
   }
 
   .gallery-option__title {
-    font-size: 1rem;
+    font-size: 1.06rem;
     line-height: 1.08;
   }
 
   .gallery-option__tone {
-    font-size: 0.72rem;
+    font-size: 0.74rem;
   }
 
   .gallery-option__prompt {
-    font-size: 0.82rem;
+    font-size: 0.86rem;
   }
 
   .author-focus-card {
@@ -1098,7 +1100,7 @@ input {
   }
 
   .home-kicker {
-    font-size: 0.76rem;
+    font-size: 0.8rem;
   }
 
   .home-title {
@@ -1106,13 +1108,13 @@ input {
   }
 
   .home-lead {
-    font-size: 1.14rem;
-    line-height: 1.45;
+    font-size: 1.22rem;
+    line-height: 1.52;
   }
 
   .home-text {
-    font-size: 1rem;
-    line-height: 1.62;
+    font-size: 1.08rem;
+    line-height: 1.72;
   }
 
   .home-gallery-list {
@@ -1143,47 +1145,48 @@ input {
   }
 
   .gallery-option__title {
-    font-size: 1.16rem;
-    line-height: 1.02;
+    font-size: 1.24rem;
+    line-height: 1.08;
   }
 
   .gallery-option__tone {
-    font-size: 0.76rem;
+    font-size: 0.8rem;
     letter-spacing: 0.12em;
   }
 
   .gallery-option__prompt {
-    font-size: 0.9rem;
-    line-height: 1.4;
+    font-size: 0.96rem;
+    line-height: 1.5;
   }
 
   .hero-copy {
     max-width: 24rem;
-    font-size: 1.02rem;
+    font-size: 1.08rem;
+    line-height: 1.62;
   }
 
   .focus-badge {
-    font-size: 0.86rem;
+    font-size: 0.9rem;
     padding: 0.44rem 0.84rem;
   }
 
   .info-kicker {
-    font-size: 0.82rem;
+    font-size: 0.86rem;
   }
 
   .info-title {
-    font-size: clamp(2.1rem, 3vw, 3rem);
+    font-size: clamp(2.3rem, 3.2vw, 3.3rem);
   }
 
   .info-subtitle {
-    font-size: 1.04rem;
+    font-size: 1.12rem;
   }
 
   .info-text,
   .info-summary,
   .info-hint {
-    font-size: 1.02rem;
-    line-height: 1.68;
+    font-size: 1.1rem;
+    line-height: 1.76;
   }
 
   .search-entry {
@@ -1193,7 +1196,7 @@ input {
 
   .search-prompt,
   .search-input {
-    font-size: 1.04rem;
+    font-size: 1.08rem;
   }
 }
 
