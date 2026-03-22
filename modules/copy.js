@@ -129,26 +129,31 @@ export const GALLERY_COPY = {
     tone: "ритуал",
     description: "Знак проступает из золы.",
     seriesTitle: "Портрет",
+    featuredCardIndex: 4,
   },
   "02-ryzhaya-geroinya": {
     tone: "рыжий жар",
     description: "Свет идет впереди имени.",
     seriesTitle: "Героиня",
+    featuredCardIndex: 3,
   },
   "03-tikhie-miry": {
     tone: "тишина",
     description: "Тишина держит мир целым.",
     seriesTitle: "Тишина",
+    featuredCardIndex: 11,
   },
   "04-zveri-mif-i-sakralnoe": {
     tone: "миф",
     description: "Быт вдруг становится мифом.",
     seriesTitle: "Миф",
+    featuredCardIndex: 15,
   },
   "05-ai-videniya-i-plakat": {
     tone: "цифровой жар",
     description: "Чудо шипит сквозь пиксели.",
     seriesTitle: "Видение",
+    featuredCardIndex: 1,
   },
 };
 

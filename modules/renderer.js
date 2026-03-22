@@ -1,6 +1,7 @@
 import {
   AUTHOR_CARDS,
   AUTHOR_CONTACTS,
+  GALLERY_COPY,
   buildAuthorSummary,
   buildCardInterpretation,
   buildSearchPlaceholder,
@@ -30,9 +31,6 @@ function renderStage(stage, state) {
     stage.innerHTML = `
       <div class="home-screen">
         <div class="home-orbit" aria-hidden="true"></div>
-        <div class="home-stack" aria-hidden="true">
-          ${renderDeckStack()}
-        </div>
         <div class="home-copy">
           <div class="home-kicker">${UI_COPY.home.kicker}</div>
           <h1 class="home-title">${UI_COPY.home.title}</h1>
@@ -346,7 +344,8 @@ function renderAuthorSlots(selectedAuthorIndex) {
 function renderGalleryChoices(galleries = []) {
   return galleries
     .map((gallery) => {
-      const previewCard = gallery.cards[0];
+      const featuredIndex = GALLERY_COPY[gallery.slug]?.featuredCardIndex ?? 1;
+      const previewCard = gallery.cards[Math.max(0, featuredIndex - 1)] ?? gallery.cards[0];
       return `
         <div
           class="gallery-option"
@@ -356,8 +355,12 @@ function renderGalleryChoices(galleries = []) {
           tabindex="0"
           aria-label="Выбрать колоду ${escapeHtml(gallery.title)}"
         >
-          <div class="gallery-option__thumb">
-            <img src="${previewCard.imageSrc}" alt="" />
+          <div class="gallery-option__stack" aria-hidden="true">
+            <div class="gallery-option__back gallery-option__back--rear"></div>
+            <div class="gallery-option__back gallery-option__back--mid"></div>
+            <div class="gallery-option__thumb">
+              <img src="${previewCard.imageSrc}" alt="" />
+            </div>
           </div>
           <div class="gallery-option__meta">
             <div class="gallery-option__title">${escapeHtml(gallery.title)}</div>
@@ -368,15 +371,6 @@ function renderGalleryChoices(galleries = []) {
       `;
     })
     .join("");
-}
-
-
-function renderDeckStack() {
-  return `
-    <div class="stack-layer stack-layer-3"></div>
-    <div class="stack-layer stack-layer-2"></div>
-    <div class="stack-layer stack-layer-1"></div>
-  `;
 }
 
 

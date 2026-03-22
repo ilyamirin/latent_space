@@ -162,20 +162,6 @@ input {
   gap: 1rem;
 }
 
-.home-stack {
-  position: relative;
-  width: min(34vw, 7rem);
-  height: calc(min(34vw, 7rem) / var(--deck-ratio));
-}
-
-.home-stack .stack-layer-3 {
-  transform: translate(0.55rem, 0.45rem) rotate(8deg);
-}
-
-.home-stack .stack-layer-2 {
-  transform: translate(-0.34rem, 0.18rem) rotate(-5deg);
-}
-
 .home-copy {
   width: 100%;
   max-width: 19rem;
@@ -288,10 +274,10 @@ input {
 .gallery-option {
   width: 100%;
   display: grid;
-  grid-template-columns: 4.4rem minmax(0, 1fr);
-  gap: 0.75rem;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  gap: 0.9rem;
   align-items: center;
-  padding: 0.55rem;
+  padding: 0.72rem 0.78rem;
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
@@ -312,17 +298,40 @@ input {
   box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.22);
 }
 
-.gallery-option__thumb {
+.gallery-option__stack {
+  position: relative;
   width: 100%;
   aspect-ratio: 5 / 7;
   display: grid;
   place-items: center;
+}
+
+.gallery-option__back,
+.gallery-option__thumb {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.9rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 10%),
+    linear-gradient(145deg, rgba(40, 38, 36, 0.96), rgba(19, 19, 18, 0.97));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0.9rem 1.9rem rgba(0, 0, 0, 0.22);
+}
+
+.gallery-option__back--rear {
+  transform: translate(0.42rem, 0.34rem) rotate(7deg);
+  opacity: 0.42;
+}
+
+.gallery-option__back--mid {
+  transform: translate(-0.24rem, 0.16rem) rotate(-4deg);
+  opacity: 0.62;
+}
+
+.gallery-option__thumb {
   overflow: hidden;
   padding: 0.08rem;
-  border-radius: 0.82rem;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 8%),
-    linear-gradient(145deg, rgba(40, 38, 36, 0.96), rgba(19, 19, 18, 0.97));
+  z-index: 1;
 }
 
 .gallery-option__thumb img {
@@ -993,12 +1002,8 @@ input {
   }
 
   .gallery-option {
-    grid-template-columns: 4.8rem minmax(0, 1fr);
-    padding: 0.65rem;
-  }
-
-  .gallery-option__thumb {
-    border-radius: 0.9rem;
+    grid-template-columns: 5.6rem minmax(0, 1fr);
+    padding: 0.78rem 0.84rem;
   }
 
   .gallery-option__title {
