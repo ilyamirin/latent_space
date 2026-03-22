@@ -624,9 +624,10 @@ input {
 }
 
 .slot-card-media--author {
-  place-items: start;
-  align-content: space-between;
-  padding: 0.72rem;
+  position: relative;
+  place-items: stretch;
+  align-content: stretch;
+  padding: 0.1rem;
   background:
     radial-gradient(circle at 24% 22%, rgba(var(--accent-rgb), 0.12), transparent 44%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 14%),
@@ -634,6 +635,15 @@ input {
 }
 
 .slot-card-media img {
+  border-radius: 0.88rem;
+}
+
+.slot-card-media--author img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
   border-radius: 0.88rem;
 }
 
@@ -653,27 +663,6 @@ input {
 
 .slot-card.is-active .slot-label {
   color: var(--text-main);
-}
-
-.author-slot__eyebrow,
-.author-slot__index {
-  font-family: var(--font-ui);
-  display: block;
-}
-
-.author-slot__eyebrow {
-  font-size: 0.64rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-.author-slot__index {
-  align-self: end;
-  font-size: 1.1rem;
-  line-height: 1;
-  color: rgba(var(--accent-rgb), 0.9);
-  text-shadow: 0 0 0.8rem rgba(var(--accent-rgb), 0.18);
 }
 
 .slot-label {
@@ -800,65 +789,13 @@ input {
     linear-gradient(145deg, rgba(20, 21, 24, 0.98), rgba(11, 11, 13, 0.98));
 }
 
-.author-focus-card {
-  position: relative;
+.author-focus-card__image {
   width: 100%;
   height: 100%;
-  padding: 1.25rem 1.15rem;
-  display: grid;
-  align-content: end;
-  gap: 0.5rem;
-  overflow: hidden;
-}
-
-.author-focus-card__orbit {
-  position: absolute;
-  inset: auto auto 45% 10%;
-  width: 72%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, rgba(var(--accent-rgb), 0.2), transparent 58%),
-    radial-gradient(circle at 68% 38%, rgba(var(--accent-soft-rgb), 0.18), transparent 36%);
-  filter: blur(1.5rem);
-  opacity: 0.82;
-  pointer-events: none;
-}
-
-.author-focus-card__kicker {
-  position: relative;
-  z-index: 1;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-.author-focus-card__title {
-  position: relative;
-  z-index: 1;
-  font-family: var(--font-display);
-  max-width: 100%;
-  font-size: clamp(1.72rem, 5.6vw, 2.28rem);
-  line-height: 0.92;
-  letter-spacing: 0.01em;
-  color: var(--text-main);
-  overflow-wrap: normal;
-}
-
-.author-focus-card__title.is-long {
-  font-size: clamp(1.42rem, 4.6vw, 1.92rem);
-  line-height: 0.96;
-}
-
-.author-focus-card__lead {
-  position: relative;
-  z-index: 1;
-  max-width: 14rem;
-  color: var(--text-dim);
-  font-size: 0.94rem;
-  line-height: 1.4;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 1.16rem;
 }
 
 .focus-card img {

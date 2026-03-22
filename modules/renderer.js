@@ -331,8 +331,7 @@ function renderAuthorSlots(selectedAuthorIndex) {
         aria-label="${escapeHtml(card.position)}"
       >
         <div class="slot-card-media slot-card-media--author">
-          <span class="author-slot__eyebrow">${escapeHtml(card.shortTitle)}</span>
-          <span class="author-slot__index">0${index + 1}</span>
+          <img src="${card.imageSrc}" alt="${escapeHtml(card.title)}" />
         </div>
         <span class="slot-label">${escapeHtml(card.position)}</span>
       </div>
@@ -386,12 +385,7 @@ function renderFocusImage(card) {
 function renderAuthorFocusCard(card) {
   return `
     <div class="focus-card__mat focus-card__mat--author">
-      <div class="author-focus-card">
-        <div class="author-focus-card__orbit" aria-hidden="true"></div>
-        <div class="author-focus-card__kicker">${escapeHtml(card.shortTitle)}</div>
-        <div class="author-focus-card__title ${escapeHtml(card.focusTitleClass ?? "")}">${escapeHtml(card.title)}</div>
-        <div class="author-focus-card__lead">${escapeHtml(card.lead)}</div>
-      </div>
+      <img class="author-focus-card__image" src="${card.imageSrc}" alt="${escapeHtml(card.title)}" />
     </div>
   `;
 }
