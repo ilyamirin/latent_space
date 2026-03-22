@@ -5,6 +5,7 @@ import {
   GALLERY_COPY,
   shouldUseSourceTitle,
 } from "./copy.js";
+import { normalizeText } from "./search-query.js";
 
 const STOP_WORDS = new Set([
   "png",
@@ -75,6 +76,7 @@ function enhanceCard(gallery, item, meta) {
   const title = buildTitle(gallery, item.index, tokens);
   const description = meta.description;
   const assetVersion = `${item.bytes ?? 0}-${item.width ?? 0}x${item.height ?? 0}`;
+  const searchTags = unique([meta.tone, ...tokenize(gallery.title), ...tokenize(gallery.description), ...tokens]);
   return {
     id: `${gallery.slug}-${item.index}`,
     title,
@@ -84,7 +86,13 @@ function enhanceCard(gallery, item, meta) {
     imageSrc: `./assets/galleries/${gallery.slug}/${item.filename}?v=${assetVersion}`,
     width: item.width,
     height: item.height,
-    tags: unique([meta.tone, ...tokenize(gallery.title), ...tokenize(gallery.description), ...tokens]),
+    tags: searchTags,
+    searchTitle: normalizeText(title),
+    searchDescription: normalizeText(description),
+    searchTone: normalizeText(meta.tone),
+    searchGallery: normalizeText(gallery.title),
+    searchTagsText: normalizeText(searchTags.join(" ")),
+    searchText: normalizeText([title, description, meta.tone, gallery.title, ...searchTags].join(" ")),
   };
 }
 

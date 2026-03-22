@@ -17,7 +17,9 @@ import {
   startSpread,
 } from "./modules/deck.js";
 import { attachDeckGestures } from "./modules/gestures.js";
+import { normalizeText } from "./modules/search-query.js";
 import { renderScreen } from "./modules/renderer.js";
+import { buildSearchIndex, searchCardsWithIndex } from "./modules/search-index.js";
 import { buildSpread, scoreCards } from "./modules/search.js";
 import { applyThemeFromCard, prewarmCardTheme } from "./modules/theme.js";
 
@@ -34,6 +36,7 @@ const elements = {
 
 let catalog = null;
 let state = createAppState();
+let searchIndex = null;
 let detachSearchGesture = () => {};
 const backgroundMusic = new BackgroundMusicController([
   "./assets/audio/temnyi-interfeis.mp3",
@@ -53,6 +56,7 @@ boot().catch((error) => {
 
 async function boot() {
   catalog = await loadCatalog();
+  searchIndex = buildSearchIndex(catalog.cards);
   state = createAppState(catalog);
   backgroundMusic.startByDefault().catch((error) => {
     console.error("Background music failed to initialize:", error);
@@ -264,7 +268,14 @@ function handleStageAction(event) {
 
 function openSearch(query = "") {
   const normalized = query.trim();
-  const results = normalized ? scoreCards(normalized, catalog.cards) : [];
+  if (shouldAdvanceRepeatedSearch(normalized)) {
+    state = moveSearchIndex(state, 1);
+    refresh();
+    window.setTimeout(() => elements.searchInput.focus(), 30);
+    return;
+  }
+
+  const results = normalized ? performSearch(normalized) : [];
   state = enterSearch(state, normalized, results);
   refresh();
   window.setTimeout(() => elements.searchInput.focus(), 30);
@@ -272,7 +283,13 @@ function openSearch(query = "") {
 
 
 function updateSearch(query) {
-  state = setSearchResults(state, query, query ? scoreCards(query, catalog.cards) : []);
+  if (shouldAdvanceRepeatedSearch(query)) {
+    state = moveSearchIndex(state, 1);
+    refresh();
+    return;
+  }
+
+  state = setSearchResults(state, query, query ? performSearch(query) : []);
   refresh();
 }
 
@@ -363,4 +380,28 @@ function escapeHtml(value) {
 
 function ensureBackgroundMusic() {
   backgroundMusic.startByDefault().catch(() => {});
+}
+
+
+function performSearch(query) {
+  if (!searchIndex) {
+    return scoreCards(query, catalog.cards);
+  }
+
+  try {
+    return searchCardsWithIndex(searchIndex, query);
+  } catch (error) {
+    console.warn("MiniSearch fallback:", error);
+    return scoreCards(query, catalog.cards);
+  }
+}
+
+
+function shouldAdvanceRepeatedSearch(query) {
+  const normalizedQuery = normalizeText(query);
+  if (!normalizedQuery || state.screen !== "search" || state.searchResults.length === 0) {
+    return false;
+  }
+
+  return normalizeText(state.searchQuery) === normalizedQuery;
 }

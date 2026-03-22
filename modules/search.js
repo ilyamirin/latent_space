@@ -1,43 +1,65 @@
-const SYNONYM_GROUPS = [
-  ["тихий", "тишина", "пауза", "медитация", "спокойствие", "воздух"],
-  ["ритуал", "обряд", "таро", "аркан", "символ", "миф", "сакральное"],
-  ["рыжая", "рыжий", "огонь", "жар", "свет", "героиня", "девушка", "девочка"],
-  ["город", "улица", "архитектура", "окно", "мечеть"],
-  ["зверь", "звери", "кошка", "собака", "бабочка", "животное", "змея"],
-  ["космос", "луна", "звезда", "орбита", "астрал"],
-  ["алгоритм", "цифра", "цифровой", "плакат"],
-];
+import { expandQueryTokens, normalizeText, SYNONYM_GROUPS, tokenizeQuery } from "./search-query.js";
 
 
 export function scoreCards(query, cards) {
-  const tokens = tokenize(query);
+  const tokens = tokenizeQuery(query);
   if (tokens.length === 0) {
     return [];
   }
 
+  const expandedTokens = new Set(expandQueryTokens(tokens));
+
   return cards
     .map((card) => {
-      const haystack = new Set(card.tags);
+      const haystack = new Set(card.tags.map((tag) => normalizeText(tag)));
+      const title = normalizeText(card.title);
+      const description = normalizeText(card.description);
+      const tone = normalizeText(card.tone);
+      const gallery = normalizeText(card.galleryTitle);
       let score = 0;
+
       for (const token of tokens) {
         if (haystack.has(token)) {
-          score += 8;
+          score += 12;
         }
-        if (card.title.toLowerCase().includes(token)) {
-          score += 5;
+        if (tone.includes(token)) {
+          score += 10;
         }
-        if (card.description.toLowerCase().includes(token)) {
+        if (title.includes(token)) {
+          score += 7;
+        }
+        if (gallery.includes(token)) {
+          score += 4;
+        }
+        if (description.includes(token)) {
           score += 3;
         }
+
         const group = SYNONYM_GROUPS.find((item) => item.includes(token));
         if (group) {
           for (const synonym of group) {
             if (haystack.has(synonym)) {
-              score += synonym === token ? 0 : 3;
+              score += synonym === token ? 0 : 4;
             }
           }
         }
       }
+
+      for (const token of expandedTokens) {
+        if (tokens.includes(token)) {
+          continue;
+        }
+        if (haystack.has(token)) {
+          score += 3;
+        }
+        if (tone.includes(token)) {
+          score += 2;
+        }
+        if (title.includes(token)) {
+          score += 1.5;
+        }
+      }
+
       return { card, score };
     })
     .filter((item) => item.score > 0)
@@ -52,11 +74,7 @@ export function buildSpread(cards) {
 
 
 function tokenize(value) {
-  return value
-    .toLowerCase()
-    .split(/[^a-zа-яё0-9]+/i)
-    .map((part) => part.trim())
-    .filter(Boolean);
+  return tokenizeQuery(value);
 }
 
 
