@@ -26,8 +26,9 @@ from typing import Dict, Iterable, Iterator, Tuple
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ENV_PATH = REPO_ROOT / ".env"
 RETRY_LIMIT = 3
-SITE_DIRS = ("assets", "modules")
+SITE_DIRS = ("assets", "modules", "vendor")
 SITE_FILE_GLOBS = ("*.html", "*.js", "*.css")
+IGNORED_FILE_NAMES = {".DS_Store"}
 
 
 def read_env(path: Path) -> Dict[str, str]:
@@ -51,6 +52,8 @@ def iter_files(base: Path) -> Iterator[Tuple[Path, Path]]:
 
     for pattern in SITE_FILE_GLOBS:
         for local_path in sorted(base.glob(pattern)):
+            if should_ignore(local_path):
+                continue
             if local_path.is_file() and local_path not in seen:
                 seen.add(local_path)
                 yield local_path, local_path.relative_to(base)
@@ -60,9 +63,15 @@ def iter_files(base: Path) -> Iterator[Tuple[Path, Path]]:
         if not root.exists():
             continue
         for local_path in sorted(root.rglob("*")):
+            if should_ignore(local_path):
+                continue
             if local_path.is_file() and local_path not in seen:
                 seen.add(local_path)
                 yield local_path, local_path.relative_to(base)
+
+
+def should_ignore(path: Path) -> bool:
+    return path.name in IGNORED_FILE_NAMES
 
 
 def ensure_remote_dir(ftp: FTP, remote_root: Iterable[str], remote_parts: Iterable[str]) -> None:
