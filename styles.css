@@ -80,7 +80,7 @@ input {
 .app-shell {
   position: relative;
   z-index: 1;
-  width: min(100%, 72rem);
+  width: min(100%, 88rem);
   margin: 0 auto;
   min-height: 100vh;
   padding:
@@ -1007,12 +1007,16 @@ input {
   }
 
   .gallery-option__title {
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.08;
   }
 
   .gallery-option__tone {
-    font-size: 0.68rem;
+    font-size: 0.72rem;
+  }
+
+  .gallery-option__prompt {
+    font-size: 0.82rem;
   }
 
   .author-focus-card {
@@ -1023,16 +1027,18 @@ input {
 
 @media (min-width: 960px) {
   :root {
-    --focus-width: min(29vw, 19rem);
-    --mini-width: min(10vw, 5.9rem);
-    --deck-width: min(20vw, 12rem);
+    --focus-width: min(42vw, 26rem);
+    --mini-width: min(13vw, 7rem);
+    --deck-width: min(24vw, 14rem);
   }
 
   .app-shell {
-    grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 28rem);
+    grid-template-columns: minmax(0, 1.3fr) minmax(23rem, 32rem);
     grid-template-rows: auto auto auto;
     align-items: start;
-    column-gap: 2rem;
+    column-gap: 2.75rem;
+    row-gap: 1.2rem;
+    padding-inline: 2rem;
   }
 
   .topbar {
@@ -1042,23 +1048,188 @@ input {
   .stage {
     grid-column: 1;
     grid-row: 2;
-    min-height: min(72vh, 44rem);
+    min-height: min(76vh, 50rem);
   }
 
   .app-shell.is-home {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto;
-    max-width: 32rem;
+    max-width: 76rem;
   }
 
   .info-panel {
     grid-column: 2;
     grid-row: 2;
     align-self: center;
+    padding: 1.4rem 1.45rem 1.2rem;
+    gap: 0.62rem;
   }
 
   .search-dock {
     grid-column: 1 / -1;
+  }
+
+  .home-screen {
+    grid-template-columns: minmax(20rem, 24rem) minmax(28rem, 1fr);
+    grid-template-areas:
+      "copy list"
+      "author list";
+    align-items: start;
+    gap: 1.6rem 2.6rem;
+    padding-top: 0.9rem;
+    max-width: 72rem;
+  }
+
+  .home-orbit {
+    top: -6%;
+    left: -4%;
+    width: min(42vw, 34rem);
+    height: min(42vw, 34rem);
+    opacity: 0.62;
+  }
+
+  .home-copy {
+    grid-area: copy;
+    max-width: 22rem;
+    gap: 0.6rem;
+    text-align: left;
+    justify-self: start;
+    padding-top: 0.9rem;
+  }
+
+  .home-kicker {
+    font-size: 0.76rem;
+  }
+
+  .home-title {
+    font-size: clamp(2.6rem, 4.2vw, 3.8rem);
+  }
+
+  .home-lead {
+    font-size: 1.14rem;
+    line-height: 1.45;
+  }
+
+  .home-text {
+    font-size: 1rem;
+    line-height: 1.62;
+  }
+
+  .home-gallery-list {
+    grid-area: list;
+    gap: 0.95rem;
+  }
+
+  .home-author-entry {
+    grid-area: author;
+    max-width: 26rem;
+    justify-self: start;
+  }
+
+  .gallery-option {
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 1.1rem;
+    padding: 0.96rem 1rem;
+    border-radius: 1.15rem;
+  }
+
+  .gallery-option__back,
+  .gallery-option__thumb {
+    border-radius: 1rem;
+  }
+
+  .gallery-option__thumb img {
+    border-radius: 0.8rem;
+  }
+
+  .gallery-option__title {
+    font-size: 1.16rem;
+    line-height: 1.02;
+  }
+
+  .gallery-option__tone {
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+  }
+
+  .gallery-option__prompt {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .hero-copy {
+    max-width: 24rem;
+    font-size: 1.02rem;
+  }
+
+  .focus-badge {
+    font-size: 0.86rem;
+    padding: 0.44rem 0.84rem;
+  }
+
+  .info-kicker {
+    font-size: 0.82rem;
+  }
+
+  .info-title {
+    font-size: clamp(2.1rem, 3vw, 3rem);
+  }
+
+  .info-subtitle {
+    font-size: 1.04rem;
+  }
+
+  .info-text,
+  .info-summary,
+  .info-hint {
+    font-size: 1.02rem;
+    line-height: 1.68;
+  }
+
+  .search-entry {
+    min-height: 3.8rem;
+    padding-inline: 1.2rem;
+  }
+
+  .search-prompt,
+  .search-input {
+    font-size: 1.04rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --focus-width: min(44vw, 30rem);
+    --mini-width: min(11vw, 7.6rem);
+  }
+
+  .app-shell {
+    width: min(100%, 96rem);
+    padding-inline: 2.4rem;
+    column-gap: 3.2rem;
+  }
+
+  .app-shell.is-home {
+    max-width: 84rem;
+  }
+
+  .home-screen {
+    grid-template-columns: minmax(22rem, 26rem) minmax(36rem, 1fr);
+    gap: 2rem 3rem;
+    max-width: 80rem;
+  }
+
+  .home-gallery-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-self: start;
+  }
+
+  .gallery-option {
+    min-height: 9.2rem;
+  }
+
+  .info-panel {
+    max-width: 34rem;
   }
 }
 
