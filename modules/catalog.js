@@ -50,7 +50,6 @@ export async function loadCatalog() {
 async function fetchManifest() {
   const candidates = [
     "./assets/galleries/manifest.json",
-    "/assets/galleries/manifest.json",
   ];
 
   const failures = [];
